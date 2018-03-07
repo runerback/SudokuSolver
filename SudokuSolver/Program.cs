@@ -33,7 +33,7 @@ namespace SudokuSolver
 							return;
 						}
 
-						Console.Write("\r{0}", i);
+						//Console.Write("\r{0}", i);
 						if (new CompletedSudokuBuilder(i).Build(sudoku))
 						{
 							recorder.Add(i);
