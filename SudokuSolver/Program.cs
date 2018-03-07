@@ -13,28 +13,8 @@ namespace SudokuSolver
 		{
 			var sudoku = new Definition.Sudoku();
 
-			/*
-			int maxRetryCount = 1;
-			int retryBase = 0;
-			int retryCount = 0;
-
-			while (!new CompletedSudokuBuilder(retryCount + retryBase).Build(sudoku) &&
-				retryCount++ < maxRetryCount)
-			{
-				Console.Clear();
-			}
-
-			if (retryCount < maxRetryCount)
-			{
-				Console.WriteLine("Current Seed: {0}", retryCount + retryBase);
-
-				new SudokuPlayer().Print(sudoku);
-			}
-			else
-			{
-				Console.WriteLine("Failed");
-			}
-			*/
+			//record all seeds which can generate a completed sudoku
+			///TODO: need a parallel here
 
 			bool completed = false;
 
