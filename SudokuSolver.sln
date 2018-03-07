@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSolver.UnitTest", "Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSolver", "SudokuSolver\SudokuSolver.csproj", "{32762862-2541-4F88-AE7A-659CE7DF331F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSolver.Extension", "Extension\SudokuSolver.Extension\SudokuSolver.Extension.csproj", "{59512996-B43B-47F1-B16D-6EE866588706}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSolver.Extension", "Extension\SudokuSolver.Extension.csproj", "{59512996-B43B-47F1-B16D-6EE866588706}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
