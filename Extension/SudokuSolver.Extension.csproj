@@ -41,13 +41,15 @@
   <ItemGroup>
     <Compile Include="Cast2.cs" />
     <Compile Include="Concat.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>SudokuSolver.Definition</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
