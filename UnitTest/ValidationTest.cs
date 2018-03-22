@@ -42,5 +42,23 @@ namespace SudokuSolver.UnitTest
 			};
 			Assert.IsTrue(new SudokuValidator().ValidateElements(elements));
 		}
+
+		[TestMethod]
+		public void ValidElementsWithRepeatValue()
+		{
+			var elements = new Definition.Element[9]
+			{
+				new Definition.Element(),
+				new Definition.Element(2),
+				new Definition.Element(),
+				new Definition.Element(5),
+				new Definition.Element(3),
+				new Definition.Element(),
+				new Definition.Element(),
+				new Definition.Element(1),
+				new Definition.Element(5)
+			};
+			Assert.IsFalse(new SudokuValidator().ValidateElements(elements));
+		}
 	}
 }

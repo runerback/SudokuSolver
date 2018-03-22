@@ -44,8 +44,24 @@
     <Compile Include="Cast2.cs" />
     <Compile Include="CompletedSudokuBuilder.cs" />
     <Compile Include="CompletedSudokuBuilderSeedRecorder.cs" />
+    <Compile Include="DifficultLevel.cs" />
+    <Compile Include="Observers\CompletionStateObserver.cs" />
+    <Compile Include="Observers\GridLineObserver.cs" />
+    <Compile Include="Observers\GridLineUpdatedEventArgs.cs" />
+    <Compile Include="Observers\GridObserver.cs" />
+    <Compile Include="Observers\GridUpdatedEventArgs.cs" />
+    <Compile Include="Observers\LineObserver.cs" />
+    <Compile Include="Observers\LineUpdatedEventArgs.cs" />
+    <Compile Include="Observers\Observer.cs" />
+    <Compile Include="Observers\UpdatedEventArgs.cs" />
+    <Compile Include="Parterns\OneSeatInGridLine.cs" />
+    <Compile Include="Parterns\OneSeatInNine.cs" />
+    <Compile Include="Parterns\SudokuSolverParternBase.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="SudokuBlockEnumerable.cs" />
+    <Compile Include="SudokuBuilder.cs" />
     <Compile Include="SudokuPlayer.cs" />
+    <Compile Include="SudokuResolver.cs" />
     <Compile Include="SudokuValidator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +72,10 @@
     <ProjectReference Include="..\Extension\SudokuSolver.Extension.csproj">
       <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
       <Name>SudokuSolver.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
+      <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
+      <Name>MiscUtil</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

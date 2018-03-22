@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace SudokuSolver
 {
-	internal sealed class CompletedSudokuBuilderSeedRecorder : IDisposable
+	public sealed class CompletedSudokuBuilderSeedRecorder : IDisposable
 	{
 		private ConcurrentBag<int> cache = new ConcurrentBag<int>();
 		private static readonly string filename = "Completed Sudoku Builder Seeds.log";
@@ -22,12 +22,6 @@ namespace SudokuSolver
 
 		private CompletedSudokuBuilderSeedRecorder()
 		{
-			if (File.Exists(filename))
-			{
-				Console.WriteLine("old record file will be remove");
-				File.Delete(filename);
-			}
-
 			this.recordThreadBlocker = new AutoResetEvent(false);
 
 			this.recordThread = new Thread(recordThreadLoop)
@@ -44,6 +38,14 @@ namespace SudokuSolver
 				-1);
 		}
 
+		public void Reset()
+		{
+			if (File.Exists(filename))
+			{
+				File.Delete(filename);
+			}
+		}
+
 		private readonly object recordStreamLocker = new object();
 		private FileStream recordStream = null;
 
@@ -54,7 +56,6 @@ namespace SudokuSolver
 				if (this.recordStream == null)
 				{
 					this.recordStream = new FileStream(filename, FileMode.Append, FileAccess.Write);
-					//Console.WriteLine("stream created");
 				}
 				return this.recordStream;
 			}
@@ -68,7 +69,6 @@ namespace SudokuSolver
 				{
 					this.recordStream.Dispose();
 					this.recordStream = null;
-					//Console.WriteLine("stream destroyed");
 				}
 			}
 		}
@@ -94,6 +94,8 @@ namespace SudokuSolver
 			var valueBuffer = encoding.GetBytes(value.ToString());
 			stream.Write(valueBuffer, 0, valueBuffer.Length);
 			stream.Write(CoreNewLineBuffer, 0, 2);
+
+			stream.Flush();
 		}
 
 		private void recordThreadLoop()
@@ -118,6 +120,25 @@ namespace SudokuSolver
 			this.cache.Add(value);
 			this.recordStreamDisposeTimer.Change(recordStreamTimeout, -1);
 			this.recordThreadBlocker.Set();
+		}
+
+		public int GetLastRecord()
+		{
+			string recordLine = null;
+			bool locked = false;
+			foreach (var line in new MiscUtil.IO.ReverseLineReader(
+				() => new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite),
+				encoding))
+			{
+				if (!locked && !Monitor.TryEnter(recordStreamLocker))
+				{
+					locked = true;
+					continue;
+				}
+				recordLine = line;
+				break;
+			}
+			return int.Parse(recordLine);
 		}
 
 		private bool disposing = false;

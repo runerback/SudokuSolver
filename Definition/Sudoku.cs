@@ -274,6 +274,34 @@ namespace SudokuSolver.Definition
 
 		#endregion Column
 
+		public Sudoku Copy()
+		{
+			Sudoku copy = new Sudoku();
+
+			for (int i = 0; i < 9; i++)
+			{
+				var sourceGrid = this.grids[i];
+				var targetGrid = copy.grids[i];
+
+				for (int j = 0; j < 9; j++)
+				{
+					var sourceElement = sourceGrid.Elements[j];
+					var targetElement = targetGrid.Elements[j];
+
+					if (sourceElement.HasValue)
+					{
+						targetElement.SetValue(sourceElement.Value.Value);
+					}
+					else
+					{
+						targetElement.ClearValue();
+					}
+				}
+			}
+
+			return copy;
+		}
+
 		public override string ToString()
 		{
 			return string.Join("\r\n", rows.AsEnumerable());

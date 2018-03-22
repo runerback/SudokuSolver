@@ -47,10 +47,17 @@ namespace SudokuSolver.Definition
 			}
 		}
 
+		public void ClearValue()
+		{
+			this.value = null;
+		}
+
 		public event EventHandler ValueChanged;
 
 		public static bool operator ==(Element left, Element right)
 		{
+			if (object.ReferenceEquals(left, null) && object.ReferenceEquals(right, null))
+				return true;
 			return left.Equals((object)right);
 		}
 
