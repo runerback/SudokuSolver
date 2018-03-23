@@ -13,7 +13,6 @@ namespace SudokuSolver.Definition
 			get { return elements; }
 		}
 
-
 		protected LineType lineType;
 		public LineType LineType
 		{

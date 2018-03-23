@@ -18,7 +18,15 @@ namespace SudokuSolver.Observers
 			this.line = line;
 			this.index = index;
 
-			foreach (var element in line.Elements)
+			var uncompletedElements = line.Elements.Where(item => !item.HasValue);
+
+			if (!uncompletedElements.Any())
+			{
+				this.isIdel = true;
+				return;
+			}
+
+			foreach (var element in uncompletedElements)
 			{
 				element.ValueChanged += onElementValueChanged;
 			}
@@ -34,10 +42,17 @@ namespace SudokuSolver.Observers
 
 		private void onElementValueChanged(object sender, EventArgs e)
 		{
-			if (Updated != null)
-				Updated(this, new GridLineUpdatedEventArgs(this.line, this.index));
+			var line = this.line;
 
-			UntraceCompletedLine(this.line);
+			int emptyElementCount = line.Elements.Count(item => !item.HasValue);
+			if (emptyElementCount <= 1)
+			{
+				if (emptyElementCount == 0)
+					UntraceCompletedLine(line);
+
+				if (Updated != null)
+					Updated(this, new GridLineUpdatedEventArgs(line, this.index));
+			}
 		}
 
 		private void UntraceCompletedLine(Definition.GridLine line)
@@ -52,5 +67,11 @@ namespace SudokuSolver.Observers
 		}
 
 		public event EventHandler<GridLineUpdatedEventArgs> Updated;
+
+		private bool isIdel = false;
+		public bool IsIdle
+		{
+			get { return this.isIdel; }
+		}
 	}
 }

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DefinitionTest.cs" />
     <Compile Include="LinqCastProblem.cs" />
+    <Compile Include="Parterns\OneSeatInGridLineTest.cs" />
     <Compile Include="SudokuSeedRecorderTest.cs" />
     <Compile Include="Parterns\OnlyOneSeatTest.cs" />
     <Compile Include="ValidationTest.cs" />

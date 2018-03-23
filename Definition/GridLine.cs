@@ -7,24 +7,27 @@ namespace SudokuSolver.Definition
 {
 	public sealed class GridLine : LineBase
 	{
-		internal static GridLine Row(Element element1, Element element2, Element element3)
+		internal static GridLine Row(Grid grid, int index, Element element1, Element element2, Element element3)
 		{
-			return new GridLine(element1, element2, element3)
+			return new GridLine(grid, index, element1, element2, element3)
 			{
 				lineType = LineType.Row
 			};
 		}
 
-		internal static GridLine Column(Element element1, Element element2, Element element3)
+		internal static GridLine Column(Grid grid, int index, Element element1, Element element2, Element element3)
 		{
-			return new GridLine(element1, element2, element3)
+			return new GridLine(grid, index, element1, element2, element3)
 			{
 				lineType = LineType.Column
 			};
 		}
 
-		private GridLine(Element element1, Element element2, Element element3)
+		private GridLine(Grid grid, int index, Element element1, Element element2, Element element3)
 		{
+			this.grid = grid;
+			this.index = index;
+
 			this.elements = new Element[] { element1, element2, element3 };
 			this.element1 = element1;
 			this.element2 = element2;
@@ -48,5 +51,18 @@ namespace SudokuSolver.Definition
 		{
 			get { return this.element3; }
 		}
+
+		private Grid grid;
+		public Grid Grid
+		{
+			get { return this.grid; }
+		}
+
+		private int index;
+		public int Index
+		{
+			get { return this.index; }
+		}
+
 	}
 }

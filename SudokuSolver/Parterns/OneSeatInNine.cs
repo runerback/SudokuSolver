@@ -13,12 +13,16 @@ namespace SudokuSolver.Parterns
 		public OneSeatInNine(Definition.Sudoku sudoku)
 			: base(sudoku)
 		{
-			registerBlockObservers(sudoku);
+			this.blockEnumerable = new SudokuBlockEnumerable(sudoku);
+
+			registerObservers(sudoku);
 		}
+
+		private readonly SudokuBlockEnumerable blockEnumerable;
 
 		#region Block observers
 
-		private void registerBlockObservers(Definition.Sudoku sudoku)
+		private void registerObservers(Definition.Sudoku sudoku)
 		{
 			foreach (var gridObserver in sudoku.Grids
 				.Select((g, i) => new Observers.GridObserver(g, i))
@@ -111,5 +115,42 @@ namespace SudokuSolver.Parterns
 
 		#endregion Fill
 
+		private class SudokuBlockEnumerable : IEnumerable<IEnumerable<Definition.Element>>
+		{
+			public SudokuBlockEnumerable(Definition.Sudoku sudoku)
+			{
+				if (sudoku == null)
+					throw new ArgumentNullException("sudoku");
+				this.sudoku = sudoku;
+			}
+
+			private Definition.Sudoku sudoku;
+
+			private IEnumerable<IEnumerable<Definition.Element>> travelBlocks(Definition.Sudoku sudoku)
+			{
+				foreach (var grid in sudoku.Grids)
+				{
+					yield return grid.Elements;
+				}
+				foreach (var row in sudoku.Rows)
+				{
+					yield return row.Elements;
+				}
+				foreach (var column in sudoku.Columns)
+				{
+					yield return column.Elements;
+				}
+			}
+
+			IEnumerator<IEnumerable<Definition.Element>> IEnumerable<IEnumerable<Definition.Element>>.GetEnumerator()
+			{
+				return travelBlocks(this.sudoku).GetEnumerator();
+			}
+
+			System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+			{
+				return travelBlocks(this.sudoku).GetEnumerator();
+			}
+		}
 	}
 }

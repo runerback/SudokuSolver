@@ -12,11 +12,9 @@ namespace SudokuSolver.Parterns
 			if (sudoku == null)
 				throw new ArgumentNullException("sudoku");
 			this.sudoku = sudoku;
-			this.blockEnumerable = new SudokuBlockEnumerable(sudoku);
 		}
 
 		protected readonly Definition.Sudoku sudoku;
-		protected readonly SudokuBlockEnumerable blockEnumerable;
 
 	}
 }

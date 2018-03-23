@@ -8,6 +8,38 @@ namespace SudokuSolver.Parterns.UnitTest
 	[TestClass]
 	public class OnlyOneSeatTest
 	{
+		private Definition.Sudoku sudoku =
+			new Definition.Sudoku();
+
+		private void print(Definition.Sudoku sudoku)
+		{
+			Console.WriteLine(
+				string.Join("\r\n",
+					sudoku.Rows.Select(row =>
+						string.Join("\t*\t", row.Segments.Select(segment =>
+							string.Join("\t", segment.Elements.AsEnumerable()))))));
+		}
+
+		[TestInitialize]
+		public void Initialize()
+		{
+			var sudoku = this.sudoku;
+
+			Assert.IsTrue(new CompletedSudokuBuilder(-1666468307)
+				.Build(sudoku));
+
+			Console.WriteLine("Origin");
+			print(sudoku);
+
+			foreach (var grid in sudoku.Grids)
+			{
+				grid.Elements[grid.Index].ClearValue();
+			}
+
+			Console.WriteLine("Hollowed");
+			print(sudoku);
+		}
+
 		[TestMethod]
 		public void FillElements()
 		{
@@ -36,6 +68,17 @@ namespace SudokuSolver.Parterns.UnitTest
 				result++;
 			}
 			return result;
+		}
+
+		[TestMethod]
+		public void Fill()
+		{
+			var sudoku = this.sudoku;
+
+			Assert.IsTrue(new Parterns.OneSeatInNine(sudoku).Fill());
+			Assert.IsTrue(new Observers.CompletionStateObserver(sudoku).IsCompleted);
+			Console.WriteLine("Filled");
+			print(sudoku);
 		}
 	}
 }

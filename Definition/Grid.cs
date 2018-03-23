@@ -7,17 +7,20 @@ namespace SudokuSolver.Definition
 {
 	public class Grid
 	{
-		public Grid()
+		internal Grid(Sudoku sudoku, int index)
 		{
+			this.sudoku = sudoku;
+			this.index = index;
+
 			var elements = Enumerable.Range(0, 9)
-				.Select(item => new Element())
+				.Select(item => new Element(item))
 				.ToArray();
 
 			var rows = new GridLine[3]
 			{
-				GridLine.Row(elements[0], elements[1], elements[2]),
-				GridLine.Row(elements[3], elements[4], elements[5]),
-				GridLine.Row(elements[6], elements[7], elements[8])
+				GridLine.Row(this, 0, elements[0], elements[1], elements[2]),
+				GridLine.Row(this, 1, elements[3], elements[4], elements[5]),
+				GridLine.Row(this, 2, elements[6], elements[7], elements[8])
 			};
 			this.row1 = rows[0];
 			this.row2 = rows[1];
@@ -26,9 +29,9 @@ namespace SudokuSolver.Definition
 
 			var columns = new GridLine[3]
 			{
-				GridLine.Column(elements[0], elements[3], elements[6]),
-				GridLine.Column(elements[1], elements[4], elements[7]),
-				GridLine.Column(elements[2], elements[5], elements[8])
+				GridLine.Column(this, 0, elements[0], elements[3], elements[6]),
+				GridLine.Column(this, 1, elements[1], elements[4], elements[7]),
+				GridLine.Column(this, 2, elements[2], elements[5], elements[8])
 			};
 			this.column1 = columns[0];
 			this.column2 = columns[1];
@@ -99,6 +102,74 @@ namespace SudokuSolver.Definition
 		}
 
 		#endregion Column
+
+		private Sudoku sudoku;
+		public Sudoku Sudoku
+		{
+			get { return this.sudoku; }
+		}
+
+		private int index;
+		public int Index
+		{
+			get { return this.index; }
+		}
+
+		/// <summary>
+		/// get adjacent grid by direction
+		/// </summary>
+		/// <remarks>
+		/// 0 1 2
+		/// 3 4 5
+		/// 6 7 8
+		/// </remarks>
+		public bool TryGetGrid(Direction direction, out Grid grid)
+		{
+			int index = this.index;
+			int targetIndex = -1;
+
+			switch (direction)
+			{
+				case Direction.Up:
+					{
+						targetIndex = index - 3;
+					}
+					break;
+				case Direction.Down:
+					{
+						targetIndex = index + 3;
+					}
+					break;
+				case Direction.Left:
+					{
+						if (index % 3 > 0)
+						{
+							targetIndex = index - 1;
+						}
+					}
+					break;
+				case Direction.Right:
+					{
+						if (index % 3 < 2)
+						{
+							targetIndex = index + 1;
+						}
+					}
+					break;
+				default: throw new NotImplementedException();
+			}
+
+			if (targetIndex < 0)
+			{
+				grid = null;
+				return false;
+			}
+			else
+			{
+				grid = this.sudoku.Grids[targetIndex];
+				return true;
+			}
+		}
 
 		public override string ToString()
 		{

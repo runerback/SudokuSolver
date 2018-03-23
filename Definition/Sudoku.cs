@@ -10,7 +10,7 @@ namespace SudokuSolver.Definition
 		public Sudoku()
 		{
 			var grids = Enumerable.Range(0, 9)
-				.Select(item => new Grid())
+				.Select(item => new Grid(this, item))
 				.ToArray();
 
 			var grid1 = grids[0];

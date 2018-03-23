@@ -7,14 +7,16 @@ namespace SudokuSolver.Definition
 {
 	public sealed class Element : IComparable<Element>, IEquatable<Element>, IEquatable<int>
 	{
-		public Element()
+		public Element(int index)
 		{
 			this.value = null;
+			this.index = index;
 		}
 
-		public Element(int value)
+		private int index;
+		public int Index
 		{
-			this.value = check(value);
+			get { return this.index; }
 		}
 
 		private byte? check(int value)
@@ -130,7 +132,7 @@ namespace SudokuSolver.Definition
 
 		public override string ToString()
 		{
-			return value.HasValue ? value.ToString() : " ";
+			return value.HasValue ? value.ToString() : "_";
 		}
 	}
 }

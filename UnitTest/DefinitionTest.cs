@@ -11,7 +11,8 @@ namespace SudokuSolver.UnitTest
 		[TestMethod]
 		public void Grid()
 		{
-			var grid = new Definition.Grid();
+			var sudoku = new Definition.Sudoku();
+			var grid = sudoku.Grid1;
 
 			for (int i = 0; i < 3; i++)
 			{

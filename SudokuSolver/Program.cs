@@ -29,10 +29,12 @@ namespace SudokuSolver
 
 			player.Print(sudoku);
 
-			var builder = new SudokuBuilder(sudoku, DateTime.Now.Millisecond);
+			var builder = new SudokuBuilder(sudoku,
+				//DateTime.Now.Millisecond);
+				0); //use fixed seed so each level match to only one sudoku
 
 			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new DifficultLevel(13));
+			var playingSudoku = builder.Build(new DifficultLevel(25));
 
 			player.Print(playingSudoku);
 
