@@ -4,4 +4,16 @@
     <Style TargetType="controls:SudokuPlayer">
         
     </Style>
+    
+    <Style TargetType="controls:ElementPresenter">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:ElementPresenter">
+                    <Border>
+                        
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

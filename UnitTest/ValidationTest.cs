@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace SudokuSolver.UnitTest
 {
@@ -28,36 +29,24 @@ namespace SudokuSolver.UnitTest
 		[TestMethod]
 		public void ValidElements()
 		{
-			var elements = new Definition.Element[9]
-			{
-				new Definition.Element(),
-				new Definition.Element(),
-				new Definition.Element(),
-				new Definition.Element(),
-				new Definition.Element(),
-				new Definition.Element(),
-				new Definition.Element(),
-				new Definition.Element(1),
-				new Definition.Element()
-			};
+			var elements = Enumerable.Range(0, 9)
+				.Select(item => new Definition.Element(item))
+				.ToArray();
+			elements[7].SetValue(1);
 			Assert.IsTrue(new SudokuValidator().ValidateElements(elements));
 		}
 
 		[TestMethod]
 		public void ValidElementsWithRepeatValue()
 		{
-			var elements = new Definition.Element[9]
-			{
-				new Definition.Element(),
-				new Definition.Element(2),
-				new Definition.Element(),
-				new Definition.Element(5),
-				new Definition.Element(3),
-				new Definition.Element(),
-				new Definition.Element(),
-				new Definition.Element(1),
-				new Definition.Element(5)
-			};
+			var elements = Enumerable.Range(0, 9)
+				.Select(item => new Definition.Element(item))
+				.ToArray();
+			elements[1].SetValue(2);
+			elements[3].SetValue(5);
+			elements[4].SetValue(3);
+			elements[7].SetValue(1);
+			elements[8].SetValue(5);
 			Assert.IsFalse(new SudokuValidator().ValidateElements(elements));
 		}
 	}
