@@ -21,7 +21,7 @@ namespace SudokuSolver
 			}
 			else
 			{
-				Console.ReadLine();
+				Extension.SudokuSolverExtension.WaitForLine();
 				return;
 			}
 
@@ -29,16 +29,21 @@ namespace SudokuSolver
 
 			player.Print(sudoku);
 
-			var builder = new SudokuBuilder(sudoku,
+			var builder = new SudokuBuilder(sudoku.Copy(),
 				//DateTime.Now.Millisecond);
 				0); //use fixed seed so each level match to only one sudoku
 
 			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new DifficultLevel(25));
+			var playingSudoku = builder.Build(new DifficultLevel(24));
 
 			player.Print(playingSudoku);
 
+			//show sudoku with GUI
+			var playerGUIController = GUI.SudokuPlayer.Show(sudoku, playingSudoku);
+
 			var resolver = new SudokuResolver(playingSudoku);
+
+			resolver.ShowStep = true;
 
 			DateTime beforeNow = DateTime.Now;
 			string resultInfo = resolver.TryResolve() ? 
@@ -51,7 +56,8 @@ namespace SudokuSolver
 			if (!new SudokuValidator().Valdiate(playingSudoku))
 				Console.WriteLine("じゃないよ！");
 
-			Console.ReadLine();
+			Extension.SudokuSolverExtension.WaitForLine();
+			playerGUIController.Close();
 			return;
 
 			CollectSudokuSeeds(sudoku);

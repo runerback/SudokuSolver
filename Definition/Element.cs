@@ -19,15 +19,15 @@ namespace SudokuSolver.Definition
 			get { return this.index; }
 		}
 
-		private byte? check(int value)
+		private int? check(int value)
 		{
 			if (value >= 1 && value <= 9)
-				return (byte)value;
+				return value;
 			return null;
 		}
 
-		private byte? value;
-		public byte? Value
+		private int? value;
+		public int? Value
 		{
 			get { return this.value; }
 		}
@@ -52,6 +52,9 @@ namespace SudokuSolver.Definition
 		public void ClearValue()
 		{
 			this.value = null;
+
+			if (ValueChanged != null)
+				ValueChanged(this, EventArgs.Empty);
 		}
 
 		public event EventHandler ValueChanged;

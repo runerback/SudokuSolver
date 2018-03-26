@@ -16,5 +16,17 @@ namespace SudokuSolver.Parterns
 
 		protected readonly Definition.Sudoku sudoku;
 
+		private bool showStep = false;
+		public bool ShowStep
+		{
+			get { return this.showStep; }
+			set
+			{
+				if (this.showStep != value)
+				{
+					this.showStep = value;
+				}
+			}
+		}
 	}
 }

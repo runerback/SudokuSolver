@@ -26,14 +26,15 @@ namespace SudokuSolver.GUI.Model
 			get { return this.index; }
 		}
 
-		public byte? Value
+		public int? Value
 		{
 			get { return this.element.Value; }
 		}
 
 		private void onValueChanged(object sender, EventArgs e)
 		{
-			NotifyPropertyChanged("Value");
+			//TODO: this one is async, so use `SudokuSolveStep` to update value in `Model.Element` for better step view
+			NotifyPropertyChanged("Value"); 
 		}
 
 		private bool disposed;

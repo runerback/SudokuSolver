@@ -178,6 +178,12 @@ namespace SudokuSolver.Parterns
 			if (value > 0)
 			{
 				emptyElement.SetValue(value);
+
+				if (ShowStep)
+				{
+					Extension.SudokuSolverExtension.WaitForLine();
+				}
+
 				return true;
 			}
 			return false;

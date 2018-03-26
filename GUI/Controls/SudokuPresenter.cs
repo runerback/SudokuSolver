@@ -8,8 +8,10 @@ using System.Windows.Media;
 
 namespace SudokuSolver.GUI
 {
-	public class SudokuPlayer : Control
+	public class SudokuPresenter : Control
 	{
+		#region Sudoku
+
 		public Model.Sudoku Sudoku
 		{
 			get { return (Model.Sudoku)this.GetValue(SudokuProperty); }
@@ -20,7 +22,11 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"Sudoku",
 				typeof(Model.Sudoku),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter));
+
+		#endregion Sudoku
+
+		#region ElementBorderBrush
 
 		public Brush ElementBorderBrush
 		{
@@ -32,7 +38,11 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"ElementBorderBrush",
 				typeof(Brush),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter));
+
+		#endregion ElementBorderBrush
+
+		#region GridBorderBrush
 
 		public Brush GridBorderBrush
 		{
@@ -44,7 +54,11 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"GridBorderBrush",
 				typeof(Brush),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter));
+
+		#endregion GridBorderBrush
+
+		#region SudokuBorderBrush
 
 		public Brush SudokuBorderBrush
 		{
@@ -56,7 +70,11 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"SudokuBorderBrush",
 				typeof(Brush),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter));
+
+		#endregion SudokuBorderBrush
+
+		#region ElementSize
 
 		public double ElementSize
 		{
@@ -68,7 +86,11 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"ElementSize",
 				typeof(double),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter));
+
+		#endregion ElementSize
+
+		#region ElementBorderWidth
 
 		public double ElementBorderWidth
 		{
@@ -80,7 +102,11 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"ElementBorderWidth",
 				typeof(double),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter));
+
+		#endregion ElementBorderWidth
+
+		#region GridBorderWidth
 
 		public double GridBorderWidth
 		{
@@ -92,7 +118,11 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"GridBorderWidth",
 				typeof(double),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter));
+
+		#endregion GridBorderWidth
+
+		#region SudokuBorderWidth
 
 		public double SudokuBorderWidth
 		{
@@ -104,9 +134,38 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"SudokuBorderWidth",
 				typeof(double),
-				typeof(SudokuPlayer));
+				typeof(SudokuPresenter),
+				new PropertyMetadata(onSudokuBorderWidthPropertyChanged));
 
-		#region BorderMargin
+		private static void onSudokuBorderWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			d.SetValue(
+				SudokuBorderThicknessPropertyKey,
+				e.NewValue == null ? default(Thickness) : new Thickness((double)e.NewValue));
+		}
+
+		#endregion SudokuBorderWidth
+
+		#region SudokuBorderThickness
+
+		public Thickness SudokuBorderThickness
+		{
+			get { return (Thickness)GetValue(SudokuBorderThicknessProperty); }
+		}
+
+		public static readonly DependencyPropertyKey SudokuBorderThicknessPropertyKey =
+			DependencyProperty.RegisterReadOnly(
+				"SudokuBorderThickness",
+				typeof(Thickness),
+				typeof(SudokuPresenter),
+				new PropertyMetadata());
+
+		public static readonly DependencyProperty SudokuBorderThicknessProperty =
+			SudokuBorderThicknessPropertyKey.DependencyProperty;
+
+		#endregion SudokuBorderThickness
+
+		#region GapWidth
 
 		public double GapWidth
 		{
@@ -118,13 +177,17 @@ namespace SudokuSolver.GUI
 			DependencyProperty.Register(
 				"GapWidth",
 				typeof(double),
-				typeof(SudokuPlayer),
+				typeof(SudokuPresenter),
 				new PropertyMetadata(OnGapWidthPropertyChanged));
 
 		private static void OnGapWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			d.SetValue(BorderMarginPropertyKey, new Thickness((double)e.NewValue));
 		}
+
+		#endregion GapWidth
+
+		#region BorderMargin
 
 		public Thickness BorderMargin
 		{
@@ -135,7 +198,7 @@ namespace SudokuSolver.GUI
 			DependencyProperty.RegisterReadOnly(
 				"BorderMargin",
 				typeof(Thickness),
-				typeof(SudokuPlayer),
+				typeof(SudokuPresenter),
 				new PropertyMetadata());
 
 		public static readonly DependencyProperty BorderMarginProperty =

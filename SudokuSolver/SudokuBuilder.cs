@@ -46,7 +46,7 @@ namespace SudokuSolver
 
 			int level = difficultLevel.Level;
 
-			Definition.Sudoku targetSudoku = this.source.Copy();
+			Definition.Sudoku targetSudoku = this.source;
 
 			for (int i = 0; i < level; i++)
 			{
@@ -59,6 +59,19 @@ namespace SudokuSolver
 			}
 
 			return targetSudoku;
+		}
+
+		private bool showStep;
+		public bool ShowStep
+		{
+			get { return this.showStep; }
+			set
+			{
+				if (this.showStep != value)
+				{
+					this.showStep = value;
+				}
+			}
 		}
 	}
 }

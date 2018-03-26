@@ -32,13 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cast2.cs" />
@@ -71,6 +75,10 @@
     <ProjectReference Include="..\Extension\SudokuSolver.Extension.csproj">
       <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
       <Name>SudokuSolver.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GUI\SudokuSolver.GUI.csproj">
+      <Project>{02754b38-7b82-496f-a5a5-626d1ef37305}</Project>
+      <Name>SudokuSolver.GUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
       <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>

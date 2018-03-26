@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Cast2.cs" />
     <Compile Include="Concat.cs" />
+    <Compile Include="WaitForLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">

@@ -37,6 +37,29 @@ namespace SudokuSolver
 
 		#endregion Parterns
 
+		#region ShowStep
+
+		private bool showStep = false;
+		/// <summary>
+		/// whether show each step
+		/// </summary>
+		public bool ShowStep
+		{
+			get { return this.showStep; }
+			set
+			{
+				if (this.showStep != value)
+				{
+					this.showStep = value;
+
+					this.oneSeatInNinePartern.ShowStep = value;
+					this.oneSeatInGridLinePatern.ShowStep = value;
+				}
+			}
+		}
+
+		#endregion ShowStep
+
 		public bool TryResolve()
 		{
 			this.oneSeatInNinePartern.Fill();

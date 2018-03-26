@@ -108,6 +108,11 @@ namespace SudokuSolver.Parterns
 					value++;
 				}
 				emptyElement.SetValue(value);
+
+				if (ShowStep)
+				{
+					Extension.SudokuSolverExtension.WaitForLine();
+				}
 			}
 
 			return true;
