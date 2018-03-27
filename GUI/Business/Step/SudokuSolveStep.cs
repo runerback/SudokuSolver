@@ -7,20 +7,15 @@ namespace SudokuSolver.GUI.Business
 {
 	internal class SudokuSolveStep
 	{
-		public SudokuSolveStep(Definition.Element element)
+		public SudokuSolveStep(Model.Element element, int? newValue)
 		{
 			this.element = element;
 			this.originValue = element.Value;
-		}
-
-		public SudokuSolveStep(Definition.Element element, int newValue)
-			: this(element)
-		{
 			this.newValue = newValue;
 		}
 
-		private Definition.Element element;
-		private int? newValue = null;
+		private Model.Element element;
+		private int? newValue;
 		private int? originValue;
 
 		public void Execute()
@@ -35,10 +30,7 @@ namespace SudokuSolver.GUI.Business
 
 		private void setValue(int? value)
 		{
-			if (value.HasValue)
-				this.element.SetValue(value.Value);
-			else
-				this.element.ClearValue();
+			this.element.Value = value;
 		}
 	}
 }

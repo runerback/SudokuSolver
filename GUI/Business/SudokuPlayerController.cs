@@ -9,27 +9,29 @@ namespace SudokuSolver.GUI
 {
 	public class SudokuPlayerController
 	{
-		internal SudokuPlayerController(Application app)
+		internal SudokuPlayerController(SudokuPlayer player)
 		{
-			if (app == null)
-				throw new ArgumentNullException("app");
-			this.dispatcher = app.Dispatcher;
+			if (player == null)
+				throw new ArgumentNullException("player");
+			this.player = player;
+
+			player.PlayingSudokuStepSync.NewStep += onNewStep;
 		}
 
-		private Dispatcher dispatcher;
-		private bool closed = false;
+		private SudokuPlayer player;
 
 		public void Close()
 		{
-			if (!closed)
-			{
-				if(this.dispatcher!=null)
-					dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
-				closed = true;
-			}
+			var player = this.player;
+			player.Dispatcher.BeginInvoke((Action)player.Close);
 		}
 
 		#region StepView
+
+		private void onNewStep(object sender, Business.SudokuNewStepEventArgs e)
+		{
+			this.steps.Add(e.Step);
+		}
 
 		private Business.SudokuSolveStepCollection steps = new Business.SudokuSolveStepCollection();
 		internal Business.SudokuSolveStepCollection Steps

@@ -13,12 +13,5 @@ namespace SudokuSolver.Extension
 				throw new ArgumentNullException("source");
 			return source.Select(item => (int)item);
 		}
-
-		public static IEnumerable<Definition.Element> Cast2(this IEnumerable<int> source)
-		{
-			if (source == null)
-				throw new ArgumentNullException("source");
-			return source.Select(item => (Definition.Element)item);
-		}
     }
 }

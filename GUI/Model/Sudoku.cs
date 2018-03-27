@@ -5,14 +5,11 @@ using System.Text;
 
 namespace SudokuSolver.GUI.Model
 {
-	public class Sudoku : IDisposable
+	public class Sudoku
 	{
-		public Sudoku(Definition.Sudoku sudoku)
+		public Sudoku()
 		{
-			if (sudoku == null)
-				throw new ArgumentNullException("sudoku");
-
-			this.grids = sudoku.Grids
+			this.grids = Enumerable.Range(0, 9)
 				.Select(item => new Grid(item))
 				.ToArray();
 		}
@@ -23,28 +20,20 @@ namespace SudokuSolver.GUI.Model
 			get { return this.grids; }
 		}
 
-		private bool disposed;
-
-		private void Dispose(bool disposing)
+		internal void Sync(Definition.Sudoku sudoku)
 		{
-			if (disposed)
-				return;
+			if (sudoku == null)
+				throw new ArgumentNullException("sudoku");
 
-			if (disposing)
+			var grids = this.grids;
+
+			foreach (var grid in sudoku.Grids)
 			{
-				foreach (var grid in this.grids)
+				foreach (var element in grid.Elements)
 				{
-					grid.Dispose();
+					grids[element.GridIndex].Elements[element.Index].Value = element.Value;
 				}
 			}
-
-			this.disposed = true;
-		}
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

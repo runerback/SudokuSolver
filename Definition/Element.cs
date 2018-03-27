@@ -7,16 +7,23 @@ namespace SudokuSolver.Definition
 {
 	public sealed class Element : IComparable<Element>, IEquatable<Element>, IEquatable<int>
 	{
-		public Element(int index)
+		public Element(int gridIndex, int elementIndex)
 		{
 			this.value = null;
-			this.index = index;
+			this.gridIndex = gridIndex;
+			this.elementIndex = elementIndex;
 		}
 
-		private int index;
+		private int gridIndex;
+		public int GridIndex
+		{
+			get { return this.gridIndex; }
+		}
+
+		private int elementIndex;
 		public int Index
 		{
-			get { return this.index; }
+			get { return this.elementIndex; }
 		}
 
 		private int? check(int value)
@@ -81,10 +88,10 @@ namespace SudokuSolver.Definition
 			return !(left == right);
 		}
 
-		public static implicit operator Element(int value)
-		{
-			return new Element(value);
-		}
+		//public static implicit operator Element(int value)
+		//{
+		//	return new Element(value);
+		//}
 
 		public static implicit operator int(Element number)
 		{

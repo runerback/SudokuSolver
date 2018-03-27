@@ -5,15 +5,13 @@ using System.Text;
 
 namespace SudokuSolver.GUI.Model
 {
-	public sealed class Grid : IDisposable
+	public sealed class Grid
 	{
-		public Grid(Definition.Grid grid)
+		public Grid(int gridIndex)
 		{
-			if (grid == null)
-				throw new ArgumentNullException("grid");
-			this.index = grid.Index;
+			this.index = gridIndex;
 
-			this.elements = grid.Elements
+			this.elements = Enumerable.Range(0, 9)
 				.Select(item => new Element(item))
 				.ToArray();
 		}
@@ -28,30 +26,6 @@ namespace SudokuSolver.GUI.Model
 		public Element[] Elements
 		{
 			get { return this.elements; }
-		}
-
-		private bool disposed;
-
-		private void Dispose(bool disposing)
-		{
-			if (disposed)
-				return;
-
-			if (disposing)
-			{
-				foreach (var element in this.elements)
-				{
-					element.Dispose();
-				}
-			}
-
-			this.disposed = true;
-		}
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

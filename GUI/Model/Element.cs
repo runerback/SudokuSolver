@@ -5,20 +5,12 @@ using System.Text;
 
 namespace SudokuSolver.GUI.Model
 {
-	public sealed class Element : ViewModelBase, IDisposable
+	public sealed class Element : ViewModelBase
 	{
-		public Element(Definition.Element difElement)
+		public Element(int index)
 		{
-			if (difElement == null)
-				throw new ArgumentNullException("difElement");
-			this.element = difElement;
-
-			this.index = element.Index;
-
-			difElement.ValueChanged += onValueChanged;
+			this.index = index;
 		}
-
-		private Definition.Element element;
 
 		private int index;
 		public int Index
@@ -26,36 +18,17 @@ namespace SudokuSolver.GUI.Model
 			get { return this.index; }
 		}
 
+		private int? value;
 		public int? Value
 		{
-			get { return this.element.Value; }
-		}
-
-		private void onValueChanged(object sender, EventArgs e)
-		{
-			//TODO: this one is async, so use `SudokuSolveStep` to update value in `Model.Element` for better step view
-			NotifyPropertyChanged("Value"); 
-		}
-
-		private bool disposed;
-
-		private void Dispose(bool disposing)
-		{
-			if (disposed)
-				return;
-
-			if (disposing)
+			get { return this.value; }
+			internal set
 			{
-				this.element.ValueChanged -= onValueChanged;
+				if (value != this.value)
+				{
+					this.value = value;
+				}
 			}
-
-			this.disposed = true;
-		}
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

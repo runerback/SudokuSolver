@@ -30,7 +30,7 @@ namespace SudokuSolver.UnitTest
 		public void ValidElements()
 		{
 			var elements = Enumerable.Range(0, 9)
-				.Select(item => new Definition.Element(item))
+				.Select(item => new Definition.Element(0, item))
 				.ToArray();
 			elements[7].SetValue(1);
 			Assert.IsTrue(new SudokuValidator().ValidateElements(elements));
@@ -40,7 +40,7 @@ namespace SudokuSolver.UnitTest
 		public void ValidElementsWithRepeatValue()
 		{
 			var elements = Enumerable.Range(0, 9)
-				.Select(item => new Definition.Element(item))
+				.Select(item => new Definition.Element(0, item))
 				.ToArray();
 			elements[1].SetValue(2);
 			elements[3].SetValue(5);

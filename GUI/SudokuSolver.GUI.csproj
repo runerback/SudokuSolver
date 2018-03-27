@@ -47,10 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\SudokuPlayerController.cs" />
-    <Compile Include="Business\SudokuSolveStep.cs" />
-    <Compile Include="Business\SudokuSolveStepCollection.cs" />
+    <Compile Include="Business\Step\SudokuSolveStep.cs" />
+    <Compile Include="Business\Step\SudokuSolveStepCollection.cs" />
     <Compile Include="Business\SudokuStepRecorder.cs" />
+    <Compile Include="Business\Sync\SudokuStepSync.cs" />
+    <Compile Include="Business\Sync\SudokuAutoSync.cs" />
+    <Compile Include="Business\Sync\SudokuValueSyncBase.cs" />
     <Compile Include="Business\ViewModelBase.cs" />
+    <Compile Include="Controls\App.cs" />
     <Compile Include="Controls\ElementPresenter.cs" />
     <Compile Include="Controls\GridPresenter.cs" />
     <Compile Include="Controls\WindowDragGizmo.cs" />

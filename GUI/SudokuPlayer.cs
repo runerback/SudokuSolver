@@ -9,10 +9,12 @@ namespace SudokuSolver.GUI
 {
 	public class SudokuPlayer : Window
 	{
-		public SudokuPlayer()
+		internal SudokuPlayer()
 		{
 			WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 		}
+
+		#region OriginSudoku
 
 		public Model.Sudoku OriginSudoku
 		{
@@ -26,6 +28,10 @@ namespace SudokuSolver.GUI
 				typeof(Model.Sudoku),
 				typeof(SudokuPlayer));
 
+		#endregion OriginSudoku
+
+		#region PlayingSudoku
+
 		public Model.Sudoku PlayingSudoku
 		{
 			get { return (Model.Sudoku)this.GetValue(PlayingSudokuProperty); }
@@ -38,18 +44,20 @@ namespace SudokuSolver.GUI
 				typeof(Model.Sudoku),
 				typeof(SudokuPlayer));
 
+		#endregion PlayingSudoku
+
 		public static SudokuPlayerController Show(Definition.Sudoku originSudoku, Definition.Sudoku playingSudoku)
 		{
-			Application app = null;
-			ManualResetEvent blocker = new ManualResetEvent(false);
+			if (originSudoku == null)
+				throw new ArgumentNullException("originSudoku");
+			if (playingSudoku == null)
+				throw new ArgumentNullException("playingSudoku");
 
 			Thread thread = new Thread(() =>
 			{
 				try
 				{
-					app = createShell(originSudoku, playingSudoku);
-					blocker.Set();
-					app.Run();
+					new App(createPlayer(originSudoku, playingSudoku)).Run();
 				}
 				catch (Exception exp)
 				{
@@ -60,41 +68,46 @@ namespace SudokuSolver.GUI
 			thread.Name = "sudoku player thread";
 			thread.Start();
 
-			blocker.WaitOne();
-			blocker.Dispose();
-			return new SudokuPlayerController(app);
+			throw new NotImplementedException();
 		}
 
-		private static Application createShell(Definition.Sudoku originSudoku, Definition.Sudoku playingSudoku)
+		private Business.SudokuAutoSync originSudokuAutoSync;
+
+		private Business.SudokuStepSync playingSudokuStepSync;
+		internal Business.SudokuStepSync PlayingSudokuStepSync
+		{
+			get { return this.playingSudokuStepSync; }
+		}
+
+		protected override void OnClosed(EventArgs e)
+		{
+			base.OnClosed(e);
+
+			this.originSudokuAutoSync.Dispose();
+			this.playingSudokuStepSync.Dispose();
+		}
+
+		private static SudokuPlayer createPlayer(Definition.Sudoku originSudoku, Definition.Sudoku playingSudoku)
 		{
 			if (originSudoku == null)
-				throw new ArgumentNullException("sudoku");
+				throw new ArgumentNullException("originSudoku");
+			if (playingSudoku == null)
+				throw new ArgumentNullException("playingSudoku");
 
-			System.Windows.Application app = new System.Windows.Application();
+			SudokuPlayer player = new SudokuPlayer();
 
-			var controlTemplatesLocater = new Uri("/SudokuSolver.GUI;component/Resource/ControlTemplates.xaml", UriKind.Relative);
-			app.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(controlTemplatesLocater));
+			var originSudokuModel = new Model.Sudoku();
+			originSudokuModel.Sync(originSudoku);
+			player.originSudokuAutoSync = new Business.SudokuAutoSync(originSudoku, originSudokuModel);
 
-			app.Startup += delegate
-			{
-				var gui = new SudokuPlayer
-				{
-					OriginSudoku = new Model.Sudoku(originSudoku),
-					PlayingSudoku = new Model.Sudoku(playingSudoku)
-				};
+			var playingSudokuModel = new Model.Sudoku();
+			playingSudokuModel.Sync(playingSudoku);
+			player.playingSudokuStepSync = new Business.SudokuStepSync(playingSudoku, playingSudokuModel);
 
-				gui.KeyUp += (o, e) =>
-				{
-					if (e.Key == System.Windows.Input.Key.Enter)
-					{
-						((Window)o).Close();
-					}
-				};
+			player.OriginSudoku = originSudokuModel;
+			player.PlayingSudoku = playingSudokuModel;
 
-				gui.Show();
-			};
-
-			return app;
+			return player;
 		}
 	}
 }

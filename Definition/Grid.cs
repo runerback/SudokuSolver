@@ -13,7 +13,7 @@ namespace SudokuSolver.Definition
 			this.index = index;
 
 			var elements = Enumerable.Range(0, 9)
-				.Select(item => new Element(item))
+				.Select(item => new Element(index, item))
 				.ToArray();
 
 			var rows = new GridLine[3]
