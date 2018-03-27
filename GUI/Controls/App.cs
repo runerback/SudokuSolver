@@ -8,12 +8,8 @@ namespace SudokuSolver.GUI
 {
 	internal sealed class App : Application
 	{
-		public App(SudokuPlayer player)
+		public App()
 		{
-			if (player == null)
-				throw new ArgumentNullException("player");
-			this.player = player;
-
 			InitializeComponent();
 		}
 
@@ -21,7 +17,7 @@ namespace SudokuSolver.GUI
 
 		private bool contentLoaded;
 
-		public void InitializeComponent()
+		private void InitializeComponent()
 		{
 			if (contentLoaded)
 				return;
@@ -33,11 +29,5 @@ namespace SudokuSolver.GUI
 
 		#endregion InitializeComponent
 
-		private SudokuPlayer player;
-
-		protected override void OnStartup(StartupEventArgs e)
-		{
-			this.player.Show();
-		}
 	}
 }

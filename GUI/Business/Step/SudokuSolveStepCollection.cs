@@ -59,7 +59,7 @@ namespace SudokuSolver.GUI.Business
 			}
 			else
 			{
-				if (steps.Count <= currentStepIndex)
+				if (steps.Count <= currentStepIndex + 1)
 					return false; //no more step
 			}
 			this.currentStepIndex = ++currentStepIndex;

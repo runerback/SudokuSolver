@@ -9,10 +9,7 @@ namespace SudokuSolver.GUI
 {
 	public class SudokuPlayer : Window
 	{
-		internal SudokuPlayer()
-		{
-			WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-		}
+		internal SudokuPlayer() { }
 
 		#region OriginSudoku
 
@@ -53,22 +50,33 @@ namespace SudokuSolver.GUI
 			if (playingSudoku == null)
 				throw new ArgumentNullException("playingSudoku");
 
-			Thread thread = new Thread(() =>
+			SudokuPlayer player = null;
+			using (ManualResetEvent blocker = new ManualResetEvent(false))
 			{
-				try
+				Thread thread = new Thread(() =>
 				{
-					new App(createPlayer(originSudoku, playingSudoku)).Run();
-				}
-				catch (Exception exp)
-				{
-					Console.WriteLine(exp);
-				}
-			});
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Name = "sudoku player thread";
-			thread.Start();
+					try
+					{
+						var app = new App();
 
-			throw new NotImplementedException();
+						player = createPlayer(originSudoku, playingSudoku);
+						blocker.Set();
+
+						app.Run(player);
+					}
+					catch (Exception exp)
+					{
+						Console.WriteLine(exp);
+					}
+				});
+				thread.SetApartmentState(ApartmentState.STA);
+				thread.Name = "sudoku player thread";
+				thread.Start();
+
+				blocker.WaitOne();
+			}
+
+			return new SudokuPlayerController(player);
 		}
 
 		private Business.SudokuAutoSync originSudokuAutoSync;

@@ -27,6 +27,7 @@ namespace SudokuSolver.GUI.Model
 				if (value != this.value)
 				{
 					this.value = value;
+					NotifyPropertyChanged("Value");
 				}
 			}
 		}

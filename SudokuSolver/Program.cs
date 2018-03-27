@@ -43,7 +43,7 @@ namespace SudokuSolver
 
 			var resolver = new SudokuResolver(playingSudoku);
 
-			resolver.ShowStep = true;
+			resolver.ShowStep = false;
 
 			DateTime beforeNow = DateTime.Now;
 			string resultInfo = resolver.TryResolve() ? 
@@ -56,7 +56,16 @@ namespace SudokuSolver
 			if (!new SudokuValidator().Valdiate(playingSudoku))
 				Console.WriteLine("じゃないよ！");
 
+			Console.WriteLine("press Enter to show steps...");
 			Extension.SudokuSolverExtension.WaitForLine();
+			while (playerGUIController.PlayNext())
+			{
+				Extension.SudokuSolverExtension.WaitForLine();
+			}
+
+			Console.WriteLine("press Enter to continue...");
+			Extension.SudokuSolverExtension.WaitForLine();
+
 			playerGUIController.Close();
 			return;
 

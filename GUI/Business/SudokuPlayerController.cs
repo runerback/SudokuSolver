@@ -41,19 +41,37 @@ namespace SudokuSolver.GUI
 
 		#region Play
 
-		public void PlayNext()
+		public bool PlayNext()
 		{
-			throw new NotImplementedException();
+			Business.SudokuSolveStep nextStep;
+			if (this.steps.TryGetNextStep(out nextStep))
+			{
+				nextStep.Execute();
+				return true;
+			}
+			return false;
 		}
 
-		public void PlayCurrent()
+		public bool PlayCurrent()
 		{
-			throw new NotImplementedException();
+			Business.SudokuSolveStep currentStep;
+			if (this.steps.TryGetCurrentStep(out currentStep))
+			{
+				currentStep.Execute();
+				return true;
+			}
+			return false;
 		}
 
-		public void PlayPrevious()
+		public bool PlayPrevious()
 		{
-			throw new NotImplementedException();
+			Business.SudokuSolveStep previousStep;
+			if (this.steps.TryGetPreviousStep(out previousStep))
+			{
+				previousStep.Execute();
+				return true;
+			}
+			return false;
 		}
 
 		#endregion Play
@@ -62,17 +80,23 @@ namespace SudokuSolver.GUI
 
 		public void RestoreNext()
 		{
-			throw new NotImplementedException();
+			Business.SudokuSolveStep nextStep;
+			if (this.steps.TryGetNextStep(out nextStep))
+				nextStep.Restore();
 		}
 
 		public void RestoreCurrent()
 		{
-			throw new NotImplementedException();
+			Business.SudokuSolveStep currentStep;
+			if (this.steps.TryGetCurrentStep(out currentStep))
+				currentStep.Restore();
 		}
 
 		public void RestorePrevious()
 		{
-			throw new NotImplementedException();
+			Business.SudokuSolveStep previousStep;
+			if (this.steps.TryGetPreviousStep(out previousStep))
+				previousStep.Restore();
 		}
 
 		#endregion Restore
