@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SudokuSolver.Extension;
 
-namespace SudokuSolver
+namespace SudokuSolver.Core
 {
 	public class CompletedSudokuBuilder
 	{

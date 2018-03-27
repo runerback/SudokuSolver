@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Observers
+namespace SudokuSolver.Core.Observers
 {
 	public class LineObserver
 	{

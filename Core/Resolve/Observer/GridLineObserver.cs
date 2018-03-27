@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Observers
+namespace SudokuSolver.Core.Observers
 {
 	public class GridLineObserver
 	{
-		public GridLineObserver(Definition.GridLine line, int index)
+		public GridLineObserver(Definition.GridLine line, int index, GridLineObserverMode mode)
 		{
 			if (line == null)
 				throw new ArgumentNullException("line");
@@ -17,6 +17,19 @@ namespace SudokuSolver.Observers
 
 			this.line = line;
 			this.index = index;
+			this.mode = mode;
+
+			switch (mode)
+			{
+				case GridLineObserverMode.OneSeat:
+					this.remaindSeatCount = 1;
+					break;
+				case GridLineObserverMode.AllSeat:
+					this.remaindSeatCount = 3;
+					break;
+				default:
+					throw new NotImplementedException(mode.ToString());
+			}
 
 			var uncompletedElements = line.Elements.Where(item => !item.HasValue);
 
@@ -40,12 +53,20 @@ namespace SudokuSolver.Observers
 
 		private Definition.GridLine line;
 
+		private GridLineObserverMode mode;
+		public GridLineObserverMode Mode
+		{
+			get { return this.mode; }
+		}
+
+		private int remaindSeatCount;
+
 		private void onElementValueChanged(object sender, EventArgs e)
 		{
 			var line = this.line;
 
 			int emptyElementCount = line.Elements.Count(item => !item.HasValue);
-			if (emptyElementCount <= 1)
+			if (emptyElementCount <= this.remaindSeatCount)
 			{
 				if (emptyElementCount == 0)
 					UntraceCompletedLine(line);

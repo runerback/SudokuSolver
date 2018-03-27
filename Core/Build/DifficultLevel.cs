@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace SudokuSolver
+namespace SudokuSolver.Core
 {
 	public class DifficultLevel
 	{
@@ -14,7 +11,7 @@ namespace SudokuSolver
 		public DifficultLevel(int level)
 		{
 			if (level < MIN)
-				throw new ArgumentOutOfRangeException("level. shoud greater than "+MIN);
+				throw new ArgumentOutOfRangeException("level. shoud greater than " + MIN);
 			if (level > MAX)
 				throw new ArgumentOutOfRangeException("level. should less than " + MAX);
 			this.level = level;

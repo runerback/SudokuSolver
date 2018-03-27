@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Parterns
+namespace SudokuSolver.Core.Pattern
 {
 	/// <summary>
 	/// only one element not filled, in Grid or Line
 	/// </summary>
-	public sealed class OneSeatInNine : SudokuSolverParternBase
+	internal sealed class OneSeatInNine : SudokuSolverPartternBase
 	{
 		public OneSeatInNine(Definition.Sudoku sudoku)
 			: base(sudoku)
@@ -34,13 +34,13 @@ namespace SudokuSolver.Parterns
 				.Select((l, i) => new Observers.LineObserver(l, i))
 				.Where(item => !item.IsIdle))
 			{
-				rowObserver.Updated += onRowUpdated;
+				rowObserver.Updated += onLineUpdated;
 			}
 			foreach (var columnObserver in sudoku
 				.Columns.Select((l, i) => new Observers.LineObserver(l, i))
 				.Where(item => !item.IsIdle))
 			{
-				columnObserver.Updated += onColumnUpdated;
+				columnObserver.Updated += onLineUpdated;
 			}
 		}
 
@@ -50,35 +50,22 @@ namespace SudokuSolver.Parterns
 				((Observers.GridObserver)sender).Updated -= onGridUpdated;
 		}
 
-		private void onRowUpdated(object sender, Observers.LineUpdatedEventArgs e)
+		private void onLineUpdated(object sender, Observers.LineUpdatedEventArgs e)
 		{
 			if (fillOnlyOneElement(e.Line.Elements))
-				((Observers.LineObserver)sender).Updated -= onRowUpdated;
-		}
-
-		private void onColumnUpdated(object sender, Observers.LineUpdatedEventArgs e)
-		{
-			if (fillOnlyOneElement(e.Line.Elements))
-				((Observers.LineObserver)sender).Updated -= onColumnUpdated;
+				((Observers.LineObserver)sender).Updated -= onLineUpdated;
 		}
 
 		#endregion Block observers
 
 		#region Fill
 
-		public bool Fill()
+		public override void Fill()
 		{
-			bool allFilled = true;
 			foreach (var elements in blockEnumerable)
 			{
-				if (!fillOnlyOneElement(elements))
-					allFilled = false;
+				fillOnlyOneElement(elements);
 			}
-
-			if (allFilled)
-				return true;
-
-			return false;
 		}
 
 		private bool fillOnlyOneElement(IEnumerable<Definition.Element> elements)
@@ -108,11 +95,6 @@ namespace SudokuSolver.Parterns
 					value++;
 				}
 				emptyElement.SetValue(value);
-
-				if (ShowStep)
-				{
-					Extension.SudokuSolverExtension.WaitForLine();
-				}
 			}
 
 			return true;

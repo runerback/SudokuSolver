@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{32762862-2541-4F88-AE7A-659CE7DF331F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{78C36B2B-5D1F-488F-AF1F-C26552CDB857}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SudokuSolver</RootNamespace>
-    <AssemblyName>SudokuSolver</AssemblyName>
+    <RootNamespace>SudokuSolver.Core</RootNamespace>
+    <AssemblyName>SudokuSolver.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,27 +30,38 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="SudokuPlayer.cs" />
+    <Compile Include="Build\CompletedSudokuBuilder.cs" />
+    <Compile Include="Build\CompletedSudokuBuilderSeedRecorder.cs" />
+    <Compile Include="Build\DifficultLevel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Build\SudokuBuilder.cs" />
+    <Compile Include="Resolve\Observer\CompletionStateObserver.cs" />
+    <Compile Include="Resolve\Observer\GridLineObserver.cs" />
+    <Compile Include="Resolve\Observer\GridLineObserverMode.cs" />
+    <Compile Include="Resolve\Observer\GridLineUpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observer\GridObserver.cs" />
+    <Compile Include="Resolve\Observer\GridUpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observer\LineObserver.cs" />
+    <Compile Include="Resolve\Observer\LineUpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observer\Observer.cs" />
+    <Compile Include="Resolve\Observer\UpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Pattern\AllSeatInGridLine.cs" />
+    <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
+    <Compile Include="Resolve\Pattern\OneSeatInNine.cs" />
+    <Compile Include="Resolve\Pattern\SudokuSolverPartternBase.cs" />
+    <Compile Include="Resolve\SudokuResolver.cs" />
+    <Compile Include="Resolve\SudokuValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\SudokuSolver.Core.csproj">
-      <Project>{78c36b2b-5d1f-488f-af1f-c26552cdb857}</Project>
-      <Name>SudokuSolver.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>SudokuSolver.Definition</Name>
@@ -61,18 +70,12 @@
       <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
       <Name>SudokuSolver.Extension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GUI\SudokuSolver.GUI.csproj">
-      <Project>{02754b38-7b82-496f-a5a5-626d1ef37305}</Project>
-      <Name>SudokuSolver.GUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
       <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
       <Name>MiscUtil</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -15,7 +15,7 @@ namespace SudokuSolver
 			var sudoku = new Definition.Sudoku();
 
 			//build completed Sudoku with one of known seeds
-			if (new CompletedSudokuBuilder(-1666468307).Build(sudoku))
+			if (new Core.CompletedSudokuBuilder(-1666468307).Build(sudoku))
 			{
 				Console.WriteLine("Built");
 			}
@@ -29,21 +29,19 @@ namespace SudokuSolver
 
 			player.Print(sudoku);
 
-			var builder = new SudokuBuilder(sudoku.Copy(),
+			var builder = new Core.SudokuBuilder(sudoku.Copy(),
 				//DateTime.Now.Millisecond);
 				0); //use fixed seed so each level match to only one sudoku
 
 			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new DifficultLevel(24));
+			var playingSudoku = builder.Build(new Core.DifficultLevel(24));
 
 			player.Print(playingSudoku);
 
 			//show sudoku with GUI
 			var playerGUIController = GUI.SudokuPlayer.Show(sudoku, playingSudoku);
 
-			var resolver = new SudokuResolver(playingSudoku);
-
-			resolver.ShowStep = false;
+			var resolver = new Core.SudokuResolver(playingSudoku);
 
 			DateTime beforeNow = DateTime.Now;
 			string resultInfo = resolver.TryResolve() ? 
@@ -53,7 +51,7 @@ namespace SudokuSolver
 
 			player.Print(playingSudoku);
 
-			if (!new SudokuValidator().Valdiate(playingSudoku))
+			if (!new Core.SudokuValidator().Valdiate(playingSudoku))
 				Console.WriteLine("じゃないよ！");
 
 			Console.WriteLine("press Enter to show steps...");
@@ -83,7 +81,7 @@ namespace SudokuSolver
 			Task.Factory.StartNew(() =>
 			{
 				DateTime start = DateTime.Now;
-				using (var recorder = CompletedSudokuBuilderSeedRecorder.Instance)
+				using (var recorder = Core.CompletedSudokuBuilderSeedRecorder.Instance)
 				{
 					int lastRecord =
 						//-1666453861;
@@ -99,7 +97,7 @@ namespace SudokuSolver
 						}
 
 						//Console.Write("\r{0}", i);
-						if (new CompletedSudokuBuilder(i).Build(sudoku))
+						if (new Core.CompletedSudokuBuilder(i).Build(sudoku))
 						{
 							recorder.Add(i);
 						}

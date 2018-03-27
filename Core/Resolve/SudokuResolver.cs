@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace SudokuSolver
+namespace SudokuSolver.Core
 {
 	public class SudokuResolver
 	{
@@ -22,8 +21,9 @@ namespace SudokuSolver
 
 			this.completionState = new Observers.CompletionStateObserver(sudoku);
 
-			this.oneSeatInNinePartern = new Parterns.OneSeatInNine(sudoku);
-			this.oneSeatInGridLinePatern = new Parterns.OneSeatInGridLine(sudoku);
+			this.oneSeatInNinePartern = new Pattern.OneSeatInNine(sudoku);
+			this.oneSeatInGridLinePatern = new Pattern.OneSeatInGridLine(sudoku);
+			this.allSearInGridLinePatern = new Pattern.AllSeatInGridLine(sudoku);
 		}
 
 		private Definition.Sudoku sudoku;
@@ -32,33 +32,11 @@ namespace SudokuSolver
 
 		#region Parterns
 
-		private Parterns.OneSeatInNine oneSeatInNinePartern;
-		private Parterns.OneSeatInGridLine oneSeatInGridLinePatern;
+		private Pattern.OneSeatInNine oneSeatInNinePartern;
+		private Pattern.OneSeatInGridLine oneSeatInGridLinePatern;
+		private Pattern.AllSeatInGridLine allSearInGridLinePatern;
 
 		#endregion Parterns
-
-		#region ShowStep
-
-		private bool showStep = false;
-		/// <summary>
-		/// whether show each step
-		/// </summary>
-		public bool ShowStep
-		{
-			get { return this.showStep; }
-			set
-			{
-				if (this.showStep != value)
-				{
-					this.showStep = value;
-
-					this.oneSeatInNinePartern.ShowStep = value;
-					this.oneSeatInGridLinePatern.ShowStep = value;
-				}
-			}
-		}
-
-		#endregion ShowStep
 
 		public bool TryResolve()
 		{
@@ -68,6 +46,10 @@ namespace SudokuSolver
 				return true;
 
 			this.oneSeatInGridLinePatern.Fill();
+			if (this.completionState.IsCompleted)
+				return true;
+
+			this.allSearInGridLinePatern.Fill();
 			if (this.completionState.IsCompleted)
 				return true;
 

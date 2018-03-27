@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Parterns
+namespace SudokuSolver.Core.Pattern
 {
-	public class OneSeatInGridLine : SudokuSolverParternBase
+	internal sealed class OneSeatInGridLine : SudokuSolverPartternBase
 	{
 		public OneSeatInGridLine(Definition.Sudoku sudoku)
 			: base(sudoku)
@@ -22,13 +22,13 @@ namespace SudokuSolver.Parterns
 		private void registerObservers(Definition.Sudoku sudoku)
 		{
 			foreach (var gridRowObserver in gridRowEnumerable
-				.Select((item, i) => new Observers.GridLineObserver(item, (i - 1) % 9 / 3))
+				.Select((item, i) => new Observers.GridLineObserver(item, (i - 1) % 9 / 3, Observers.GridLineObserverMode.OneSeat))
 				.Where(item => !item.IsIdle))
 			{
 				gridRowObserver.Updated += onGridLineUpdated;
 			}
 			foreach (var gridColumnObserver in gridColumnEnumerable
-				.Select((item, i) => new Observers.GridLineObserver(item, (i - 1) % 9 / 3))
+				.Select((item, i) => new Observers.GridLineObserver(item, (i - 1) % 9 / 3, Observers.GridLineObserverMode.AllSeat))
 				.Where(item => !item.IsIdle))
 			{
 				gridColumnObserver.Updated += onGridLineUpdated;
@@ -66,7 +66,7 @@ namespace SudokuSolver.Parterns
 
 			if (emptyElement == null)
 				return true;
-			
+
 			var lineType = gridLine.LineType;
 
 			//get two other grids
@@ -151,39 +151,35 @@ namespace SudokuSolver.Parterns
 			var exceptResult = otherElementValues.Except(currentElementValues);
 
 			var exceptResultCount = exceptResult.Count();
-			if (exceptResultCount==0)
+			if (exceptResultCount == 0)
 				return false; //no result
-			
+
 			int value = -1;
+
+			/*/should appeared in both other elements
 			if (exceptResultCount == 1)
 				value = exceptResult.First(); //get only one result
 			else
+			*/
+
+			//do exact intersection
+			var bothOtherElementValues = otherElementValues1.Intersect(otherElementValues2);
+			var exactIntersectElementValues = bothOtherElementValues.Intersect(exceptResult);
+			foreach (var result in exactIntersectElementValues)
 			{
-				//do exact intersection
-				var bothOtherElementValues = otherElementValues1.Intersect(otherElementValues2);
-				var exactIntersectElementValues = bothOtherElementValues.Intersect(exceptResult);
-				foreach (var result in exactIntersectElementValues)
+				if (value < 0)
 				{
-					if (value < 0)
-					{
-						value = result;
-					}
-					else
-					{
-						return false; //cannot get only one result
-					}
+					value = result;
+				}
+				else
+				{
+					return false; //cannot get only one result
 				}
 			}
 
 			if (value > 0)
 			{
 				emptyElement.SetValue(value);
-
-				if (ShowStep)
-				{
-					Extension.SudokuSolverExtension.WaitForLine();
-				}
-
 				return true;
 			}
 			return false;
@@ -222,7 +218,7 @@ namespace SudokuSolver.Parterns
 			return lines.SelectMany(item => item.Elements);
 		}
 
-		public void Fill()
+		public override void Fill()
 		{
 			foreach (var column in gridColumnEnumerable)
 			{

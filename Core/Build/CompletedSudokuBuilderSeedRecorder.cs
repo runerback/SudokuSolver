@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SudokuSolver
+namespace SudokuSolver.Core
 {
 	public sealed class CompletedSudokuBuilderSeedRecorder : IDisposable
 	{
 		private ConcurrentBag<int> cache = new ConcurrentBag<int>();
 		private static readonly string filename = "Completed Sudoku Builder Seeds.log";
 
-		private static CompletedSudokuBuilderSeedRecorder instance = 
+		private static CompletedSudokuBuilderSeedRecorder instance =
 			new CompletedSudokuBuilderSeedRecorder();
 		public static CompletedSudokuBuilderSeedRecorder Instance
 		{
