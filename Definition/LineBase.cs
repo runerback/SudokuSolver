@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.Definition
 {
-	public abstract class LineBase
+	public abstract class LineBase : IElementCluster
 	{
 		protected Element[] elements;
 		public Element[] Elements
@@ -33,6 +33,11 @@ namespace SudokuSolver.Definition
 				default: return base.ToString();
 			}
 			return string.Join(spliter, elements.AsEnumerable());
+		}
+
+		IEnumerable<Element> IElementCluster.Elements
+		{
+			get { return this.elements; }
 		}
 	}
 }

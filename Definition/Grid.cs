@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.Definition
 {
-	public class Grid
+	public sealed class Grid : IElementCluster
 	{
 		internal Grid(Sudoku sudoku, int index)
 		{
@@ -115,65 +115,14 @@ namespace SudokuSolver.Definition
 			get { return this.index; }
 		}
 
-		/// <summary>
-		/// get adjacent grid by direction
-		/// </summary>
-		/// <remarks>
-		/// 0 1 2
-		/// 3 4 5
-		/// 6 7 8
-		/// </remarks>
-		public bool TryGetGrid(Direction direction, out Grid grid)
-		{
-			int index = this.index;
-			int targetIndex = -1;
-
-			switch (direction)
-			{
-				case Direction.Up:
-					{
-						targetIndex = index - 3;
-					}
-					break;
-				case Direction.Down:
-					{
-						targetIndex = index + 3;
-					}
-					break;
-				case Direction.Left:
-					{
-						if (index % 3 > 0)
-						{
-							targetIndex = index - 1;
-						}
-					}
-					break;
-				case Direction.Right:
-					{
-						if (index % 3 < 2)
-						{
-							targetIndex = index + 1;
-						}
-					}
-					break;
-				default: throw new NotImplementedException();
-			}
-
-			if (targetIndex < 0)
-			{
-				grid = null;
-				return false;
-			}
-			else
-			{
-				grid = this.sudoku.Grids[targetIndex];
-				return true;
-			}
-		}
-
 		public override string ToString()
 		{
 			return string.Join("\r\n", rows.AsEnumerable());
+		}
+
+		IEnumerable<Element> IElementCluster.Elements
+		{
+			get { return this.elements; }
 		}
 	}
 }

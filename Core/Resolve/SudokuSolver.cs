@@ -20,32 +20,36 @@ namespace SudokuSolver.Core
 			}
 
 			this.completionState = new Observers.CompletionStateObserver(sudoku);
-
-			this.oneSeatInNinePartern = new Pattern.OneSeatInNine(sudoku);
-			this.oneSeatInGridLinePatern = new Pattern.OneSeatInGridLine(sudoku);
 		}
 
 		private Definition.Sudoku sudoku;
 
 		private Observers.CompletionStateObserver completionState;
 
-		#region Parterns
-
-		private Pattern.OneSeatInNine oneSeatInNinePartern;
-		private Pattern.OneSeatInGridLine oneSeatInGridLinePatern;
-
-		#endregion Parterns
-
 		public bool TryResolve()
 		{
-			this.oneSeatInNinePartern.Fill();
+			var sudoku = this.sudoku;
 
-			if (this.completionState.IsCompleted)
-				return true;
+			using (var oneSeatInNineParttern = new Pattern.OneSeatInNine(sudoku))
+			{
+				oneSeatInNineParttern.Fill();
+				if (this.completionState.IsCompleted)
+					return true;
 
-			this.oneSeatInGridLinePatern.Fill();
-			if (this.completionState.IsCompleted)
-				return true;
+				using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
+				{
+					oneSeatInGridLinePattern.Fill();
+					if (this.completionState.IsCompleted)
+						return true;
+
+					using (var anySeatInGridPattern = new Pattern.AnySeatInGrid(sudoku))
+					{
+						anySeatInGridPattern.Fill();
+						if (this.completionState.IsCompleted)
+							return true;
+					}
+				}
+			}
 
 			return false;
 		}

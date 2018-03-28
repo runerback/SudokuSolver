@@ -42,18 +42,19 @@
     <Compile Include="Build\CompletedSudokuBuilder.cs" />
     <Compile Include="Build\CompletedSudokuBuilderSeedRecorder.cs" />
     <Compile Include="Build\DifficultLevel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Build\SudokuBuilder.cs" />
-    <Compile Include="Resolve\Observer\CompletionStateObserver.cs" />
-    <Compile Include="Resolve\Observer\GridLineObserver.cs" />
-    <Compile Include="Resolve\Observer\GridLineUpdatedEventArgs.cs" />
-    <Compile Include="Resolve\Observer\GridObserver.cs" />
-    <Compile Include="Resolve\Observer\GridUpdatedEventArgs.cs" />
-    <Compile Include="Resolve\Observer\LineObserver.cs" />
-    <Compile Include="Resolve\Observer\LineUpdatedEventArgs.cs" />
-    <Compile Include="Resolve\Observer\Observer.cs" />
-    <Compile Include="Resolve\Observer\SeatMode.cs" />
-    <Compile Include="Resolve\Observer\UpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observers\CompletionStateObserver.cs" />
+    <Compile Include="Resolve\Observers\ElementValueObserver.cs" />
+    <Compile Include="Resolve\Observers\GridLineObserver.cs" />
+    <Compile Include="Resolve\Observers\GridLineUpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observers\GridObserver.cs" />
+    <Compile Include="Resolve\Observers\GridUpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observers\LineObserver.cs" />
+    <Compile Include="Resolve\Observers\LineUpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observers\ObserverBase.cs" />
+    <Compile Include="Resolve\Observers\SeatMode.cs" />
+    <Compile Include="Resolve\Observers\UpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Pattern\AnySeatInGrid.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInNine.cs" />
     <Compile Include="Resolve\Pattern\SudokuSolverPartternBase.cs" />
@@ -74,7 +75,9 @@
       <Name>SudokuSolver.Tool</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

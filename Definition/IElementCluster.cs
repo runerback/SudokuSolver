@@ -5,11 +5,8 @@ using System.Text;
 
 namespace SudokuSolver.Definition
 {
-	public enum Direction
+	public interface IElementCluster
 	{
-		Up,
-		Down,
-		Left,
-		Right
+		IEnumerable<Element> Elements { get; }
 	}
 }

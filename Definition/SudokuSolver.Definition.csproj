@@ -39,10 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Direction.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="GridLine.cs" />
+    <Compile Include="IElementCluster.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="LineBase.cs" />
     <Compile Include="LineType.cs" />

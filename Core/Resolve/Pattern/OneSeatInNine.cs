@@ -12,33 +12,34 @@ namespace SudokuSolver.Core.Pattern
 	{
 		public OneSeatInNine(Definition.Sudoku sudoku)
 			: base(sudoku)
-		{
-			this.blockEnumerable = new SudokuBlockEnumerable(sudoku);
-
-			registerObservers(sudoku);
-		}
-
-		private readonly SudokuBlockEnumerable blockEnumerable;
+		{ }
 
 		#region Block observers
 
-		private void registerObservers(Definition.Sudoku sudoku)
+		protected override IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku)
 		{
-			foreach (var gridObserver in sudoku.Grids
+			var gridObservers = sudoku.Grids
 				.Select(item => new Observers.GridObserver(item, Observers.SeatMode.One))
-				.Where(item => !item.IsIdle))
+				.Where(item => !item.IsIdle)
+				.ToArray();
+			foreach (var gridObserver in gridObservers)
 			{
 				gridObserver.Updated += onGridUpdated;
 			}
-			foreach (var rowObserver in sudoku.Rows
+
+			var lineObservers = sudoku.Rows.Concat(sudoku.Columns)
 				.Select(item => new Observers.OneSeatLineObserver(item, Observers.SeatMode.One))
 				.Where(item => !item.IsIdle)
-				.Concat(sudoku
-				.Columns.Select(item => new Observers.OneSeatLineObserver(item, Observers.SeatMode.One))
-				.Where(item => !item.IsIdle)))
+				.ToArray();
+			foreach (var rowObserver in lineObservers)
 			{
 				rowObserver.Updated += onLineUpdated;
 			}
+
+			return gridObservers
+				.Cast<Observers.ObserverBase>()
+				.Concat(lineObservers)
+				.ToArray();
 		}
 
 		private void onGridUpdated(object sender, Observers.GridUpdatedEventArgs e)
@@ -59,7 +60,7 @@ namespace SudokuSolver.Core.Pattern
 
 		public override void Fill()
 		{
-			foreach (var elements in blockEnumerable)
+			foreach (var elements in new SudokuBlockEnumerable(sudoku))
 			{
 				fillOnlyOneElement(elements);
 			}
@@ -70,29 +71,27 @@ namespace SudokuSolver.Core.Pattern
 			if (elements == null)
 				throw new ArgumentNullException("elements");
 
+			//get empty element
 			Definition.Element emptyElement = null;
-			foreach (var element in elements
-				.Where(item => !item.HasValue))
+			using (var e = elements
+				.Where(item => !item.HasValue)
+				.GetEnumerator())
 			{
-				if (emptyElement == null)
-					emptyElement = element;
-				else
-					return false; //more than one Empty element found
+				if (!e.MoveNext()) return true; //not empty element
+				emptyElement = e.Current;
+				if (e.MoveNext()) return false; //more than one empty element
 			}
 
-			if (emptyElement != null)
+			int value = 1;
+			foreach (int element in elements
+				.Where(item => item.HasValue)
+				.OrderBy(item => item))
 			{
-				int value = 1;
-				foreach (int element in elements
-					.Where(item => item.HasValue)
-					.OrderBy(item => item))
-				{
-					if (element != value)
-						break;
-					value++;
-				}
-				emptyElement.SetValue(value);
+				if (element != value)
+					break;
+				value++;
 			}
+			emptyElement.SetValue(value);
 
 			return true;
 		}

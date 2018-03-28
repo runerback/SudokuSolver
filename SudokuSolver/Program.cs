@@ -66,12 +66,12 @@ namespace SudokuSolver
 				if (key == ConsoleKey.LeftArrow)
 				{
 					if (!playerGUIController.ShowPreviousStep())
-						Console.WriteLine("No more steps ahead");
+						Console.WriteLine("No more steps");
 				}
 				else if (key == ConsoleKey.RightArrow)
 				{
 					if (!playerGUIController.ShowNextStep())
-						Console.WriteLine("No more steps behind");
+						Console.WriteLine("No more steps");
 				}
 			}
 

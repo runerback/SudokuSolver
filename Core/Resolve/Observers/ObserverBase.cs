@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	internal abstract class Observer : IDisposable
+	internal abstract class ObserverBase : IDisposable
 	{
 		protected abstract void Disposing();
 

@@ -5,93 +5,84 @@ using System.Text;
 
 namespace SudokuSolver.Core.Pattern
 {
-	internal sealed class OneSeatInGridLine : SudokuSolverPartternBase
+	internal sealed class AnySeatInGrid : SudokuSolverPartternBase
 	{
-		public OneSeatInGridLine(Definition.Sudoku sudoku)
+		public AnySeatInGrid(Definition.Sudoku sudoku)
 			: base(sudoku)
 		{ }
 
 		protected override IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku)
 		{
-			var observers = new GridLineEnumerable(sudoku, Definition.LineType.Row)
-				.Concat(new GridLineEnumerable(sudoku, Definition.LineType.Column))
-				.Select(item => new Observers.GridLineObserver(item, Observers.SeatMode.One))
+			var observers = new GridEnumerable(sudoku)
+				.Select(item => new Observers.GridObserver(item, Observers.SeatMode.Any))
 				.Where(item => !item.IsIdle)
 				.ToArray();
 
 			foreach (var gridLineObserver in observers)
 			{
-				gridLineObserver.Updated += onGridLineUpdated;
+				gridLineObserver.Updated += onGridUpdated;
 			}
 
 			return observers;
 		}
 
-		private void onGridLineUpdated(object sender, Observers.GridLineUpdatedEventArgs e)
+		private void onGridUpdated(object sender, Observers.GridUpdatedEventArgs e)
 		{
-			if (fillOnlyOneElement(e.Line))
+			if (fillAnyOneElement(e.Grid))
 			{
-				if (e.Line.Elements.AllHasValue())
-					((Observers.GridLineObserver)sender).Updated -= onGridLineUpdated;
+				if (e.Grid.Elements.All(item => item.HasValue))
+					((Observers.GridObserver)sender).Updated -= onGridUpdated;
 			}
 		}
 
-		private bool fillOnlyOneElement(Definition.GridLine gridLine)
+		private bool fillAnyOneElement(Definition.Grid grid)
 		{
-			//get empty element
-			Definition.Element emptyElement = null;
-			using (var e = gridLine.Elements
-				.Where(item => !item.HasValue)
-				.GetEnumerator())
-			{
-				if (!e.MoveNext()) return true; //not empty element
-				emptyElement = e.Current;
-				if (e.MoveNext()) return false; //more than one empty element
-			}
+			//get any empty element in grid
+			Definition.Element emptyElement = grid.Elements.FirstOrDefault(item => !item.HasValue);
+			if (emptyElement == null)
+				return true;
 
-			var lineType = gridLine.LineType;
+			//get two other grids in same row
+			Definition.Grid otherGridInRow1, otherGridInRow2;
+			GetOtherGrids(grid, Definition.LineType.Column, out otherGridInRow1, out otherGridInRow2);
 
-			//get two other grids
-			var currentGrid = gridLine.Grid;
+			//get two other grids in same column
+			Definition.Grid otherGridInColumn1, otherGridInColumn2;
+			GetOtherGrids(grid, Definition.LineType.Row, out otherGridInColumn1, out otherGridInColumn2);
 
-			Definition.Grid otherGrid1, otherGrid2;
-			GetOtherGrids(currentGrid, lineType, out otherGrid1, out otherGrid2);
+			int elementIndex = emptyElement.Index;
+			int rowLineIndex = elementIndex / 3;
+			int columnLineIndex = elementIndex % 3;
 
-			int currentLineIndex = gridLine.Index;
-
-			var otherElementValues1 = GetElementsInOtherGridLine(otherGrid1, currentLineIndex, lineType)
+			var otherGridInRow1Values = GetElementsInOtherGridLine(otherGridInRow1, rowLineIndex, Definition.LineType.Column)
+				.Values();
+			var otherGridInRow2Values = GetElementsInOtherGridLine(otherGridInRow2, rowLineIndex, Definition.LineType.Column)
+				.Values();
+			var otherGridInColumn1Values = GetElementsInOtherGridLine(otherGridInColumn1, rowLineIndex, Definition.LineType.Row)
+				.Values();
+			var otherGridInColumn2Values = GetElementsInOtherGridLine(otherGridInColumn2, rowLineIndex, Definition.LineType.Row)
 				.Values();
 
-			var otherElementValues2 = GetElementsInOtherGridLine(otherGrid2, currentLineIndex, lineType)
+			var currentElementValues = grid.Elements
 				.Values();
 
-			var currentElementValues = currentGrid.Elements
-				.Values();
-
-			var exceptResult = otherElementValues1
-				.Concat(otherElementValues2)
+			var exceptResult = otherGridInRow1Values
+				.Concat(otherGridInRow2Values)
+				.Concat(otherGridInColumn1Values)
+				.Concat(otherGridInColumn2Values)
 				.Except(currentElementValues);
 
 			if (!exceptResult.Any())
 				return false; //no result
 
-			int value = -1;
-
 			//get value which appeared both
-			var bothOtherElementValues = otherElementValues1.Intersect(otherElementValues2);
+			var bothOtherElementValues = otherGridInRow1Values
+				.Intersect(otherGridInRow2Values)
+				.Intersect(otherGridInColumn1Values)
+				.Intersect(otherGridInColumn2Values);
 			var exactIntersectElementValues = bothOtherElementValues.Intersect(exceptResult);
-			foreach (var result in exactIntersectElementValues)
-			{
-				if (value < 0)
-				{
-					value = result;
-				}
-				else
-				{
-					return false; //cannot get only one result
-				}
-			}
 
+			int value = exactIntersectElementValues.SingleOrDefault(-1);
 			if (value > 0)
 			{
 				emptyElement.SetValue(value);
@@ -197,12 +188,10 @@ namespace SudokuSolver.Core.Pattern
 
 		public override void Fill()
 		{
-			foreach (var gridLine in new GridLineEnumerable(sudoku, Definition.LineType.Row)
-				.Concat(new GridLineEnumerable(sudoku, Definition.LineType.Column)))
+			foreach (var grid in new GridEnumerable(sudoku))
 			{
-				fillOnlyOneElement(gridLine);
+				fillAnyOneElement(grid);
 			}
 		}
-
 	}
 }
