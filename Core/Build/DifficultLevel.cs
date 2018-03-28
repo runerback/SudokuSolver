@@ -15,7 +15,7 @@ namespace SudokuSolver.Core
 			if (level > MAX)
 				throw new ArgumentOutOfRangeException("level. should less than " + MAX);
 			this.level = level;
-			this.difficulty = string.Format("{0:0.00} %", (double)level / (double)MAX * 100);
+			this.difficulty = string.Format("{0:0.00} % with {1} seat", (double)level / (double)MAX * 100, level);
 		}
 
 		public static readonly DifficultLevel Max = new DifficultLevel(MAX);

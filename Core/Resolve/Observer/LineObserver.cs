@@ -5,17 +5,15 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	public class LineObserver
+	internal class OneSeatLineObserver
 	{
-		public LineObserver(Definition.Line line, int index)
+		public OneSeatLineObserver(Definition.Line line, SeatMode seatMode)
 		{
 			if (line == null)
 				throw new ArgumentNullException("line");
-			if (index < Observer.MIN_INDEX_IN_NINE || index > Observer.MAX_INDEX_IN_NINE)
-				throw new ArgumentOutOfRangeException("index");
 
 			this.line = line;
-			this.index = index;
+			this.seatMode = seatMode;
 
 			var uncompletedElements = line.Elements.Where(item => !item.HasValue);
 
@@ -31,13 +29,13 @@ namespace SudokuSolver.Core.Observers
 			}
 		}
 
-		private int index;
-		public int Index
-		{
-			get { return this.index; }
-		}
-
 		private Definition.Line line;
+
+		private SeatMode seatMode;
+		public SeatMode SeatMode
+		{
+			get { return seatMode; }
+		}
 
 		private void onElementValueChanged(object sender, EventArgs e)
 		{
@@ -50,7 +48,7 @@ namespace SudokuSolver.Core.Observers
 					UntraceCompletedLine(line);
 
 				if (Updated != null)
-					Updated(this, new LineUpdatedEventArgs(line, this.index));
+					Updated(this, new LineUpdatedEventArgs(line));
 			}
 		}
 

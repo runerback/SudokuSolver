@@ -21,30 +21,22 @@ namespace SudokuSolver.Core.Pattern
 
 		private void registerObservers(Definition.Sudoku sudoku)
 		{
-			foreach (var gridRowObserver in gridRowEnumerable
-				.Select((item, i) => new Observers.GridLineObserver(item, (i - 1) % 9 / 3, Observers.GridLineObserverMode.OneSeat))
+			foreach (var gridLineObserver in gridRowEnumerable
+				.Concat(gridColumnEnumerable)
+				.Select(item => new Observers.GridLineObserver(item))
 				.Where(item => !item.IsIdle))
 			{
-				gridRowObserver.Updated += onGridLineUpdated;
-			}
-			foreach (var gridColumnObserver in gridColumnEnumerable
-				.Select((item, i) => new Observers.GridLineObserver(item, (i - 1) % 9 / 3, Observers.GridLineObserverMode.AllSeat))
-				.Where(item => !item.IsIdle))
-			{
-				gridColumnObserver.Updated += onGridLineUpdated;
+				gridLineObserver.Updated += onGridLineUpdated;
 			}
 		}
-
-		/*/grid postion
-		0 1 2
-		3 4 5
-		6 7 8
-		*/
 
 		private void onGridLineUpdated(object sender, Observers.GridLineUpdatedEventArgs e)
 		{
 			if (fillOnlyOneElement(e.Line))
-				((Observers.GridLineObserver)sender).Updated -= onGridLineUpdated;
+			{
+				if (e.Line.Elements.All(item => item.HasValue))
+					((Observers.GridLineObserver)sender).Updated -= onGridLineUpdated;
+			}
 		}
 
 		private bool fillOnlyOneElement(Definition.GridLine gridLine)
@@ -71,10 +63,73 @@ namespace SudokuSolver.Core.Pattern
 
 			//get two other grids
 			var currentGrid = gridLine.Grid;
-			int currentLayer = GetGridLayer(currentGrid.Index, lineType);
 
 			Definition.Grid otherGrid1, otherGrid2;
-			switch (lineType)
+			GetOtherGrids(currentGrid, lineType, out otherGrid1, out otherGrid2);
+
+			int currentLineIndex = gridLine.Index;
+
+			var otherElementValues1 = GetElementsInOtherGridLine(otherGrid1, currentLineIndex, lineType)
+				.Where(item => item.HasValue)
+				.Select(item => item.Value.Value);
+
+			var otherElementValues2 = GetElementsInOtherGridLine(otherGrid2, currentLineIndex, lineType)
+				.Where(item => item.HasValue)
+				.Select(item => item.Value.Value);
+
+			var otherElementValues = otherElementValues1
+				.Concat(otherElementValues2);
+
+			var currentElementValues = currentGrid.Elements
+				.Where(item => item.HasValue)
+				.Select(item => item.Value.Value);
+			var exceptResult = otherElementValues.Except(currentElementValues);
+
+			var exceptResultCount = exceptResult.Count();
+			if (exceptResultCount == 0)
+				return false; //no result
+
+			int value = -1;
+
+			//get value which appeared twice
+			var bothOtherElementValues = otherElementValues1.Intersect(otherElementValues2);
+			var exactIntersectElementValues = bothOtherElementValues.Intersect(exceptResult);
+			foreach (var result in exactIntersectElementValues)
+			{
+				if (value < 0)
+				{
+					value = result;
+				}
+				else
+				{
+					return false; //cannot get only one result
+				}
+			}
+
+			if (value > 0)
+			{
+				emptyElement.SetValue(value);
+				return true;
+			}
+			return false;
+		}
+
+		private void GetOtherGrids(Definition.Grid currentGrid, Definition.LineType gridLineType, out Definition.Grid otherGrid1, out Definition.Grid otherGrid2)
+		{
+			int currentLayer = -1;
+
+			switch (gridLineType)
+			{
+				case Definition.LineType.Row:
+					currentLayer = currentGrid.Index % 3;
+					break;
+				case Definition.LineType.Column:
+					currentLayer = currentGrid.Index / 3;
+					break;
+				default: throw new NotImplementedException();
+			}
+
+			switch (gridLineType)
 			{
 				case Definition.LineType.Row:
 					{
@@ -131,70 +186,6 @@ namespace SudokuSolver.Core.Pattern
 					break;
 				default: throw new NotImplementedException();
 			}
-
-			int currentLineIndex = gridLine.Index;
-
-			var otherElementValues1 = GetElementsInOtherGridLine(otherGrid1, currentLineIndex, lineType)
-				.Where(item => item.HasValue)
-				.Select(item => item.Value.Value);
-
-			var otherElementValues2 = GetElementsInOtherGridLine(otherGrid2, currentLineIndex, lineType)
-				.Where(item => item.HasValue)
-				.Select(item => item.Value.Value);
-
-			var otherElementValues = otherElementValues1
-				.Concat(otherElementValues2);
-
-			var currentElementValues = currentGrid.Elements
-				.Where(item => item.HasValue)
-				.Select(item => item.Value.Value);
-			var exceptResult = otherElementValues.Except(currentElementValues);
-
-			var exceptResultCount = exceptResult.Count();
-			if (exceptResultCount == 0)
-				return false; //no result
-
-			int value = -1;
-
-			/*/should appeared in both other elements
-			if (exceptResultCount == 1)
-				value = exceptResult.First(); //get only one result
-			else
-			*/
-
-			//do exact intersection
-			var bothOtherElementValues = otherElementValues1.Intersect(otherElementValues2);
-			var exactIntersectElementValues = bothOtherElementValues.Intersect(exceptResult);
-			foreach (var result in exactIntersectElementValues)
-			{
-				if (value < 0)
-				{
-					value = result;
-				}
-				else
-				{
-					return false; //cannot get only one result
-				}
-			}
-
-			if (value > 0)
-			{
-				emptyElement.SetValue(value);
-				return true;
-			}
-			return false;
-		}
-
-		private int GetGridLayer(int currentGridIndex, Definition.LineType gridLineType)
-		{
-			switch (gridLineType)
-			{
-				case Definition.LineType.Row:
-					return currentGridIndex % 3;
-				case Definition.LineType.Column:
-					return currentGridIndex / 3;
-				default: throw new NotImplementedException();
-			}
 		}
 
 		private IEnumerable<Definition.Element> GetElementsInOtherGridLine(Definition.Grid grid, int skipIndex, Definition.LineType type)
@@ -220,9 +211,9 @@ namespace SudokuSolver.Core.Pattern
 
 		public override void Fill()
 		{
-			foreach (var column in gridColumnEnumerable)
+			foreach (var gridLine in gridRowEnumerable.Concat(gridColumnEnumerable))
 			{
-				fillOnlyOneElement(column);
+				fillOnlyOneElement(gridLine);
 			}
 		}
 	}

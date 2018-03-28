@@ -46,15 +46,14 @@
     <Compile Include="Build\SudokuBuilder.cs" />
     <Compile Include="Resolve\Observer\CompletionStateObserver.cs" />
     <Compile Include="Resolve\Observer\GridLineObserver.cs" />
-    <Compile Include="Resolve\Observer\GridLineObserverMode.cs" />
     <Compile Include="Resolve\Observer\GridLineUpdatedEventArgs.cs" />
     <Compile Include="Resolve\Observer\GridObserver.cs" />
     <Compile Include="Resolve\Observer\GridUpdatedEventArgs.cs" />
     <Compile Include="Resolve\Observer\LineObserver.cs" />
     <Compile Include="Resolve\Observer\LineUpdatedEventArgs.cs" />
     <Compile Include="Resolve\Observer\Observer.cs" />
+    <Compile Include="Resolve\Observer\SeatMode.cs" />
     <Compile Include="Resolve\Observer\UpdatedEventArgs.cs" />
-    <Compile Include="Resolve\Pattern\AllSeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInNine.cs" />
     <Compile Include="Resolve\Pattern\SudokuSolverPartternBase.cs" />

@@ -5,39 +5,38 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	public class GridObserver
+	internal class GridObserver
 	{
-		public GridObserver(Definition.Grid grid, int index)
+		public GridObserver(Definition.Grid grid, SeatMode seatMode)
 		{
 			if (grid == null)
 				throw new ArgumentNullException("grid");
-			if (index < Observer.MIN_INDEX_IN_NINE || index > Observer.MAX_INDEX_IN_NINE)
-				throw new ArgumentOutOfRangeException("index");
 
 			this.grid = grid;
-			this.index = index;
+			this.seatMode = seatMode;
 
 			var uncompletedElements = grid.Elements.Where(item => !item.HasValue);
 
 			if (!uncompletedElements.Any())
 			{
 				this.isIdel = true;
-				return;
 			}
-
-			foreach (var element in uncompletedElements)
+			else
 			{
-				element.ValueChanged += onElementValueChanged;
+				foreach (var element in uncompletedElements)
+				{
+					element.ValueChanged += onElementValueChanged;
+				}
 			}
-		}	
-
-		private int index;
-		public int Index
-		{
-			get { return this.index; }
 		}
 
 		private Definition.Grid grid;
+
+		private SeatMode seatMode;
+		public SeatMode SeatMode
+		{
+			get { return this.seatMode; }
+		}
 
 		private void onElementValueChanged(object sender, EventArgs e)
 		{
@@ -50,7 +49,7 @@ namespace SudokuSolver.Core.Observers
 					UntraceCompletedGrid(grid);
 
 				if (Updated != null)
-					Updated(this, new GridUpdatedEventArgs(grid, this.index));
+					Updated(this, new GridUpdatedEventArgs(grid));
 			}
 		}
 

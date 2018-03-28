@@ -22,8 +22,7 @@ namespace SudokuSolver.Core
 			this.completionState = new Observers.CompletionStateObserver(sudoku);
 
 			this.oneSeatInNinePartern = new Pattern.OneSeatInNine(sudoku);
-			//this.oneSeatInGridLinePatern = new Pattern.OneSeatInGridLine(sudoku);
-			this.allSearInGridLinePatern = new Pattern.AllSeatInGridLine(sudoku);
+			this.oneSeatInGridLinePatern = new Pattern.OneSeatInGridLine(sudoku);
 		}
 
 		private Definition.Sudoku sudoku;
@@ -33,8 +32,7 @@ namespace SudokuSolver.Core
 		#region Parterns
 
 		private Pattern.OneSeatInNine oneSeatInNinePartern;
-		//private Pattern.OneSeatInGridLine oneSeatInGridLinePatern;
-		private Pattern.AllSeatInGridLine allSearInGridLinePatern;
+		private Pattern.OneSeatInGridLine oneSeatInGridLinePatern;
 
 		#endregion Parterns
 
@@ -45,11 +43,7 @@ namespace SudokuSolver.Core
 			if (this.completionState.IsCompleted)
 				return true;
 
-			//this.oneSeatInGridLinePatern.Fill();
-			//if (this.completionState.IsCompleted)
-			//	return true;
-
-			this.allSearInGridLinePatern.Fill();
+			this.oneSeatInGridLinePatern.Fill();
 			if (this.completionState.IsCompleted)
 				return true;
 

@@ -5,12 +5,34 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	class Observer
+	internal abstract class Observer : IDisposable
 	{
-		public const int MIN_INDEX_IN_NINE = 0;
-		public const int MAX_INDEX_IN_NINE = 8;
+		protected abstract void Disposing();
 
-		public const int MIN_INDEX_IN_GRID_LINE = 0;
-		public const int MAX_INDEX_IN_GRID_LINE = 2;
+		#region IDisposable
+
+		private bool disposed;
+
+		private void Dispose(bool disposing)
+		{
+			if (disposed)
+				return;
+
+			if (disposing)
+			{
+				Disposing();
+			}
+
+			this.disposed = true;
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion IDisposable
+
 	}
 }

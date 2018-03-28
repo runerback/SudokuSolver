@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	public class CompletionStateObserver
+	internal class CompletionStateObserver
 	{
 		public CompletionStateObserver(Definition.Sudoku sudoku)
 		{
@@ -14,7 +14,7 @@ namespace SudokuSolver.Core.Observers
 			this.sudoku = sudoku;
 
 			foreach (var gridObserver in sudoku.Grids
-				.Select((item, i) => new GridObserver(item, i)))
+				.Select(item => new GridObserver(item, SeatMode.Any)))
 			{
 				if (gridObserver.IsIdle)
 				{
@@ -28,8 +28,8 @@ namespace SudokuSolver.Core.Observers
 		}
 
 		private Definition.Sudoku sudoku;
-		private int completedGridCount = 0;
 
+		private int completedGridCount = 0;
 		public bool IsCompleted
 		{
 			get { return this.completedGridCount == 9; }

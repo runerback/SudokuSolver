@@ -5,13 +5,11 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	public sealed class GridUpdatedEventArgs : UpdatedEventArgs
+	internal sealed class GridUpdatedEventArgs : UpdatedEventArgs
 	{
-		public GridUpdatedEventArgs(Definition.Grid grid, int index)
-			: base(index)
+		public GridUpdatedEventArgs(Definition.Grid grid)
+			: base(grid.Index)
 		{
-			if (grid == null)
-				throw new ArgumentNullException("grid");
 			this.grid = grid;
 		}
 

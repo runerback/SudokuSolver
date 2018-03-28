@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace SudokuSolver.GUI.Converter
 {
-	public class ThicknessConverter : IValueConverter
+	internal sealed class ThicknessConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{

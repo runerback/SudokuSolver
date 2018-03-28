@@ -25,22 +25,19 @@ namespace SudokuSolver.Core.Pattern
 		private void registerObservers(Definition.Sudoku sudoku)
 		{
 			foreach (var gridObserver in sudoku.Grids
-				.Select((g, i) => new Observers.GridObserver(g, i))
+				.Select(item => new Observers.GridObserver(item, Observers.SeatMode.One))
 				.Where(item => !item.IsIdle))
 			{
 				gridObserver.Updated += onGridUpdated;
 			}
 			foreach (var rowObserver in sudoku.Rows
-				.Select((l, i) => new Observers.LineObserver(l, i))
-				.Where(item => !item.IsIdle))
+				.Select(item => new Observers.OneSeatLineObserver(item, Observers.SeatMode.One))
+				.Where(item => !item.IsIdle)
+				.Concat(sudoku
+				.Columns.Select(item => new Observers.OneSeatLineObserver(item, Observers.SeatMode.One))
+				.Where(item => !item.IsIdle)))
 			{
 				rowObserver.Updated += onLineUpdated;
-			}
-			foreach (var columnObserver in sudoku
-				.Columns.Select((l, i) => new Observers.LineObserver(l, i))
-				.Where(item => !item.IsIdle))
-			{
-				columnObserver.Updated += onLineUpdated;
 			}
 		}
 
@@ -53,7 +50,7 @@ namespace SudokuSolver.Core.Pattern
 		private void onLineUpdated(object sender, Observers.LineUpdatedEventArgs e)
 		{
 			if (fillOnlyOneElement(e.Line.Elements))
-				((Observers.LineObserver)sender).Updated -= onLineUpdated;
+				((Observers.OneSeatLineObserver)sender).Updated -= onLineUpdated;
 		}
 
 		#endregion Block observers

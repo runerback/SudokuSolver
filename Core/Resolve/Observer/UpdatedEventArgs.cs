@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	public class UpdatedEventArgs : EventArgs
+	internal class UpdatedEventArgs : EventArgs
 	{
 		public UpdatedEventArgs(int index)
 		{

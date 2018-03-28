@@ -5,13 +5,11 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	public sealed class LineUpdatedEventArgs: UpdatedEventArgs
+	internal sealed class LineUpdatedEventArgs: UpdatedEventArgs
 	{
-		public LineUpdatedEventArgs(Definition.Line line, int index)
-			: base(index)
+		public LineUpdatedEventArgs(Definition.Line line)
+			: base(line.Index)
 		{
-			if (line == null)
-				throw new ArgumentNullException("line");
 			this.line = line;
 		}
 

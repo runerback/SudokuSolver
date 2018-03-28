@@ -2,7 +2,7 @@
 
 namespace SudokuSolver.GUI.Converter
 {
-	public class ThicknessConverterParameter
+	internal class ThicknessConverterParameter
 	{
 		public ThicknessConverterParameter(bool hasLeft, bool hasTop, bool hasRight, bool hasBottom)
 		{

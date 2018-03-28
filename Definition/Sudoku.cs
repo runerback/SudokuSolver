@@ -37,15 +37,15 @@ namespace SudokuSolver.Definition
 
 			var rows = new Line[9]
 			{
-				Line.Row(grid1.Row1, grid2.Row1, grid3.Row1),
-				Line.Row(grid1.Row2, grid2.Row2, grid3.Row2),
-				Line.Row(grid1.Row3, grid2.Row3, grid3.Row3),
-				Line.Row(grid4.Row1, grid5.Row1, grid6.Row1),
-				Line.Row(grid4.Row2, grid5.Row2, grid6.Row2),
-				Line.Row(grid4.Row3, grid5.Row3, grid6.Row3),
-				Line.Row(grid7.Row1, grid8.Row1, grid9.Row1),
-				Line.Row(grid7.Row2, grid8.Row2, grid9.Row2),
-				Line.Row(grid7.Row3, grid8.Row3, grid9.Row3)
+				Line.Row(0, grid1.Row1, grid2.Row1, grid3.Row1),
+				Line.Row(1, grid1.Row2, grid2.Row2, grid3.Row2),
+				Line.Row(2, grid1.Row3, grid2.Row3, grid3.Row3),
+				Line.Row(3, grid4.Row1, grid5.Row1, grid6.Row1),
+				Line.Row(4, grid4.Row2, grid5.Row2, grid6.Row2),
+				Line.Row(5, grid4.Row3, grid5.Row3, grid6.Row3),
+				Line.Row(6, grid7.Row1, grid8.Row1, grid9.Row1),
+				Line.Row(7, grid7.Row2, grid8.Row2, grid9.Row2),
+				Line.Row(8, grid7.Row3, grid8.Row3, grid9.Row3)
 			};
 			this.rows = rows;
 			this.row1 = rows[0];
@@ -60,15 +60,15 @@ namespace SudokuSolver.Definition
 
 			var columns = new Line[9]
 			{
-				Line.Column(grid1.Column1, grid4.Column1, grid7.Column1),
-				Line.Column(grid1.Column2, grid4.Column2, grid7.Column2),
-				Line.Column(grid1.Column3, grid4.Column3, grid7.Column3),
-				Line.Column(grid2.Column1, grid5.Column1, grid8.Column1),
-				Line.Column(grid2.Column2, grid5.Column2, grid8.Column2),
-				Line.Column(grid2.Column3, grid5.Column3, grid8.Column3),
-				Line.Column(grid3.Column1, grid6.Column1, grid9.Column1),
-				Line.Column(grid3.Column2, grid6.Column2, grid9.Column2),
-				Line.Column(grid3.Column3, grid6.Column3, grid9.Column3)
+				Line.Column(0, grid1.Column1, grid4.Column1, grid7.Column1),
+				Line.Column(1, grid1.Column2, grid4.Column2, grid7.Column2),
+				Line.Column(2, grid1.Column3, grid4.Column3, grid7.Column3),
+				Line.Column(3, grid2.Column1, grid5.Column1, grid8.Column1),
+				Line.Column(4, grid2.Column2, grid5.Column2, grid8.Column2),
+				Line.Column(5, grid2.Column3, grid5.Column3, grid8.Column3),
+				Line.Column(6, grid3.Column1, grid6.Column1, grid9.Column1),
+				Line.Column(7, grid3.Column2, grid6.Column2, grid9.Column2),
+				Line.Column(8, grid3.Column3, grid6.Column3, grid9.Column3)
 			};
 			this.columns = columns;
 			this.column1 = columns[0];

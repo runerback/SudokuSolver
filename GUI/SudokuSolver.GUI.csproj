@@ -49,7 +49,6 @@
     <Compile Include="Business\SudokuPlayerController.cs" />
     <Compile Include="Business\Step\SudokuSolveStep.cs" />
     <Compile Include="Business\Step\SudokuSolveStepCollection.cs" />
-    <Compile Include="Business\SudokuStepRecorder.cs" />
     <Compile Include="Business\Sync\SudokuStepSync.cs" />
     <Compile Include="Business\Sync\SudokuAutoSync.cs" />
     <Compile Include="Business\Sync\SudokuValueSyncBase.cs" />

@@ -32,7 +32,7 @@ namespace SudokuSolver
 				0); //use fixed seed so each level match to only one sudoku
 
 			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new Core.DifficultLevel(26));
+			var playingSudoku = builder.Build(new Core.DifficultLevel(32));
 
 			SudokuConsole.Print(playingSudoku);
 
@@ -45,7 +45,7 @@ namespace SudokuSolver
 			string resultInfo = resolver.TryResolve() ? 
 				"Solved" : 
 				"Cannot solve this sudoku with current knowledge";
-			Console.WriteLine("{0} in {1} ms", resultInfo, (DateTime.Now - beforeNow).TotalMilliseconds);
+			Console.WriteLine("{0} in {1:0} ms", resultInfo, (DateTime.Now - beforeNow).TotalMilliseconds);
 
 			SudokuConsole.Print(playingSudoku);
 
