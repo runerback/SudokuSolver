@@ -21,27 +21,25 @@ namespace SudokuSolver
 			}
 			else
 			{
-				Extension.SudokuSolverExtension.WaitForLine();
+				SudokuConsole.WaitLine();
 				return;
 			}
 
-			var player = new SudokuPlayer();
-
-			player.Print(sudoku);
+			SudokuConsole.Print(sudoku);
 
 			var builder = new Core.SudokuBuilder(sudoku.Copy(),
 				//DateTime.Now.Millisecond);
 				0); //use fixed seed so each level match to only one sudoku
 
 			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new Core.DifficultLevel(24));
+			var playingSudoku = builder.Build(new Core.DifficultLevel(26));
 
-			player.Print(playingSudoku);
+			SudokuConsole.Print(playingSudoku);
 
 			//show sudoku with GUI
 			var playerGUIController = GUI.SudokuPlayer.Show(sudoku, playingSudoku);
 
-			var resolver = new Core.SudokuResolver(playingSudoku);
+			var resolver = new Core.SudokuSolver(playingSudoku);
 
 			DateTime beforeNow = DateTime.Now;
 			string resultInfo = resolver.TryResolve() ? 
@@ -49,20 +47,33 @@ namespace SudokuSolver
 				"Cannot solve this sudoku with current knowledge";
 			Console.WriteLine("{0} in {1} ms", resultInfo, (DateTime.Now - beforeNow).TotalMilliseconds);
 
-			player.Print(playingSudoku);
+			SudokuConsole.Print(playingSudoku);
 
 			if (!new Core.SudokuValidator().Valdiate(playingSudoku))
 				Console.WriteLine("じゃないよ！");
 
-			Console.WriteLine("press Enter to show steps...");
-			Extension.SudokuSolverExtension.WaitForLine();
-			while (playerGUIController.PlayNext())
-			{
-				Extension.SudokuSolverExtension.WaitForLine();
-			}
+			Console.WriteLine("→ show next step");
+			Console.WriteLine("← show previous step");
+			Console.WriteLine(" ┙exit");
 
-			Console.WriteLine("press Enter to continue...");
-			Extension.SudokuSolverExtension.WaitForLine();
+			while (true)
+			{
+				var key = SudokuConsole.GetKey();
+
+				if (key == ConsoleKey.Enter)
+					break;
+
+				if (key == ConsoleKey.LeftArrow)
+				{
+					if (!playerGUIController.ShowPreviousStep())
+						Console.WriteLine("No more steps ahead");
+				}
+				else if (key == ConsoleKey.RightArrow)
+				{
+					if (!playerGUIController.ShowNextStep())
+						Console.WriteLine("No more steps behind");
+				}
+			}
 
 			playerGUIController.Close();
 			return;

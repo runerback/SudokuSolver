@@ -7,8 +7,8 @@
     <ProjectGuid>{59512996-B43B-47F1-B16D-6EE866588706}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SudokuSolver.Extension</RootNamespace>
-    <AssemblyName>SudokuSolver.Extension</AssemblyName>
+    <RootNamespace>SudokuSolver</RootNamespace>
+    <AssemblyName>SudokuSolver.Tools</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,8 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cast2.cs" />
-    <Compile Include="Concat.cs" />
-    <Compile Include="WaitForLine.cs" />
+    <Compile Include="GridLineEnumerable.cs" />
+    <Compile Include="SudokuBlockEnumerable.cs" />
+    <Compile Include="SudokuConsole.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">

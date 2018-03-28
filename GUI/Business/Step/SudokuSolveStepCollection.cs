@@ -29,56 +29,73 @@ namespace SudokuSolver.GUI.Business
 
 		private int currentStepIndex = -1;
 
-		public bool TryGetCurrentStep(out SudokuSolveStep currentStep)
+		public bool Previous()
+		{
+			Business.SudokuSolveStep currentStep;
+			if (!TryGetCurrentStep(out currentStep))
+				return false;
+			currentStep.Restore();
+			return TrySeekPreviousStep();
+		}
+
+		public bool Next()
+		{
+			if (!TrySeekNextStep())
+				return false;
+
+			Business.SudokuSolveStep currentStep;
+			if (!TryGetCurrentStep(out currentStep))
+				return false;
+			currentStep.Execute();
+			return true;
+		}
+
+		private bool TryGetCurrentStep(out SudokuSolveStep currentStep)
 		{
 			currentStep = null;
 
 			var steps = this.steps;
-			var currentStepIndex = this.currentStepIndex;
 
-			if (currentStepIndex == 0)
+			if (steps.Count == 0)
 				return false; //no step
 
-			if (currentStepIndex >= steps.Count)
-				return false; //no more step
+			var currentStepIndex = this.currentStepIndex;
+
+			if (currentStepIndex < 0 || currentStepIndex >= steps.Count)
+				return false;
 
 			currentStep = steps[currentStepIndex];
 			return true;
 		}
 
-		public bool TryGetNextStep(out SudokuSolveStep nextStep)
+		private bool TrySeekPreviousStep()
 		{
-			nextStep = null;
-
 			var steps = this.steps;
-			var currentStepIndex  = this.currentStepIndex;
-			if (currentStepIndex < 0)
-			{
-				if (steps.Count == 0)
-					return false; //no step
-			}
-			else
-			{
-				if (steps.Count <= currentStepIndex + 1)
-					return false; //no more step
-			}
-			this.currentStepIndex = ++currentStepIndex;
-			nextStep = steps[currentStepIndex];
-			return true;
-		}
 
-		public bool TryGetPreviousStep(out SudokuSolveStep previousStep)
-		{
-			previousStep = null;
+			if (steps.Count == 0)
+				return false; //no step
 
-			var steps = this.steps;
 			var currentStepIndex = this.currentStepIndex;
 
-			if (currentStepIndex <= 0)
+			if (currentStepIndex < 0)
 				return false; //no more step
 
 			this.currentStepIndex = --currentStepIndex;
-			previousStep = steps[currentStepIndex];
+			return true;
+		}
+
+		private bool TrySeekNextStep()
+		{
+			var steps = this.steps;
+
+			if (steps.Count == 0)
+				return false; //no step
+
+			var currentStepIndex = this.currentStepIndex;
+			if (steps.Count <= currentStepIndex + 1)
+				return false; //no more step
+
+			this.currentStepIndex = ++currentStepIndex;
 			return true;
 		}
 	}

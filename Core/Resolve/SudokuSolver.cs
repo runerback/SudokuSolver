@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SudokuSolver.Core
 {
-	public class SudokuResolver
+	public class SudokuSolver
 	{
-		public SudokuResolver(Definition.Sudoku sudoku)
+		public SudokuSolver(Definition.Sudoku sudoku)
 		{
 			if (sudoku == null)
 				throw new ArgumentNullException("sudoku");
@@ -22,7 +22,7 @@ namespace SudokuSolver.Core
 			this.completionState = new Observers.CompletionStateObserver(sudoku);
 
 			this.oneSeatInNinePartern = new Pattern.OneSeatInNine(sudoku);
-			this.oneSeatInGridLinePatern = new Pattern.OneSeatInGridLine(sudoku);
+			//this.oneSeatInGridLinePatern = new Pattern.OneSeatInGridLine(sudoku);
 			this.allSearInGridLinePatern = new Pattern.AllSeatInGridLine(sudoku);
 		}
 
@@ -33,7 +33,7 @@ namespace SudokuSolver.Core
 		#region Parterns
 
 		private Pattern.OneSeatInNine oneSeatInNinePartern;
-		private Pattern.OneSeatInGridLine oneSeatInGridLinePatern;
+		//private Pattern.OneSeatInGridLine oneSeatInGridLinePatern;
 		private Pattern.AllSeatInGridLine allSearInGridLinePatern;
 
 		#endregion Parterns
@@ -45,9 +45,9 @@ namespace SudokuSolver.Core
 			if (this.completionState.IsCompleted)
 				return true;
 
-			this.oneSeatInGridLinePatern.Fill();
-			if (this.completionState.IsCompleted)
-				return true;
+			//this.oneSeatInGridLinePatern.Fill();
+			//if (this.completionState.IsCompleted)
+			//	return true;
 
 			this.allSearInGridLinePatern.Fill();
 			if (this.completionState.IsCompleted)

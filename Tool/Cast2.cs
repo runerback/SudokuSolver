@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Extension
+namespace SudokuSolver
 {
-	public static partial class SudokuSolverExtension
+	public static partial class SudokuSolverEnumerable
 	{
 		public static IEnumerable<int> Cast2(this IEnumerable<Definition.Element> source)
 		{

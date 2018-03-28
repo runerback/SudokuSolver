@@ -58,7 +58,7 @@
     <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInNine.cs" />
     <Compile Include="Resolve\Pattern\SudokuSolverPartternBase.cs" />
-    <Compile Include="Resolve\SudokuResolver.cs" />
+    <Compile Include="Resolve\SudokuSolver.cs" />
     <Compile Include="Resolve\SudokuValidator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,13 +66,13 @@
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>SudokuSolver.Definition</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Extension\SudokuSolver.Extension.csproj">
-      <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
-      <Name>SudokuSolver.Extension</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
       <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
       <Name>MiscUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool\SudokuSolver.Tool.csproj">
+      <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
+      <Name>SudokuSolver.Tool</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
