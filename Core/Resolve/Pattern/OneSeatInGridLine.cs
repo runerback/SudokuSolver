@@ -55,14 +55,14 @@ namespace SudokuSolver.Core.Pattern
 			var currentGrid = gridLine.Grid;
 
 			Definition.Grid otherGrid1, otherGrid2;
-			GetOtherGrids(currentGrid, lineType, out otherGrid1, out otherGrid2);
+			currentGrid.GetOtherGrids(lineType, out otherGrid1, out otherGrid2);
 
 			int currentLineIndex = gridLine.Index;
 
-			var otherElementValues1 = GetElementsInOtherGridLine(otherGrid1, currentLineIndex, lineType)
+			var otherElementValues1 = otherGrid1.GetElementsInOtherGridLine(currentLineIndex, lineType)
 				.Values();
 
-			var otherElementValues2 = GetElementsInOtherGridLine(otherGrid2, currentLineIndex, lineType)
+			var otherElementValues2 = otherGrid2.GetElementsInOtherGridLine(currentLineIndex, lineType)
 				.Values();
 
 			var currentElementValues = currentGrid.Elements
@@ -75,124 +75,17 @@ namespace SudokuSolver.Core.Pattern
 			if (!exceptResult.Any())
 				return false; //no result
 
-			int value = -1;
-
 			//get value which appeared both
 			var bothOtherElementValues = otherElementValues1.Intersect(otherElementValues2);
 			var exactIntersectElementValues = bothOtherElementValues.Intersect(exceptResult);
-			foreach (var result in exactIntersectElementValues)
-			{
-				if (value < 0)
-				{
-					value = result;
-				}
-				else
-				{
-					return false; //cannot get only one result
-				}
-			}
 
+			int value = exactIntersectElementValues.SingleOrDefault(-1);
 			if (value > 0)
 			{
 				emptyElement.SetValue(value);
 				return true;
 			}
 			return false;
-		}
-
-		private void GetOtherGrids(Definition.Grid currentGrid, Definition.LineType gridLineType, out Definition.Grid otherGrid1, out Definition.Grid otherGrid2)
-		{
-			int currentLayer = -1;
-
-			switch (gridLineType)
-			{
-				case Definition.LineType.Row:
-					currentLayer = currentGrid.Index % 3;
-					break;
-				case Definition.LineType.Column:
-					currentLayer = currentGrid.Index / 3;
-					break;
-				default: throw new NotImplementedException();
-			}
-
-			switch (gridLineType)
-			{
-				case Definition.LineType.Row:
-					{
-						switch (currentLayer)
-						{
-							case 0:
-								{
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Right, out otherGrid1);
-									otherGrid1.TryGetAdjacentGrid(GridAdjacentDirection.Right, out otherGrid2);
-								}
-								break;
-							case 1:
-								{
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Left, out otherGrid1);
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Right, out otherGrid2);
-								}
-								break;
-							case 2:
-								{
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Left, out otherGrid2);
-									otherGrid2.TryGetAdjacentGrid(GridAdjacentDirection.Left, out otherGrid1);
-								}
-								break;
-							default: throw new NotImplementedException();
-						}
-
-					}
-					break;
-				case Definition.LineType.Column:
-					{
-						switch (currentLayer)
-						{
-							case 0:
-								{
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Down, out otherGrid1);
-									otherGrid1.TryGetAdjacentGrid(GridAdjacentDirection.Down, out otherGrid2);
-								}
-								break;
-							case 1:
-								{
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Up, out otherGrid1);
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Down, out otherGrid2);
-								}
-								break;
-							case 2:
-								{
-									currentGrid.TryGetAdjacentGrid(GridAdjacentDirection.Up, out otherGrid2);
-									otherGrid2.TryGetAdjacentGrid(GridAdjacentDirection.Up, out otherGrid1);
-								}
-								break;
-							default: throw new NotImplementedException();
-						}
-					}
-					break;
-				default: throw new NotImplementedException();
-			}
-		}
-
-		private IEnumerable<Definition.Element> GetElementsInOtherGridLine(Definition.Grid grid, int skipIndex, Definition.LineType type)
-		{
-			IEnumerable<Definition.GridLine> lines;
-			switch (type)
-			{
-				case Definition.LineType.Row:
-					lines = grid.Rows;
-					break;
-				case Definition.LineType.Column:
-					lines = grid.Columns;
-					break;
-				default: throw new NotImplementedException();
-			}
-			lines = lines
-				.Skip(skipIndex == 0 ? 1 : 0)
-				.Take(skipIndex == 1 ? 1 : 2);
-			if (skipIndex == 1)
-				lines = lines.Skip(1).Take(1);
-			return lines.SelectMany(item => item.Elements);
 		}
 
 		public override void Fill()

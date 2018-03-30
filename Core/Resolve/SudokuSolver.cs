@@ -26,28 +26,25 @@ namespace SudokuSolver.Core
 
 		private Observers.CompletionStateObserver completionState;
 
-		public bool TryResolve()
+		public bool TrySolve()
 		{
 			var sudoku = this.sudoku;
 
 			using (var oneSeatInNineParttern = new Pattern.OneSeatInNine(sudoku))
+			using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
+			using (var anySeatInGridPattern = new Pattern.AnySeatInGrid(sudoku))
 			{
-				oneSeatInNineParttern.Fill();
-				if (this.completionState.IsCompleted)
-					return true;
-
-				using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
+				var patterns = new Pattern.SudokuSolverPartternBase[]
 				{
-					oneSeatInGridLinePattern.Fill();
+					oneSeatInNineParttern, 
+					oneSeatInGridLinePattern, 
+					anySeatInGridPattern
+				};
+				foreach (var pattern in patterns)
+				{
+					pattern.Fill();
 					if (this.completionState.IsCompleted)
 						return true;
-
-					using (var anySeatInGridPattern = new Pattern.AnySeatInGrid(sudoku))
-					{
-						anySeatInGridPattern.Fill();
-						if (this.completionState.IsCompleted)
-							return true;
-					}
 				}
 			}
 

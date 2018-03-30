@@ -43,10 +43,10 @@
     <Compile Include="Enumerable\Cast2.cs" />
     <Compile Include="Enumerable\First.cs" />
     <Compile Include="Enumerable\Single.cs" />
-    <Compile Include="GridEnumerable.cs" />
+    <Compile Include="Enumerator\GridEnumerable.cs" />
     <Compile Include="GridHelper.cs" />
-    <Compile Include="GridLineEnumerable.cs" />
-    <Compile Include="SudokuBlockEnumerable.cs" />
+    <Compile Include="Enumerator\GridLineEnumerable.cs" />
+    <Compile Include="Enumerator\SudokuBlockEnumerable.cs" />
     <Compile Include="SudokuConsole.cs" />
     <Compile Include="Enumerable\Values.cs" />
   </ItemGroup>

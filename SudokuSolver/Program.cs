@@ -11,6 +11,8 @@ namespace SudokuSolver
 	{
 		static void Main(string[] args)
 		{
+			bool showGUI = true;
+
 			//create the only one instance of Sudoku
 			var sudoku = new Definition.Sudoku();
 
@@ -32,50 +34,46 @@ namespace SudokuSolver
 				0); //use fixed seed so each level match to only one sudoku
 
 			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new Core.DifficultLevel(32));
+			var playingSudoku = builder.Build(new Core.DifficultLevel(33)); //last: 32
 
 			SudokuConsole.Print(playingSudoku);
 
 			//show sudoku with GUI
-			var playerGUIController = GUI.SudokuPlayer.Show(sudoku, playingSudoku);
+			GUI.SudokuPlayerController playerGUIController = null;
+			if (showGUI) 
+				playerGUIController = GUI.SudokuPlayer.Show(sudoku, playingSudoku);
 
-			var resolver = new Core.SudokuSolver(playingSudoku);
+			var solver = new Core.SudokuSolver(playingSudoku);
 
 			DateTime beforeNow = DateTime.Now;
-			string resultInfo = resolver.TryResolve() ? 
+			bool solved = solver.TrySolve();
+			TimeSpan interval = DateTime.Now - beforeNow;
+
+			string resultInfo = solved ? 
 				"Solved" : 
 				"Cannot solve this sudoku with current knowledge";
-			Console.WriteLine("{0} in {1:0} ms", resultInfo, (DateTime.Now - beforeNow).TotalMilliseconds);
+			Console.WriteLine("{0} in {1:0} ms", resultInfo, interval.TotalMilliseconds);
 
-			SudokuConsole.Print(playingSudoku);
+			bool reallySolved = solved && new Core.SudokuValidator().Valdiate(playingSudoku);
 
-			if (!new Core.SudokuValidator().Valdiate(playingSudoku))
-				Console.WriteLine("じゃないよ！");
-
-			Console.WriteLine("→ show next step");
-			Console.WriteLine("← show previous step");
-			Console.WriteLine(" ┙exit");
-
-			while (true)
+			if (!reallySolved)
 			{
-				var key = SudokuConsole.GetKey();
-
-				if (key == ConsoleKey.Enter)
-					break;
-
-				if (key == ConsoleKey.LeftArrow)
+				if (solved)
 				{
-					if (!playerGUIController.ShowPreviousStep())
-						Console.WriteLine("No more steps");
+					Console.WriteLine("じゃないよ！");
 				}
-				else if (key == ConsoleKey.RightArrow)
-				{
-					if (!playerGUIController.ShowNextStep())
-						Console.WriteLine("No more steps");
-				}
+				SudokuConsole.Print(playingSudoku);
 			}
 
-			playerGUIController.Close();
+			if (showGUI)
+			{
+				ShowGUI(playerGUIController);
+			}
+			else
+			{
+				Console.WriteLine("press Enter to exit");
+				SudokuConsole.WaitLine();
+			}
 			return;
 
 			CollectSudokuSeeds(sudoku);
@@ -131,6 +129,33 @@ namespace SudokuSolver
 				cts.Cancel();
 				Console.ReadLine();
 			}
+		}
+
+		private static void ShowGUI(GUI.SudokuPlayerController controller)
+		{
+			Console.WriteLine("→ show next step");
+			Console.WriteLine("← show previous step");
+			Console.WriteLine(" ┙exit");
+
+			while (true)
+			{
+				var key = SudokuConsole.GetKey();
+
+				if (key == ConsoleKey.Enter)
+					break;
+
+				if (key == ConsoleKey.LeftArrow)
+				{
+					if (!controller.ShowPreviousStep())
+						Console.WriteLine("No more steps");
+				}
+				else if (key == ConsoleKey.RightArrow)
+				{
+					if (!controller.ShowNextStep())
+						Console.WriteLine("No more steps");
+				}
+			}
+			controller.Close();
 		}
 	}
 }
