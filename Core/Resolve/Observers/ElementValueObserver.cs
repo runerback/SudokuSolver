@@ -13,6 +13,7 @@ namespace SudokuSolver.Core.Observers
 				throw new ArgumentNullException("elementCluster");
 			this.elementCluster = elementCluster;
 			this.seatMode = seatMode;
+			this.observingSeatsCount = (int)seatMode;
 
 			var uncompletedElements = elementCluster.Elements.Where(item => !item.HasValue);
 
@@ -29,7 +30,11 @@ namespace SudokuSolver.Core.Observers
 			}
 		}
 
-		private Definition.IElementCluster elementCluster;
+		private readonly Definition.IElementCluster elementCluster;
+		public Definition.IElementCluster ElementCluster
+		{
+			get { return elementCluster; }
+		}
 
 		private void onElementValueChanged(object sender, EventArgs e)
 		{
@@ -51,6 +56,8 @@ namespace SudokuSolver.Core.Observers
 		{
 			get { return this.seatMode; }
 		}
+
+		protected int observingSeatsCount;
 
 		private bool isIdel = false;
 		public bool IsIdle

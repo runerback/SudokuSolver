@@ -90,8 +90,10 @@ namespace SudokuSolver.Core.Pattern
 
 		public override void Fill()
 		{
-			foreach (var gridLine in new GridLineEnumerable(sudoku, Definition.LineType.Row)
-				.Concat(new GridLineEnumerable(sudoku, Definition.LineType.Column)))
+			IEnumerable<Definition.GridLine> gridLines = new GridLineEnumerable(sudoku, Definition.LineType.Row)
+				.Concat(new GridLineEnumerable(sudoku, Definition.LineType.Column));
+
+			foreach (var gridLine in gridLines)
 			{
 				fillOnlyOneElement(gridLine);
 			}

@@ -13,28 +13,18 @@ namespace SudokuSolver.Core.Observers
 			this.line = line;
 		}
 
-		private Definition.GridLine line;
+		private readonly Definition.GridLine line;
+		public Definition.GridLine Source
+		{
+			get { return line; }
+		}
 
 		protected override void onElementClusterValueChanged(object elementObj, int emptyElementsCount)
 		{
-			switch (this.SeatMode)
+			if (emptyElementsCount <= this.observingSeatsCount)
 			{
-				case Observers.SeatMode.One:
-					{
-						if (emptyElementsCount <= 1)
-						{
-							if (Updated != null)
-								Updated(this, new GridLineUpdatedEventArgs(this.line));
-						}
-					}
-					break;
-				case Observers.SeatMode.Any:
-					{
-						if (Updated != null)
-							Updated(this, new GridLineUpdatedEventArgs(this.line));
-					}
-					break;
-				default: throw new NotImplementedException();
+				if (Updated != null)
+					Updated(this, new GridLineUpdatedEventArgs(this.line));
 			}
 		}
 

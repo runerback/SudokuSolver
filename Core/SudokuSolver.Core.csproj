@@ -54,10 +54,11 @@
     <Compile Include="Resolve\Observers\ObserverBase.cs" />
     <Compile Include="Resolve\Observers\SeatMode.cs" />
     <Compile Include="Resolve\Observers\UpdatedEventArgs.cs" />
-    <Compile Include="Resolve\Pattern\AnySeatInGrid.cs" />
+    <Compile Include="Resolve\Pattern\AnySeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInNine.cs" />
     <Compile Include="Resolve\Pattern\SudokuSolverPartternBase.cs" />
+    <Compile Include="Resolve\Pattern\TwoSeatsInLine.cs" />
     <Compile Include="Resolve\SudokuSolver.cs" />
     <Compile Include="Resolve\SudokuValidator.cs" />
   </ItemGroup>

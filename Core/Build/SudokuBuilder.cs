@@ -18,7 +18,11 @@ namespace SudokuSolver.Core
 
 		private Random rnd;
 
-		private Definition.Sudoku source;
+		private readonly Definition.Sudoku source;
+		public Definition.Sudoku Source
+		{
+			get { return source; }
+		}
 
 		private const int TOTAL = 81;
 		private const int BLOCK_LEN = 9;
@@ -46,16 +50,28 @@ namespace SudokuSolver.Core
 
 			int level = difficultLevel.Level;
 
-			Definition.Sudoku targetSudoku = this.source;
+			Definition.Sudoku targetSudoku = this.source.Copy();
+
+			int seatsCount = 0;
 
 			for (int i = 0; i < level; i++)
 			{
-				Definition.Element element;
-				while ((element = GetNextElement(targetSudoku)).HasValue)
+				while (true)
 				{
-					element.ClearValue();
-					break;
+					var element = GetNextElement(targetSudoku);
+					if (element.HasValue)
+					{
+						element.ClearValue();
+						seatsCount++;
+						break;
+					}
 				}
+			}
+
+			if (seatsCount != level)
+			{
+				throw new Exception(
+					string.Format("Expected:\t{0} seats\r\nActually:\t{1} seats", level, seatsCount));
 			}
 
 			return targetSudoku;

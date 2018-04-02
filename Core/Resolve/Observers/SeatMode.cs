@@ -10,11 +10,16 @@ namespace SudokuSolver.Core.Observers
 		/// <summary>
 		/// only one seat
 		/// </summary>
-		One,
+		One = 1,
+
+		/// <summary>
+		/// only two seats
+		/// </summary>
+		Two = 2,
 
 		/// <summary>
 		/// any seat
 		/// </summary>
-		Any
+		All = 9
 	}
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.Core
 {
-	public class SudokuSolver
+	public class SudokuSolver : IDisposable
 	{
 		public SudokuSolver(Definition.Sudoku sudoku)
 		{
@@ -29,26 +29,63 @@ namespace SudokuSolver.Core
 		public bool TrySolve()
 		{
 			var sudoku = this.sudoku;
+			var completionState = this.completionState;
 
-			using (var oneSeatInNineParttern = new Pattern.OneSeatInNine(sudoku))
-			using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
-			using (var anySeatInGridPattern = new Pattern.AnySeatInGrid(sudoku))
+			int lastSeatsRemainder = 81;
+			while (true)
 			{
-				var patterns = new Pattern.SudokuSolverPartternBase[]
+				using (var oneSeatInNineParttern = new Pattern.OneSeatInNine(sudoku))
+				using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
+				using (var anySeatInGridLinePattern = new Pattern.AnySeatInGridLine(sudoku))
+				{
+					var patterns = new Pattern.SudokuSolverPartternBase[]
 				{
 					oneSeatInNineParttern, 
 					oneSeatInGridLinePattern, 
-					anySeatInGridPattern
+					anySeatInGridLinePattern
 				};
-				foreach (var pattern in patterns)
-				{
-					pattern.Fill();
-					if (this.completionState.IsCompleted)
-						return true;
+					foreach (var pattern in patterns)
+					{
+						pattern.Fill();
+						if (completionState.IsCompleted)
+							return true;
+					}
 				}
+
+				int currentSeatsRemainder = completionState.SeatsRemainder();
+				if (currentSeatsRemainder != lastSeatsRemainder)
+					lastSeatsRemainder = currentSeatsRemainder;
+				else
+					break;
 			}
 
 			return false;
 		}
+
+		#region IDisposable
+
+		private bool disposed;
+
+		private void Dispose(bool disposing)
+		{
+			if (disposed)
+				return;
+
+			if (disposing)
+			{
+				this.completionState.Dispose();
+			}
+
+			this.disposed = true;
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		#endregion IDisposable
+
 	}
 }

@@ -13,7 +13,7 @@ namespace SudokuSolver.Core.Pattern
 				throw new ArgumentNullException("sudoku");
 			this.sudoku = sudoku;
 
-			this.observers = registerObservers(sudoku);
+			this.observers = registerObservers(sudoku).ToArray();
 		}
 
 		protected readonly Definition.Sudoku sudoku;

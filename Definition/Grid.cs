@@ -115,6 +115,11 @@ namespace SudokuSolver.Definition
 			get { return this.index; }
 		}
 
+		public override int GetHashCode()
+		{
+			return index.GetHashCode();
+		}
+
 		public override string ToString()
 		{
 			return string.Join("\r\n", rows.AsEnumerable());

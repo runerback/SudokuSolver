@@ -137,7 +137,7 @@ namespace SudokuSolver.Definition
 
 		public override int GetHashCode()
 		{
-			return value.GetHashCode();
+			return gridIndex.GetHashCode() ^ elementIndex.GetHashCode();
 		}
 
 		public override string ToString()
