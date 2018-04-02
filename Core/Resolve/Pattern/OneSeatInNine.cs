@@ -103,6 +103,10 @@ namespace SudokuSolver.Core.Pattern
 
 		#endregion Fill
 
-		
+		private const int index = 0;
+		public override int Index
+		{
+			get { return index; }
+		}
 	}
 }

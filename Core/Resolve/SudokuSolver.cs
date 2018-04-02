@@ -40,13 +40,13 @@ namespace SudokuSolver.Core
 				using (var twoSeatsInLinePattern = new Pattern.TwoSeatsInLine(sudoku))
 				{
 					var patterns = new Pattern.SudokuSolverPartternBase[]
-				{
-					oneSeatInNineParttern, 
-					oneSeatInGridLinePattern, 
-					anySeatInGridLinePattern,
-					twoSeatsInLinePattern
-				};
-					foreach (var pattern in patterns)
+					{
+						oneSeatInNineParttern, 
+						oneSeatInGridLinePattern, 
+						anySeatInGridLinePattern,
+						twoSeatsInLinePattern
+					};
+					foreach (var pattern in patterns.OrderBy(item => item.Index))
 					{
 						pattern.Fill();
 						if (completionState.IsCompleted)

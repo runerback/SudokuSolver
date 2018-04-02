@@ -128,6 +128,12 @@ namespace SudokuSolver.Core.Pattern
 			}
 		}
 
+		private const int index = 2;
+		public override int Index
+		{
+			get { return index; }
+		}
+
 		private class NextEmptyElementInGridHelper
 		{
 			private readonly object mapLock = new object();

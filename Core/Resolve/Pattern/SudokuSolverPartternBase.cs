@@ -23,6 +23,11 @@ namespace SudokuSolver.Core.Pattern
 
 		public abstract void Fill();
 
+		/// <summary>
+		/// how basic of this pattern. 0 means most basic.
+		/// </summary>
+		public abstract int Index { get; }
+
 		#region IDisposable
 
 		private bool disposed;

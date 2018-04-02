@@ -152,5 +152,11 @@ namespace SudokuSolver.Core.Pattern
 				fillOnlyTwoElement(line);
 			}
 		}
+
+		private const int index = 3;
+		public override int Index
+		{
+			get { return index; }
+		}
 	}
 }

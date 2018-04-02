@@ -101,5 +101,10 @@ namespace SudokuSolver.Core.Pattern
 			}
 		}
 
+		private const int index = 1;
+		public override int Index
+		{
+			get { return index; }
+		}
 	}
 }
