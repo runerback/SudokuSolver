@@ -18,28 +18,33 @@ namespace SudokuSolver.Core.Pattern
 
 		protected override IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku)
 		{
-			var gridObservers = sudoku.Grids
-				.Select(item => new Observers.GridObserver(item, Observers.SeatMode.One))
-				.Where(item => !item.IsIdle)
-				.ToArray();
-			foreach (var gridObserver in gridObservers)
+			foreach (var gridObserver in sudoku.Grids
+				.Select(item => new Observers.GridObserver(item, Observers.SeatMode.One)))
 			{
-				gridObserver.Updated += onGridUpdated;
+				if (gridObserver.IsIdle)
+				{
+					gridObserver.Dispose();
+				}
+				else
+				{
+					gridObserver.Updated += onGridUpdated;
+					yield return gridObserver;
+				}
 			}
 
-			var lineObservers = sudoku.Rows.Concat(sudoku.Columns)
-				.Select(item => new Observers.OneSeatLineObserver(item, Observers.SeatMode.One))
-				.Where(item => !item.IsIdle)
-				.ToArray();
-			foreach (var rowObserver in lineObservers)
+			foreach (var lineObserver in sudoku.Rows.Concat(sudoku.Columns)
+				.Select(item => new Observers.LineObserver(item, Observers.SeatMode.One)))
 			{
-				rowObserver.Updated += onLineUpdated;
+				if (lineObserver.IsIdle)
+				{
+					lineObserver.Dispose();
+				}
+				else
+				{
+					lineObserver.Updated += onLineUpdated;
+					yield return lineObserver;
+				}
 			}
-
-			return gridObservers
-				.Cast<Observers.ObserverBase>()
-				.Concat(lineObservers)
-				.ToArray();
 		}
 
 		private void onGridUpdated(object sender, Observers.GridUpdatedEventArgs e)
@@ -51,7 +56,7 @@ namespace SudokuSolver.Core.Pattern
 		private void onLineUpdated(object sender, Observers.LineUpdatedEventArgs e)
 		{
 			if (fillOnlyOneElement(e.Line.Elements))
-				((Observers.OneSeatLineObserver)sender).Updated -= onLineUpdated;
+				((Observers.LineObserver)sender).Updated -= onLineUpdated;
 		}
 
 		#endregion Block observers

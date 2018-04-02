@@ -37,12 +37,14 @@ namespace SudokuSolver.Core
 				using (var oneSeatInNineParttern = new Pattern.OneSeatInNine(sudoku))
 				using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
 				using (var anySeatInGridLinePattern = new Pattern.AnySeatInGridLine(sudoku))
+				using (var twoSeatsInLinePattern = new Pattern.TwoSeatsInLine(sudoku))
 				{
 					var patterns = new Pattern.SudokuSolverPartternBase[]
 				{
 					oneSeatInNineParttern, 
 					oneSeatInGridLinePattern, 
-					anySeatInGridLinePattern
+					anySeatInGridLinePattern,
+					twoSeatsInLinePattern
 				};
 					foreach (var pattern in patterns)
 					{

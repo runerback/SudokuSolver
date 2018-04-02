@@ -138,10 +138,10 @@ namespace SudokuSolver
 		}
 
 		/// <param name="skipIndex">line index to skip</param>
-		public static IEnumerable<Definition.Element> GetElementsInOtherGridLine(this Definition.Grid sourceGrid, int skipIndex, Definition.LineType type)
+		public static IEnumerable<Definition.Element> GetElementsInOtherGridLine(this Definition.Grid sourceGrid, int skipIndex, Definition.LineType lineType)
 		{
 			IEnumerable<Definition.GridLine> lines;
-			switch (type)
+			switch (lineType)
 			{
 				case Definition.LineType.Row:
 					lines = sourceGrid.Rows;
@@ -162,6 +162,23 @@ namespace SudokuSolver
 					}
 				}
 			}
+		}
+
+		public static IEnumerable<Definition.Element> GetElementsInCurrentGridLine(this Definition.Grid sourceGrid, int layerIndex, Definition.LineType lineType)
+		{
+			IEnumerable<Definition.GridLine> lines;
+			switch (lineType)
+			{
+				case Definition.LineType.Row:
+					lines = sourceGrid.Rows;
+					break;
+				case Definition.LineType.Column:
+					lines = sourceGrid.Columns;
+					break;
+				default: throw new NotImplementedException();
+			}
+
+			return lines.Skip(layerIndex).First().Elements;
 		}
 	}
 

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	internal sealed class OneSeatLineObserver : ElementValueObserver
+	internal sealed class LineObserver : ElementValueObserver
 	{
-		public OneSeatLineObserver(Definition.Line line, SeatMode seatMode)
+		public LineObserver(Definition.Line line, SeatMode seatMode)
 			: base(line, seatMode)
 		{
 			this.line = line;

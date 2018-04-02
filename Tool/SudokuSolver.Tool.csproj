@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SudokuSolver</RootNamespace>
-    <AssemblyName>SudokuSolver.Tools</AssemblyName>
+    <AssemblyName>SudokuSolver.Tool</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,11 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeTimeChecker.cs" />
     <Compile Include="Enumerable\All.cs" />
     <Compile Include="Enumerable\Cast2.cs" />
+    <Compile Include="Enumerable\Except.cs" />
     <Compile Include="Enumerable\First.cs" />
     <Compile Include="Enumerable\Single.cs" />
+    <Compile Include="Enumerable\OnlyTwo.cs" />
     <Compile Include="Enumerator\GridEnumerable.cs" />
+    <Compile Include="Enumerator\LineEnumerable.cs" />
     <Compile Include="GridHelper.cs" />
     <Compile Include="Enumerator\GridLineEnumerable.cs" />
     <Compile Include="Enumerator\SudokuBlockEnumerable.cs" />

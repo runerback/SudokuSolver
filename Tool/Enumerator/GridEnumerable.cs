@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver
 {
-	public class GridEnumerable : IEnumerable<Definition.Grid>
+	public sealed class GridEnumerable : IEnumerable<Definition.Grid>
 	{
 		public GridEnumerable(Definition.Sudoku sudoku)
 		{
@@ -23,7 +23,7 @@ namespace SudokuSolver
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return this.sudoku.Grids.AsEnumerable().GetEnumerator();
+			return ((IEnumerable<Definition.Grid>)this).GetEnumerator();
 		}
 	}
 }

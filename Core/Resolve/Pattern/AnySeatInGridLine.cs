@@ -13,10 +13,8 @@ namespace SudokuSolver.Core.Pattern
 
 		protected override IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku)
 		{
-			var observers = new GridEnumerable(sudoku)
-				.Select(item => new Observers.GridObserver(item, Observers.SeatMode.All));
-
-			foreach (var gridLineObserver in observers)
+			foreach (var gridLineObserver in new GridEnumerable(sudoku)
+				.Select(item => new Observers.GridObserver(item, Observers.SeatMode.All)))
 			{
 				if (gridLineObserver.IsIdle)
 				{
@@ -43,6 +41,7 @@ namespace SudokuSolver.Core.Pattern
 
 		private bool fillAnyOneElement(Definition.Grid grid)
 		{
+			/*
 			//get any empty element in grid
 			//this should be: get next empty element in grid
 			Definition.Element emptyElement;// = grid.Elements.FirstOrDefault(item => !item.HasValue);
@@ -51,6 +50,16 @@ namespace SudokuSolver.Core.Pattern
 				return false;
 
 			return fillAnyEmptyElement(grid, emptyElement);
+			*/
+
+			bool filled = false;
+			Definition.Element emptyElement;
+			while (emptyElementHelper.NextEmptyElement(grid, out emptyElement))
+			{
+				if (fillAnyEmptyElement(grid, emptyElement) && !filled)
+					filled = true;
+			}
+			return filled;
 		}
 
 		private bool fillAnyEmptyElement(Definition.Grid grid, Definition.Element emptyElement)
@@ -113,33 +122,9 @@ namespace SudokuSolver.Core.Pattern
 
 		public override void Fill()
 		{
-			var emptyElementHelper = this.emptyElementHelper;
-			var enumerable = new GridEnumerable(sudoku);
-			bool notFilledHappend = false;
-			while (true)
+			foreach (var grid in new GridEnumerable(this.sudoku))
 			{
-				bool filled = false;
-				foreach (var grid in enumerable)
-				{
-					Definition.Element emptyElement;
-					if (emptyElementHelper.NextEmptyElement(grid, out emptyElement))
-					{
-						if (fillAnyEmptyElement(grid, emptyElement) && !filled)
-							filled = true;
-					}
-				}
-
-				if (!filled)
-				{
-					if (!notFilledHappend)
-						notFilledHappend = true;
-					else
-						break;
-				}
-				else
-				{
-					this.emptyElementHelper.ResetAllFinished();
-				}
+				fillAnyOneElement(grid);
 			}
 		}
 

@@ -35,7 +35,7 @@ namespace SudokuSolver
 
 			/*
 			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new Core.DifficultLevel(29)); //last: 35
+			var playingSudoku = builder.Build(new Core.DifficultLevel(29));
 
 			SudokuConsole.Print(playingSudoku);
 
@@ -86,7 +86,7 @@ namespace SudokuSolver
 			Console.Clear();
 
 			int startLevel = 100;
-			int lastLevel = 34;
+			int lastLevel = 42;
 			for (int i = startLevel; i < lastLevel; i++)
 			{
 				TrySolveSudoku(builder, i, showGUI);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SudokuSolver.Core;
 
 namespace SudokuSolver.Parterns.UnitTest
 {
@@ -103,7 +104,7 @@ namespace SudokuSolver.Parterns.UnitTest
 
 			Assert.IsFalse(sudoku.Grid4.Column1.Element1.HasValue);
 
-			new OneSeatInGridLine(sudoku).Fill();
+			//new OneSeatInGridLine(sudoku).Fill();
 
 			Assert.IsTrue(sudoku.Grid4.Column1.Element1.HasValue);
 

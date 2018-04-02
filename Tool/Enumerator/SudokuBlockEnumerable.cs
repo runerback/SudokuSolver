@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver
 {
-	public class SudokuBlockEnumerable : IEnumerable<IEnumerable<Definition.Element>>
+	public sealed class SudokuBlockEnumerable : IEnumerable<IEnumerable<Definition.Element>>
 	{
 		public SudokuBlockEnumerable(Definition.Sudoku sudoku)
 		{
@@ -39,7 +39,7 @@ namespace SudokuSolver
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return travelBlocks(this.sudoku).GetEnumerator();
+			return ((IEnumerable<IEnumerable<Definition.Element>>)this).GetEnumerator();
 		}
 	}
 }

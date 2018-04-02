@@ -13,18 +13,20 @@ namespace SudokuSolver.Core.Pattern
 
 		protected override IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku)
 		{
-			var observers = new GridLineEnumerable(sudoku, Definition.LineType.Row)
+			foreach (var gridLineObserver in new GridLineEnumerable(sudoku, Definition.LineType.Row)
 				.Concat(new GridLineEnumerable(sudoku, Definition.LineType.Column))
-				.Select(item => new Observers.GridLineObserver(item, Observers.SeatMode.One))
-				.Where(item => !item.IsIdle)
-				.ToArray();
-
-			foreach (var gridLineObserver in observers)
+				.Select(item => new Observers.GridLineObserver(item, Observers.SeatMode.One)))
 			{
-				gridLineObserver.Updated += onGridLineUpdated;
+				if (gridLineObserver.IsIdle)
+				{
+					gridLineObserver.Dispose();
+				}
+				else
+				{
+					gridLineObserver.Updated += onGridLineUpdated;
+					yield return gridLineObserver;
+				}
 			}
-
-			return observers;
 		}
 
 		private void onGridLineUpdated(object sender, Observers.GridLineUpdatedEventArgs e)

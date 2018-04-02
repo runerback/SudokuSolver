@@ -58,9 +58,14 @@
     <Compile Include="Parterns\OneSeatInGridLineTest.cs" />
     <Compile Include="SudokuSeedRecorderTest.cs" />
     <Compile Include="Parterns\OnlyOneSeatTest.cs" />
+    <Compile Include="SkipTest.cs" />
     <Compile Include="ValidationTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\SudokuSolver.Core.csproj">
+      <Project>{78c36b2b-5d1f-488f-af1f-c26552cdb857}</Project>
+      <Name>SudokuSolver.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>SudokuSolver.Definition</Name>

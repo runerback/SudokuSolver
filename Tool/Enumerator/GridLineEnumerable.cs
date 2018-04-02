@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver
 {
-	public class GridLineEnumerable : IEnumerable<Definition.GridLine>
+	public sealed class GridLineEnumerable : IEnumerable<Definition.GridLine>
 	{
 		public GridLineEnumerable(Definition.Sudoku sudoku, Definition.LineType lineType)
 		{
@@ -33,14 +33,7 @@ namespace SudokuSolver
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			switch (this.lineType)
-			{
-				case Definition.LineType.Row:
-					return TravelRow(this.sudoku).GetEnumerator();
-				case Definition.LineType.Column:
-					return TravelColumn(this.sudoku).GetEnumerator();
-				default: throw new NotImplementedException();
-			}
+			return ((IEnumerable<Definition.GridLine>)this).GetEnumerator();
 		}
 
 		private IEnumerable<Definition.GridLine> TravelRow(Definition.Sudoku sudoku)
