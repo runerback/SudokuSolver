@@ -25,13 +25,25 @@ namespace SudokuSolver.GUI.Model
 			if (sudoku == null)
 				throw new ArgumentNullException("sudoku");
 
-			var grids = this.grids;
-
-			foreach (var grid in sudoku.Grids)
+			using (var gridIterator = sudoku.Grids.AsEnumerable().GetEnumerator())
+			using (var thisGridIterator = this.Grids.AsEnumerable().GetEnumerator())
 			{
-				foreach (var element in grid.Elements)
+				while (gridIterator.MoveNext() & thisGridIterator.MoveNext())
 				{
-					grids[element.GridIndex].Elements[element.Index].Value = element.Value;
+					using(var elementIterator = gridIterator.Current.Elements.AsEnumerable().GetEnumerator())
+					using (var thisElementIterator = thisGridIterator.Current.Elements.AsEnumerable().GetEnumerator())
+					{
+						while (elementIterator.MoveNext() & thisElementIterator.MoveNext())
+						{
+							var element = elementIterator.Current;
+							var thisElement = thisElementIterator.Current;
+
+							if (element.HasValue)
+								thisElement.Value = element.Value;
+							else
+								thisElement.Value = null;
+						}
+					}
 				}
 			}
 		}

@@ -40,10 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeTimeChecker.cs" />
+    <Compile Include="Comparer\ElementValueComparer.cs" />
     <Compile Include="Enumerable\All.cs" />
     <Compile Include="Enumerable\Cast2.cs" />
+    <Compile Include="Enumerable\Count.cs" />
     <Compile Include="Enumerable\Except.cs" />
     <Compile Include="Enumerable\First.cs" />
+    <Compile Include="Enumerable\Intersect.cs" />
     <Compile Include="Enumerable\Single.cs" />
     <Compile Include="Enumerable\OnlyTwo.cs" />
     <Compile Include="Enumerator\GridEnumerable.cs" />

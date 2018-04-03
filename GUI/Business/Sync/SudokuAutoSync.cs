@@ -11,9 +11,9 @@ namespace SudokuSolver.GUI.Business
 			: base(defSudoku, sudoku)
 		{ }
 
-		protected override void onElementValueChanged(Model.Element element, int? newValue)
+		protected override void onElementValueChanged(Model.Element element, bool hasValue, int newValue)
 		{
-			element.Value = newValue;
+			element.Value = hasValue ? newValue : default(int?);
 		}
 	}
 }

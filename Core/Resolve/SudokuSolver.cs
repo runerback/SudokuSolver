@@ -38,13 +38,15 @@ namespace SudokuSolver.Core
 				using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
 				using (var anySeatInGridLinePattern = new Pattern.AnySeatInGridLine(sudoku))
 				using (var twoSeatsInLinePattern = new Pattern.TwoSeatsInLine(sudoku))
+				using (var exceptedSeatInGridByOther3Pattern = new Pattern.ExceptedSeatInGridByOther3(sudoku))
 				{
 					var patterns = new Pattern.SudokuSolverPartternBase[]
 					{
 						oneSeatInNineParttern, 
 						oneSeatInGridLinePattern, 
 						anySeatInGridLinePattern,
-						twoSeatsInLinePattern
+						twoSeatsInLinePattern,
+						exceptedSeatInGridByOther3Pattern
 					};
 					foreach (var pattern in patterns.OrderBy(item => item.Index))
 					{

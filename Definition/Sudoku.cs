@@ -290,7 +290,7 @@ namespace SudokuSolver.Definition
 
 					if (sourceElement.HasValue)
 					{
-						targetElement.SetValue(sourceElement.Value.Value);
+						targetElement.SetValue(sourceElement.Value);
 					}
 					else
 					{

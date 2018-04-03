@@ -55,6 +55,7 @@
     <Compile Include="Resolve\Observers\SeatMode.cs" />
     <Compile Include="Resolve\Observers\UpdatedEventArgs.cs" />
     <Compile Include="Resolve\Pattern\AnySeatInGridLine.cs" />
+    <Compile Include="Resolve\Pattern\ExceptedSeatInGridByOther3.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInNine.cs" />
     <Compile Include="Resolve\Pattern\SudokuSolverPartternBase.cs" />

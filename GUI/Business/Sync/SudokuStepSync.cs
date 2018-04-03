@@ -11,10 +11,11 @@ namespace SudokuSolver.GUI.Business
 			: base(defSudoku, sudoku)
 		{ }
 
-		protected override void onElementValueChanged(Model.Element element, int? newValue)
+		protected override void onElementValueChanged(Model.Element element, bool hasValue, int newValue)
 		{
 			if (NewStep != null)
-				NewStep(this, new SudokuNewStepEventArgs(new SudokuSolveStep(element, newValue)));
+				NewStep(this, new SudokuNewStepEventArgs(
+					new SudokuSolveStep(element, hasValue ? newValue : default(int?))));
 		}
 
 		public event EventHandler<SudokuNewStepEventArgs> NewStep;

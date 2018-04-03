@@ -13,7 +13,21 @@ namespace SudokuSolver
 				throw new ArgumentNullException("source");
 			return source
 				.Where(item => item.HasValue)
-				.Select(item => item.Value.Value);
+				.Select(item => item.Value);
+		}
+
+		public static IEnumerable<Definition.Element> Valued(this IEnumerable<Definition.Element> source)
+		{
+			if (source == null)
+				throw new ArgumentNullException("source");
+			return source.Where(item => item.HasValue);
+		}
+
+		public static IEnumerable<Definition.Element> NotValued(this IEnumerable<Definition.Element> source)
+		{
+			if (source == null)
+				throw new ArgumentNullException("source");
+			return source.Where(item => !item.HasValue);
 		}
 	}
 }

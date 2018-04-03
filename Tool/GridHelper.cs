@@ -65,18 +65,7 @@ namespace SudokuSolver
 
 		public static void GetOtherGrids(this Definition.Grid sourceGrid, Definition.LineType gridLineType, out Definition.Grid otherGrid1, out Definition.Grid otherGrid2)
 		{
-			int currentLayer = -1;
-
-			switch (gridLineType)
-			{
-				case Definition.LineType.Row:
-					currentLayer = sourceGrid.Index % 3;
-					break;
-				case Definition.LineType.Column:
-					currentLayer = sourceGrid.Index / 3;
-					break;
-				default: throw new NotImplementedException();
-			}
+			int currentLayer = GetLayerWithOppositeLineType(sourceGrid.Index, gridLineType);
 
 			switch (gridLineType)
 			{
@@ -179,6 +168,33 @@ namespace SudokuSolver
 			}
 
 			return lines.Skip(layerIndex).First().Elements;
+		}
+
+		private static int GetLayerWithOppositeLineType(int index, Definition.LineType oppositeLineType)
+		{
+			switch (oppositeLineType)
+			{
+				case Definition.LineType.Row: return index % 3;
+				case Definition.LineType.Column: return index / 3;
+				default: throw new NotImplementedException();
+			}
+		}
+
+		public static int GetLayer(int index, Definition.LineType lineType)
+		{
+			switch (lineType)
+			{
+				case Definition.LineType.Row: return index / 3;
+				case Definition.LineType.Column: return index % 3;
+				default: throw new NotImplementedException();
+			}
+		}
+
+		public static Definition.LineType GetLineType(int index1, int index2)
+		{
+			if (index1 == index2)
+				throw new InvalidOperationException("same index");
+			return (index1 - index2) % 3 == 0 ? Definition.LineType.Column : Definition.LineType.Row;
 		}
 	}
 

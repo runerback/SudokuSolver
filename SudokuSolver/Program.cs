@@ -86,7 +86,7 @@ namespace SudokuSolver
 			Console.Clear();
 
 			int startLevel = 100;
-			int lastLevel = 42;
+			int lastLevel = 43;
 			for (int i = startLevel; i < lastLevel; i++)
 			{
 				TrySolveSudoku(builder, i, showGUI);

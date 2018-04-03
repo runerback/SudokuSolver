@@ -9,7 +9,7 @@ namespace SudokuSolver.Definition
 	{
 		public Element(int gridIndex, int elementIndex)
 		{
-			this.value = null;
+			this.seat = null;
 			this.gridIndex = gridIndex;
 			this.elementIndex = elementIndex;
 		}
@@ -33,23 +33,27 @@ namespace SudokuSolver.Definition
 			return null;
 		}
 
-		private int? value;
-		public int? Value
+		/// <summary>
+		/// element value holder
+		/// </summary>
+		private int? seat;
+
+		public int Value
 		{
-			get { return this.value; }
+			get { return seat.GetValueOrDefault(); }
 		}
 
 		public bool HasValue
 		{
-			get { return this.value.HasValue; }
+			get { return this.seat.HasValue; }
 		}
 
 		public void SetValue(int value)
 		{
 			var checkedValue = check(value);
-			if (checkedValue != this.value)
+			if (checkedValue != this.seat)
 			{
-				this.value = checkedValue;
+				this.seat = checkedValue;
 
 				if (ValueChanged != null)
 					ValueChanged(this, EventArgs.Empty);
@@ -58,7 +62,7 @@ namespace SudokuSolver.Definition
 
 		public void ClearValue()
 		{
-			this.value = null;
+			this.seat = null;
 
 			if (ValueChanged != null)
 				ValueChanged(this, EventArgs.Empty);
@@ -95,7 +99,7 @@ namespace SudokuSolver.Definition
 
 		public static implicit operator int(Element number)
 		{
-			return number.value.GetValueOrDefault();
+			return number.seat.GetValueOrDefault();
 		}
 
 		public int CompareTo(Element other)
@@ -106,7 +110,7 @@ namespace SudokuSolver.Definition
 				{
 					return 1;
 				}
-				return value.Value.CompareTo(other.value.Value);
+				return seat.Value.CompareTo(other.seat.Value);
 			}
 			else
 			{
@@ -120,12 +124,12 @@ namespace SudokuSolver.Definition
 		{
 			if (other == null)
 				return false;
-			return value.Equals(other.value);
+			return seat.Equals(other.seat);
 		}
 
 		public bool Equals(int other)
 		{
-			return this.value == other;
+			return this.seat == other;
 		}
 
 		public override bool Equals(object obj)
@@ -142,7 +146,7 @@ namespace SudokuSolver.Definition
 
 		public override string ToString()
 		{
-			return value.HasValue ? value.ToString() : "_";
+			return seat.HasValue ? seat.ToString() : "_";
 		}
 	}
 }

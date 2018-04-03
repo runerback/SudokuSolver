@@ -33,10 +33,10 @@ namespace SudokuSolver.GUI.Business
 		{
 			var defElement = (Definition.Element)sender;
 			var element = this.sudoku.Grids[defElement.GridIndex].Elements[defElement.Index];
-			onElementValueChanged(element, defElement.Value);
+			onElementValueChanged(element, defElement.HasValue, defElement.Value);
 		}
 
-		protected abstract void onElementValueChanged(Model.Element element, int? newValue);
+		protected abstract void onElementValueChanged(Model.Element element, bool hasValue, int newValue);
 
 		#region IDisposable
 
