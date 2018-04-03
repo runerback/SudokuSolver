@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SudokuSolver.Core
+namespace SudokuSolver
 {
 	public sealed class CompletedSudokuBuilderSeedRecorder : IDisposable
 	{
@@ -102,7 +102,7 @@ namespace SudokuSolver.Core
 		{
 			while (!disposing)
 			{
-				int nextValue;
+				int nextValue = -1;
 				while (this.cache.TryTake(out nextValue))
 				{
 					recordMethod(nextValue);

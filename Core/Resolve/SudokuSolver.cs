@@ -11,14 +11,10 @@ namespace SudokuSolver.Core
 		{
 			if (sudoku == null)
 				throw new ArgumentNullException("sudoku");
-			this.sudoku = sudoku;
-
 			if (!new SudokuValidator().Valdiate(sudoku))
-			{
-				Console.WriteLine("Invalid Sudoku. Duplicated element found");
-				return;
-			}
+				throw new ArgumentException("Invalid Sudoku. Duplicated element found");
 
+			this.sudoku = sudoku;
 			this.completionState = new Observers.CompletionStateObserver(sudoku);
 		}
 
@@ -65,65 +61,31 @@ namespace SudokuSolver.Core
 
 			
 			//still not solved, use branch
-			bool solvedInBranch = false;
-			//foreach (var branchSolver in CreateBinaryBranch(sudoku))
+			Definition.Sudoku completedSudoku = null;
+			if (trySolveInBranch(out completedSudoku))
+			{
+				sudoku.UpdateByValued(completedSudoku);
+				return true;
+			}
+			return false;
+		}
+
+		private bool trySolveInBranch(out Definition.Sudoku completedSudoku)
+		{
 			foreach (var branchSolver in new SudokuSolveBranch(sudoku))
 			{
 				using (branchSolver)
 				{
 					if (branchSolver.TrySolve())
 					{
-						this.sudoku.UpdateByValued(branchSolver.sudoku);
-						solvedInBranch = true;
-						break;
+						completedSudoku = branchSolver.sudoku;
+						return true;
 					}
 				}
 			}
 
-			if (solvedInBranch)
-				return true;
-			
+			completedSudoku = null;
 			return false;
-		}
-
-		private IEnumerable<SudokuSolver> CreateBinaryBranch(Definition.Sudoku currentSudoku)
-		{
-			//find one Grid with seats from 2 to 9
-			var branchBasedGrid = currentSudoku.Grids
-				.FirstOrDefault(item => item.Elements.SeatCount() == 2); 
-			if (branchBasedGrid == null)
-				yield break;
-
-			int branchBasedGridIndex = branchBasedGrid.Index;
-			int branchBasedElementIndex = branchBasedGrid.Elements
-				.NotValued()
-				.Select(item => item.Index)
-				.First();
-
-			var remainderValues = branchBasedGrid.Elements.Values().SudokuExcept();
-			int remainderValue1, remainderValue2;
-			using (var remainderValueIterator = remainderValues.GetEnumerator())
-			{
-				remainderValueIterator.MoveNext();
-				remainderValue1 = remainderValueIterator.Current;
-				remainderValueIterator.MoveNext();
-				remainderValue2 = remainderValueIterator.Current;
-			}
-
-			var branch1Sudoku = currentSudoku.Copy();
-			branch1Sudoku
-				.Grids[branchBasedGridIndex]
-				.Elements[branchBasedElementIndex]
-				.SetValue(remainderValue1);
-
-			var branch2Sudoku = currentSudoku.Copy();
-			branch2Sudoku
-				.Grids[branchBasedGridIndex]
-				.Elements[branchBasedElementIndex]
-				.SetValue(remainderValue2);
-
-			yield return new SudokuSolver(branch1Sudoku);
-			yield return new SudokuSolver(branch2Sudoku);
 		}
 
 		#region IDisposable

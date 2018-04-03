@@ -86,7 +86,7 @@ namespace SudokuSolver
 			Console.Clear();
 
 			int startLevel = 100;
-			int lastLevel = 49;
+			int lastLevel = 54;
 			for (int i = startLevel; i < lastLevel; i++)
 			{
 				TrySolveSudoku(builder, i, showGUI);
@@ -117,7 +117,7 @@ namespace SudokuSolver
 			Task.Factory.StartNew(() =>
 			{
 				DateTime start = DateTime.Now;
-				using (var recorder = Core.CompletedSudokuBuilderSeedRecorder.Instance)
+				using (var recorder = CompletedSudokuBuilderSeedRecorder.Instance)
 				{
 					int lastRecord =
 						//-1666453861;

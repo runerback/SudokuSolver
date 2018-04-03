@@ -39,7 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeTimeChecker.cs" />
+    <Compile Include="CompletedSudokuBuilderSeedRecorder.cs" />
+    <Compile Include="Others\CodeTimeChecker.cs" />
     <Compile Include="Comparer\ElementValueComparer.cs" />
     <Compile Include="Enumerable\All.cs" />
     <Compile Include="Enumerable\Cast2.cs" />
@@ -56,7 +57,7 @@
     <Compile Include="Enumerator\GridLineEnumerable.cs" />
     <Compile Include="Enumerator\SudokuBlockEnumerable.cs" />
     <Compile Include="Enumerator\HeapFullPermutationEnumerable.cs" />
-    <Compile Include="SudokuConsole.cs" />
+    <Compile Include="Others\SudokuConsole.cs" />
     <Compile Include="Enumerable\Values.cs" />
     <Compile Include="Helper\SudokuHelper.cs" />
   </ItemGroup>
@@ -64,6 +65,10 @@
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>SudokuSolver.Definition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
+      <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
+      <Name>MiscUtil</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

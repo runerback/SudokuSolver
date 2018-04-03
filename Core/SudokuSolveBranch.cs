@@ -16,6 +16,17 @@ namespace SudokuSolver.Core
 
 		private Definition.Sudoku sourceSudoku;
 
+		/*
+		9 means 362880
+		8 means 40320
+		7 means 5040
+		6 means 720
+		5 means 120
+		4 means 24
+		3 means 6
+		*/
+		private const int SEAT_UPPER_BOUND = 4;
+
 		private bool tryFindBranchBasedGrid(Definition.Sudoku sudoku, int seatCount, out IEnumerable<Definition.Element> branchBasedElements)
 		{
 			if (seatCount < 2 || seatCount > 9)
@@ -30,17 +41,7 @@ namespace SudokuSolver.Core
 		{
 			int seatCount = -1;
 			IEnumerable<Definition.Element> branchBasedElements = null;
-			/*
-			9 means 362880
-			8 means 40320
-			7 means 5040
-			6 means 720
-			5 means 120
-			4 means 24
-			3 means 6
-			so set upper bound to 3, or the whole tree will be enormous
-			*/
-			for (int i = 2; i <= 3; i++)
+			for (int i = 2; i <= SEAT_UPPER_BOUND; i++)
 			{
 				if (tryFindBranchBasedGrid(sudoku, i, out branchBasedElements))
 				{
@@ -70,10 +71,12 @@ namespace SudokuSolver.Core
 					while (valueIterator.MoveNext() && elementIterator.MoveNext())
 					{
 						elementIterator.Current.SetValue(valueIterator.Current);
+						//solve in each step
+
+						if (new SudokuValidator().Valdiate(branchSudoku))
+							yield return new SudokuSolver(branchSudoku.Copy());
 					}
 				}
-
-				yield return new SudokuSolver(branchSudoku);
 			}
 		}
 

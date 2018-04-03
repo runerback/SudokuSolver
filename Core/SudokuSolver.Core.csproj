@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Build\CompletedSudokuBuilder.cs" />
-    <Compile Include="Build\CompletedSudokuBuilderSeedRecorder.cs" />
     <Compile Include="Build\DifficultLevel.cs" />
     <Compile Include="Build\SudokuBuilder.cs" />
     <Compile Include="Resolve\Observers\CompletionStateObserver.cs" />
