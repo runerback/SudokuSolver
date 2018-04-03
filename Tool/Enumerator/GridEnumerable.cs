@@ -16,14 +16,14 @@ namespace SudokuSolver
 
 		private Definition.Sudoku sudoku;
 
-		IEnumerator<Definition.Grid> IEnumerable<Definition.Grid>.GetEnumerator()
+		public IEnumerator<Definition.Grid> GetEnumerator()
 		{
 			return this.sudoku.Grids.AsEnumerable().GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<Definition.Grid>)this).GetEnumerator();
+			return this.GetEnumerator();
 		}
 	}
 }

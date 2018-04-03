@@ -16,7 +16,7 @@ namespace SudokuSolver
 
 		private Definition.Sudoku sudoku;
 
-		private IEnumerable<IEnumerable<Definition.Element>> travelBlocks(Definition.Sudoku sudoku)
+		private IEnumerable<IEnumerable<Definition.Element>> Iterator(Definition.Sudoku sudoku)
 		{
 			foreach (var grid in sudoku.Grids)
 			{
@@ -32,14 +32,14 @@ namespace SudokuSolver
 			}
 		}
 
-		IEnumerator<IEnumerable<Definition.Element>> IEnumerable<IEnumerable<Definition.Element>>.GetEnumerator()
+		public IEnumerator<IEnumerable<Definition.Element>> GetEnumerator()
 		{
-			return travelBlocks(this.sudoku).GetEnumerator();
+			return Iterator(this.sudoku).GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<IEnumerable<Definition.Element>>)this).GetEnumerator();
+			return this.GetEnumerator();
 		}
 	}
 }

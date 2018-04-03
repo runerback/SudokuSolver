@@ -19,17 +19,17 @@ namespace SudokuSolver
 		private Definition.Sudoku sudoku;
 		private Definition.LineType lineType;
 
-		IEnumerator<Definition.Line> IEnumerable<Definition.Line>.GetEnumerator()
+		public IEnumerator<Definition.Line> GetEnumerator()
 		{
-			return Travel(this.sudoku, this.lineType).GetEnumerator();
+			return Iterator(this.sudoku, this.lineType).GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<Definition.Line>)this).GetEnumerator();
+			return this.GetEnumerator();
 		}
 
-		private IEnumerable<Definition.Line> Travel(Definition.Sudoku sudoku, Definition.LineType lineType)
+		private IEnumerable<Definition.Line> Iterator(Definition.Sudoku sudoku, Definition.LineType lineType)
 		{
 			switch (this.lineType)
 			{

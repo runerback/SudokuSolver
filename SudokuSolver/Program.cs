@@ -11,7 +11,7 @@ namespace SudokuSolver
 	{
 		static void Main(string[] args)
 		{
-			bool showGUI = false;
+			bool showGUI = false; //turned on will make solve time wrong (more longer)
 
 			//create the only one instance of Sudoku
 			var sudoku = new Definition.Sudoku();
@@ -86,7 +86,7 @@ namespace SudokuSolver
 			Console.Clear();
 
 			int startLevel = 100;
-			int lastLevel = 43;
+			int lastLevel = 47;
 			for (int i = startLevel; i < lastLevel; i++)
 			{
 				TrySolveSudoku(builder, i, showGUI);

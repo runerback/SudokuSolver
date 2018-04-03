@@ -51,11 +51,13 @@
     <Compile Include="Enumerable\OnlyTwo.cs" />
     <Compile Include="Enumerator\GridEnumerable.cs" />
     <Compile Include="Enumerator\LineEnumerable.cs" />
-    <Compile Include="GridHelper.cs" />
+    <Compile Include="Enumerator\SudokuElementEnumerable.cs" />
+    <Compile Include="Helper\GridHelper.cs" />
     <Compile Include="Enumerator\GridLineEnumerable.cs" />
     <Compile Include="Enumerator\SudokuBlockEnumerable.cs" />
     <Compile Include="SudokuConsole.cs" />
     <Compile Include="Enumerable\Values.cs" />
+    <Compile Include="Helper\SudokuHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">

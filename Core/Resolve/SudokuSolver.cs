@@ -63,7 +63,66 @@ namespace SudokuSolver.Core
 					break;
 			}
 
+			
+			//still not solved, use branch
+			bool solvedInBranch = false;
+			foreach (var branchSolver in CreateBinaryBranch(sudoku))
+			{
+				using (branchSolver)
+				{
+					if (branchSolver.TrySolve())
+					{
+						this.sudoku.UpdateByValued(branchSolver.sudoku);
+						solvedInBranch = true;
+						break;
+					}
+				}
+			}
+
+			if (solvedInBranch)
+				return true;
+			
 			return false;
+		}
+
+		private IEnumerable<SudokuSolver> CreateBinaryBranch(Definition.Sudoku currentSudoku)
+		{
+			//find one Grid with only two seats
+			var branchBasedGrid = currentSudoku.Grids
+				.FirstOrDefault(item => item.Elements.SeatCount() == 2);
+			if (branchBasedGrid == null)
+				yield break;
+
+			int branchBasedGridIndex = branchBasedGrid.Index;
+			int branchBasedElementIndex = branchBasedGrid.Elements
+				.NotValued()
+				.Select(item => item.Index)
+				.First();
+
+			var remainderValues = branchBasedGrid.Elements.Values().SudokuExcept();
+			int remainderValue1, remainderValue2;
+			using (var remainderValueIterator = remainderValues.GetEnumerator())
+			{
+				remainderValueIterator.MoveNext();
+				remainderValue1 = remainderValueIterator.Current;
+				remainderValueIterator.MoveNext();
+				remainderValue2 = remainderValueIterator.Current;
+			}
+
+			var branch1Sudoku = currentSudoku.Copy();
+			branch1Sudoku
+				.Grids[branchBasedGridIndex]
+				.Elements[branchBasedElementIndex]
+				.SetValue(remainderValue1);
+
+			var branch2Sudoku = currentSudoku.Copy();
+			branch2Sudoku
+				.Grids[branchBasedGridIndex]
+				.Elements[branchBasedElementIndex]
+				.SetValue(remainderValue2);
+
+			yield return new SudokuSolver(branch1Sudoku);
+			yield return new SudokuSolver(branch2Sudoku);
 		}
 
 		#region IDisposable

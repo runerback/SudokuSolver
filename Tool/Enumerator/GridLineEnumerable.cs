@@ -19,7 +19,7 @@ namespace SudokuSolver
 		private Definition.Sudoku sudoku;
 		private Definition.LineType lineType;
 
-		IEnumerator<Definition.GridLine> IEnumerable<Definition.GridLine>.GetEnumerator()
+		public IEnumerator<Definition.GridLine> GetEnumerator()
 		{
 			switch (this.lineType)
 			{
@@ -33,7 +33,7 @@ namespace SudokuSolver
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable<Definition.GridLine>)this).GetEnumerator();
+			return this.GetEnumerator();
 		}
 
 		private IEnumerable<Definition.GridLine> TravelRow(Definition.Sudoku sudoku)
