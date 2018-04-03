@@ -66,7 +66,8 @@ namespace SudokuSolver.Core
 			
 			//still not solved, use branch
 			bool solvedInBranch = false;
-			foreach (var branchSolver in CreateBinaryBranch(sudoku))
+			//foreach (var branchSolver in CreateBinaryBranch(sudoku))
+			foreach (var branchSolver in new SudokuSolveBranch(sudoku))
 			{
 				using (branchSolver)
 				{
@@ -87,9 +88,9 @@ namespace SudokuSolver.Core
 
 		private IEnumerable<SudokuSolver> CreateBinaryBranch(Definition.Sudoku currentSudoku)
 		{
-			//find one Grid with only two seats
+			//find one Grid with seats from 2 to 9
 			var branchBasedGrid = currentSudoku.Grids
-				.FirstOrDefault(item => item.Elements.SeatCount() == 2);
+				.FirstOrDefault(item => item.Elements.SeatCount() == 2); 
 			if (branchBasedGrid == null)
 				yield break;
 

@@ -62,6 +62,7 @@
     <Compile Include="Resolve\Pattern\TwoSeatsInLine.cs" />
     <Compile Include="Resolve\SudokuSolver.cs" />
     <Compile Include="Resolve\SudokuValidator.cs" />
+    <Compile Include="SudokuSolveBranch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">

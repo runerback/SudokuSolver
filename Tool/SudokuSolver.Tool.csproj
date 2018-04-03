@@ -55,6 +55,7 @@
     <Compile Include="Helper\GridHelper.cs" />
     <Compile Include="Enumerator\GridLineEnumerable.cs" />
     <Compile Include="Enumerator\SudokuBlockEnumerable.cs" />
+    <Compile Include="Enumerator\HeapFullPermutationEnumerable.cs" />
     <Compile Include="SudokuConsole.cs" />
     <Compile Include="Enumerable\Values.cs" />
     <Compile Include="Helper\SudokuHelper.cs" />

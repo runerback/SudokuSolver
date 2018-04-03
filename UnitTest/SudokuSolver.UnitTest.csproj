@@ -59,6 +59,8 @@
     <Compile Include="SudokuSeedRecorderTest.cs" />
     <Compile Include="Parterns\OnlyOneSeatTest.cs" />
     <Compile Include="SkipTest.cs" />
+    <Compile Include="SwapTest.cs" />
+    <Compile Include="HeapFullPermutationTest.cs" />
     <Compile Include="ValidationTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +75,10 @@
     <ProjectReference Include="..\SudokuSolver\SudokuSolver.csproj">
       <Project>{32762862-2541-4f88-ae7a-659ce7df331f}</Project>
       <Name>SudokuSolver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool\SudokuSolver.Tool.csproj">
+      <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
+      <Name>SudokuSolver.Tool</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
