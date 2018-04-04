@@ -9,11 +9,7 @@ namespace SudokuSolver
 	{
 		bool IEqualityComparer<Definition.Element>.Equals(Definition.Element x, Definition.Element y)
 		{
-			if (x == null) return y == null;
-			if (y == null) return false;
-			if (x.HasValue != y.HasValue) return false;
-			if (!x.HasValue) return true;
-			return x.Value == y.Value;
+			return x == null ? y == null : x.Equals(y);
 		}
 
 		int IEqualityComparer<Definition.Element>.GetHashCode(Definition.Element obj)

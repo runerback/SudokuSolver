@@ -18,17 +18,9 @@ namespace SudokuSolver
 
 		private IEnumerable<IEnumerable<Definition.Element>> Iterator(Definition.Sudoku sudoku)
 		{
-			foreach (var grid in sudoku.Grids)
+			foreach (var cluster in new ElementClusterEnumerable(sudoku))
 			{
-				yield return grid.Elements;
-			}
-			foreach (var row in sudoku.Rows)
-			{
-				yield return row.Elements;
-			}
-			foreach (var column in sudoku.Columns)
-			{
-				yield return column.Elements;
+				yield return cluster.Elements;
 			}
 		}
 

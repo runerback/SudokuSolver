@@ -14,12 +14,19 @@ namespace SudokuSolver.Core.Pattern
 			this.sudoku = sudoku;
 
 			this.observers = registerObservers(sudoku).ToArray();
+			this.validator = new SudokuValidator(sudoku);
 		}
 
 		protected readonly Definition.Sudoku sudoku;
 		private IEnumerable<Observers.ObserverBase> observers;
+		private SudokuValidator validator;
 
 		protected abstract IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku);
+
+		public bool HasFailed
+		{
+			get { return this.validator.HasFailed; }
+		}
 
 		public abstract void Fill();
 
@@ -44,6 +51,7 @@ namespace SudokuSolver.Core.Pattern
 					observer.Dispose();
 				}
 				this.observers = null;
+				this.validator.Dispose();
 			}
 
 			this.disposed = true;

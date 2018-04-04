@@ -52,7 +52,7 @@
     <Compile Include="Resolve\Observers\LineUpdatedEventArgs.cs" />
     <Compile Include="Resolve\Observers\ObserverBase.cs" />
     <Compile Include="Resolve\Observers\SeatMode.cs" />
-    <Compile Include="Resolve\Observers\UpdatedEventArgs.cs" />
+    <Compile Include="Resolve\Observers\ElementClusterUpdatedEventArgs.cs" />
     <Compile Include="Resolve\Pattern\AnySeatInGridLine.cs" />
     <Compile Include="Resolve\Pattern\ExceptedSeatInGridByOther3.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
@@ -61,7 +61,7 @@
     <Compile Include="Resolve\Pattern\TwoSeatsInLine.cs" />
     <Compile Include="Resolve\SudokuSolver.cs" />
     <Compile Include="Resolve\SudokuValidator.cs" />
-    <Compile Include="SudokuSolveBranch.cs" />
+    <Compile Include="Resolve\SudokuSolveBranch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">

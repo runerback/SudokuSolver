@@ -24,7 +24,7 @@ namespace SudokuSolver.UnitTest
 				}
 			}
 
-			Assert.IsFalse(new SudokuValidator().Valdiate(sudoku));
+			Assert.IsFalse(sudoku.Valdiate());
 		}
 
 		[TestMethod]
@@ -34,7 +34,7 @@ namespace SudokuSolver.UnitTest
 				.Select(item => new Definition.Element(0, item))
 				.ToArray();
 			elements[7].SetValue(1);
-			Assert.IsTrue(new SudokuValidator().ValidateElements(elements));
+			Assert.IsTrue(elements.Validate());
 		}
 
 		[TestMethod]
@@ -48,7 +48,7 @@ namespace SudokuSolver.UnitTest
 			elements[4].SetValue(3);
 			elements[7].SetValue(1);
 			elements[8].SetValue(5);
-			Assert.IsFalse(new SudokuValidator().ValidateElements(elements));
+			Assert.IsFalse(elements.Validate());
 		}
 	}
 }

@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace SudokuSolver.GUI
 {
-	public class WindowDragGizmo : ContentControl
+	internal sealed class WindowDragGizmo : ContentControl
 	{
 		public Window Window
 		{

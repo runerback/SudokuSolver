@@ -41,17 +41,6 @@ namespace SudokuSolver.Core.Pattern
 
 		private bool fillAnyOneElement(Definition.Grid grid)
 		{
-			/*
-			//get any empty element in grid
-			//this should be: get next empty element in grid
-			Definition.Element emptyElement;// = grid.Elements.FirstOrDefault(item => !item.HasValue);
-			//if (emptyElement == null)
-			if (!emptyElementHelper.NextEmptyElement(grid, out emptyElement)) //got problem here
-				return false;
-
-			return fillAnyEmptyElement(grid, emptyElement);
-			*/
-
 			bool filled = false;
 			Definition.Element emptyElement;
 			while (emptyElementHelper.NextEmptyElement(grid, out emptyElement))
@@ -125,6 +114,9 @@ namespace SudokuSolver.Core.Pattern
 			foreach (var grid in new GridEnumerable(this.sudoku))
 			{
 				fillAnyOneElement(grid);
+
+				if (HasFailed)
+					break;
 			}
 		}
 

@@ -68,6 +68,9 @@ namespace SudokuSolver.Core.Pattern
 			foreach (var elements in new SudokuBlockEnumerable(sudoku))
 			{
 				fillOnlyOneElement(elements);
+
+				if (HasFailed)
+					break;
 			}
 		}
 

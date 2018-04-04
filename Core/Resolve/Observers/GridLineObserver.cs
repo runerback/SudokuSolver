@@ -29,5 +29,18 @@ namespace SudokuSolver.Core.Observers
 		}
 
 		public event EventHandler<GridLineUpdatedEventArgs> Updated;
+
+		protected override void Disposing()
+		{
+			base.Disposing();
+
+			if (this.Updated != null)
+			{
+				foreach (EventHandler<GridLineUpdatedEventArgs> handler in this.Updated.GetInvocationList())
+				{
+					this.Updated -= handler;
+				}
+			}
+		}
 	}
 }

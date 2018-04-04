@@ -14,7 +14,6 @@ namespace SudokuSolver.Core.Pattern
 
 		protected override IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku)
 		{
-
 			foreach (var lineObserver in sudoku.Rows.Concat(sudoku.Columns)
 				.Select(item => new Observers.LineObserver(item, Observers.SeatMode.Two)))
 			{
@@ -150,6 +149,9 @@ namespace SudokuSolver.Core.Pattern
 				.Concat(new LineEnumerable(this.sudoku, Definition.LineType.Column)))
 			{
 				fillOnlyTwoElement(line);
+
+				if (HasFailed)
+					break;
 			}
 		}
 

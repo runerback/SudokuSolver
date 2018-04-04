@@ -6,8 +6,8 @@ namespace SudokuSolver.UnitTest
 	[TestClass]
 	public class SudokuSeedRecorderTest
 	{
-		private readonly Core.CompletedSudokuBuilderSeedRecorder recorder =
-			Core.CompletedSudokuBuilderSeedRecorder.Instance;
+		private readonly CompletedSudokuBuilderSeedRecorder recorder =
+			CompletedSudokuBuilderSeedRecorder.Instance;
 
 		[TestInitialize]
 		public void Initialize()

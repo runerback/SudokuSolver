@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace SudokuSolver.GUI
 {
-	public class ElementPresenter : Control
+	internal sealed class ElementPresenter : Control
 	{
 		#region BorderMargin
 

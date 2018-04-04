@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.GUI.Model
 {
-	public sealed class Grid
+	internal sealed class Grid
 	{
 		public Grid(int gridIndex)
 		{

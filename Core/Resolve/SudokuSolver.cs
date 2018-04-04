@@ -11,7 +11,7 @@ namespace SudokuSolver.Core
 		{
 			if (sudoku == null)
 				throw new ArgumentNullException("sudoku");
-			if (!new SudokuValidator().Valdiate(sudoku))
+			if (!sudoku.Valdiate())
 				throw new ArgumentException("Invalid Sudoku. Duplicated element found");
 
 			this.sudoku = sudoku;
@@ -19,7 +19,6 @@ namespace SudokuSolver.Core
 		}
 
 		private Definition.Sudoku sudoku;
-
 		private Observers.CompletionStateObserver completionState;
 
 		public bool TrySolve()
@@ -47,6 +46,8 @@ namespace SudokuSolver.Core
 					foreach (var pattern in patterns.OrderBy(item => item.Index))
 					{
 						pattern.Fill();
+						if (pattern.HasFailed)
+							return false;
 						if (completionState.IsCompleted)
 							return true;
 					}
@@ -59,7 +60,6 @@ namespace SudokuSolver.Core
 					break;
 			}
 
-			
 			//still not solved, use branch
 			Definition.Sudoku completedSudoku = null;
 			if (trySolveInBranch(out completedSudoku))

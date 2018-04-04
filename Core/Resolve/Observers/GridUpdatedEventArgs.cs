@@ -5,10 +5,10 @@ using System.Text;
 
 namespace SudokuSolver.Core.Observers
 {
-	internal sealed class GridUpdatedEventArgs : UpdatedEventArgs
+	internal sealed class GridUpdatedEventArgs : ElementClusterUpdatedEventArgs
 	{
 		public GridUpdatedEventArgs(Definition.Grid grid)
-			: base(grid.Index)
+			: base(grid.Index, grid)
 		{
 			this.grid = grid;
 		}

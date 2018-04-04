@@ -25,9 +25,9 @@ namespace SudokuSolver.Core
 		4 means 24
 		3 means 6
 		*/
-		private const int SEAT_UPPER_BOUND = 4;
+		private const int SEAT_UPPER_BOUND = 3;
 
-		private bool tryFindBranchBasedGrid(Definition.Sudoku sudoku, int seatCount, out IEnumerable<Definition.Element> branchBasedElements)
+		private bool tryFindBranchBasedElements(Definition.Sudoku sudoku, int seatCount, out IEnumerable<Definition.Element> branchBasedElements)
 		{
 			if (seatCount < 2 || seatCount > 9)
 				throw new ArgumentOutOfRangeException("seatCount. Between 2 and 9");
@@ -37,13 +37,13 @@ namespace SudokuSolver.Core
 			return branchBasedElements != null;
 		}
 
-		private IEnumerable<SudokuSolver> SudokuIterator(Definition.Sudoku sudoku)
+		private IEnumerable<SudokuSolver> BranchSolverIterator(Definition.Sudoku sudoku)
 		{
 			int seatCount = -1;
 			IEnumerable<Definition.Element> branchBasedElements = null;
 			for (int i = 2; i <= SEAT_UPPER_BOUND; i++)
 			{
-				if (tryFindBranchBasedGrid(sudoku, i, out branchBasedElements))
+				if (tryFindBranchBasedElements(sudoku, i, out branchBasedElements))
 				{
 					seatCount = i;
 					break;
@@ -65,17 +65,21 @@ namespace SudokuSolver.Core
 				var branchElements = branchBasedEmptyElements
 					.Select(item => branchSudoku.Grids[item.GridIndex].Elements[item.Index]);
 
-				using(var valueIterator = values.GetEnumerator())
-				using (var elementIterator = branchElements.GetEnumerator())
+				using (var validator = new SudokuValidator(branchSudoku))
 				{
-					while (valueIterator.MoveNext() && elementIterator.MoveNext())
+					using (var valueIterator = values.GetEnumerator())
+					using (var elementIterator = branchElements.GetEnumerator())
 					{
-						elementIterator.Current.SetValue(valueIterator.Current);
-						//solve in each step
+						while (valueIterator.MoveNext() && elementIterator.MoveNext())
+						{
+							elementIterator.Current.SetValue(valueIterator.Current);
 
-						if (new SudokuValidator().Valdiate(branchSudoku))
-							yield return new SudokuSolver(branchSudoku.Copy());
+							if (validator.HasFailed) break;
+						}
 					}
+
+					if (!validator.HasFailed)
+						yield return new SudokuSolver(branchSudoku);
 				}
 			}
 		}
@@ -84,7 +88,7 @@ namespace SudokuSolver.Core
 
 		public IEnumerator<SudokuSolver> GetEnumerator()
 		{
-			return this.SudokuIterator(this.sourceSudoku).GetEnumerator();
+			return this.BranchSolverIterator(this.sourceSudoku).GetEnumerator();
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()

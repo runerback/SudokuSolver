@@ -73,6 +73,9 @@ namespace SudokuSolver.Core.Pattern
 			foreach (var grid in this.sudoku.Grids)
 			{
 				searchAndFill(grid);
+
+				if (HasFailed)
+					break;
 			}
 		}
 

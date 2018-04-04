@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SudokuSolver.GUI
 {
-	public class ViewModelBase : INotifyPropertyChanged
+	internal class ViewModelBase : INotifyPropertyChanged
 	{
 		protected ViewModelBase() { }
 

@@ -31,62 +31,14 @@ namespace SudokuSolver
 
 			var builder = new Core.SudokuBuilder(sudoku.Copy(),
 				//DateTime.Now.Millisecond);
-				0); //use fixed seed so each level match to only one sudoku
-
-			/*
-			//create a Soduku to play from completed Sudoku with difficult level
-			var playingSudoku = builder.Build(new Core.DifficultLevel(29));
-
-			SudokuConsole.Print(playingSudoku);
-
-			Console.WriteLine();
-
-			//show sudoku with GUI
-			GUI.SudokuPlayerController playerGUIController = null;
-			if (showGUI) 
-				playerGUIController = GUI.SudokuPlayer.Show(sudoku, playingSudoku);
-
-			var solver = new Core.SudokuSolver(playingSudoku);
-
-			DateTime beforeNow = DateTime.Now;
-			bool solved = solver.TrySolve();
-			TimeSpan interval = DateTime.Now - beforeNow;
-
-			string resultInfo = solved ? 
-				"Solved" : 
-				"Cannot solve this sudoku with current knowledge";
-			Console.WriteLine("{0} in {1:0} ms", resultInfo, interval.TotalMilliseconds);
-
-			bool reallySolved = solved && new Core.SudokuValidator().Valdiate(playingSudoku);
-
-			if (!reallySolved)
-			{
-				if (solved)
-				{
-					Console.WriteLine("じゃないよ！");
-				}
-				SudokuConsole.Print(playingSudoku);
-			}
-
-			Console.WriteLine();
-
-			if (showGUI)
-			{
-				ShowGUI(playerGUIController);
-			}
-			else
-			{
-				Console.WriteLine("press Enter to exit");
-				SudokuConsole.WaitLine();
-			}
-			*/
+				0); //use fixed seed so each level build same sudoku
 
 			Console.WriteLine("press Enter to start");
 			SudokuConsole.WaitLine();
 			Console.Clear();
 
 			int startLevel = 100;
-			int lastLevel = 54;
+			int lastLevel = 53; //last: 52, solved in a different way after 42 seats
 			for (int i = startLevel; i < lastLevel; i++)
 			{
 				TrySolveSudoku(builder, i, showGUI);
@@ -160,6 +112,8 @@ namespace SudokuSolver
 
 		private static void TrySolveSudoku(Core.SudokuBuilder builder, int level, bool showGUI)
 		{
+			var originSudoku = builder.Source;
+
 			//create a Soduku to play from completed Sudoku with difficult level
 			var playingSudoku = builder.Build(new Core.DifficultLevel(level)); //last: 35
 
@@ -170,7 +124,7 @@ namespace SudokuSolver
 			//show sudoku with GUI
 			GUI.SudokuPlayerController playerGUIController = null;
 			if (showGUI)
-				playerGUIController = GUI.SudokuPlayer.Show(builder.Source, playingSudoku);
+				playerGUIController = new GUI.SudokuPlayerController(originSudoku, playingSudoku);
 
 			bool solved;
 			TimeSpan interval;
@@ -189,10 +143,10 @@ namespace SudokuSolver
 			if (!solved)
 			{
 				Console.WriteLine("{0} seats remainder",
-					playingSudoku.Grids.SelectMany(grid => grid.Elements).Count(element => !element.HasValue));
+					new SudokuElementEnumerable(playingSudoku).SeatCount());
 			}
 
-			bool reallySolved = solved && new Core.SudokuValidator().Valdiate(playingSudoku);
+			bool reallySolved = solved && playingSudoku.Valdiate();
 
 			if (!reallySolved)
 			{
@@ -202,15 +156,23 @@ namespace SudokuSolver
 				}
 				SudokuConsole.Print(playingSudoku);
 			}
+			else
+			{
+				if (!originSudoku.ValueEquals(playingSudoku))
+				{
+					Console.WriteLine("in a different way");
+				}
+			}
 
 			Console.WriteLine();
 
 			if (showGUI)
 			{
-				ShowGUI(playerGUIController);
+				playerGUIController.Show();
 			}
 		}
 
+		/*
 		private static void ShowGUI(GUI.SudokuPlayerController controller)
 		{
 			Console.WriteLine("--------------GUI Control----------------");
@@ -218,6 +180,8 @@ namespace SudokuSolver
 			Console.WriteLine("|	← show previous step		|");
 			Console.WriteLine("|	 ┙exit				|");
 			Console.WriteLine("-----------------------------------------");
+
+			controller.Show();
 
 			while (true)
 			{
@@ -239,5 +203,6 @@ namespace SudokuSolver
 			}
 			controller.Close();
 		}
+		*/
 	}
 }

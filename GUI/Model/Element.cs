@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.GUI.Model
 {
-	public sealed class Element : ViewModelBase
+	internal sealed class Element : ViewModelBase
 	{
 		public Element(int index)
 		{

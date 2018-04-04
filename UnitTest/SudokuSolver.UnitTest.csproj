@@ -35,10 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,7 +65,10 @@
     <Compile Include="SkipTest.cs" />
     <Compile Include="SwapTest.cs" />
     <Compile Include="HeapFullPermutationTest.cs" />
-    <Compile Include="ValidationTest.cs" />
+    <Compile Include="SudokuSolveTest.cs" />
+    <Compile Include="ValidationTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\SudokuSolver.Core.csproj">
@@ -71,6 +78,10 @@
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>SudokuSolver.Definition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GUI\SudokuSolver.GUI.csproj">
+      <Project>{02754b38-7b82-496f-a5a5-626d1ef37305}</Project>
+      <Name>SudokuSolver.GUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\SudokuSolver\SudokuSolver.csproj">
       <Project>{32762862-2541-4f88-ae7a-659ce7df331f}</Project>

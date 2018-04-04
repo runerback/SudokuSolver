@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace SudokuSolver.GUI
 {
-	public class SudokuPresenter : Control
+	internal sealed class SudokuPresenter : Control
 	{
 		#region Sudoku
 

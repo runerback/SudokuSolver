@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SudokuSolver.GUI.Model
 {
-	public class Sudoku
+	internal sealed class Sudoku
 	{
 		public Sudoku()
 		{
