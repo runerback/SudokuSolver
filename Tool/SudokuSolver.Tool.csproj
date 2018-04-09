@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompletedSudokuBuilderSeedRecorder.cs" />
     <Compile Include="Enumerator\ElementClusterEnumerable.cs" />
+    <Compile Include="Log\CompletedSudokuBuilderSeedRecorder.cs" />
     <Compile Include="Others\CodeTimeChecker.cs" />
     <Compile Include="Comparer\ElementValueComparer.cs" />
     <Compile Include="Enumerable\All.cs" />
@@ -58,6 +58,7 @@
     <Compile Include="Enumerator\GridLineEnumerable.cs" />
     <Compile Include="Enumerator\SudokuBlockEnumerable.cs" />
     <Compile Include="Enumerator\HeapFullPermutationEnumerable.cs" />
+    <Compile Include="Log\Log.cs" />
     <Compile Include="Others\SudokuConsole.cs" />
     <Compile Include="Enumerable\Values.cs" />
     <Compile Include="Helper\SudokuHelper.cs" />

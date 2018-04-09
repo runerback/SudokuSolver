@@ -72,7 +72,7 @@ namespace SudokuSolver.Core
 
 		private bool trySolveInBranch(out Definition.Sudoku completedSudoku)
 		{
-			foreach (var branchSolver in new SudokuSolveBranch(sudoku))
+			foreach (var branchSolver in new Branch.SudokuSolveBranch(sudoku))
 			{
 				using (branchSolver)
 				{

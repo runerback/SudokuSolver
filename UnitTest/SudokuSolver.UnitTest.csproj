@@ -35,13 +35,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
@@ -59,6 +64,7 @@
   <ItemGroup>
     <Compile Include="DefinitionTest.cs" />
     <Compile Include="LinqCastProblem.cs" />
+    <Compile Include="LogTest.cs" />
     <Compile Include="Parterns\OneSeatInGridLineTest.cs" />
     <Compile Include="SudokuSeedRecorderTest.cs" />
     <Compile Include="Parterns\OnlyOneSeatTest.cs" />
@@ -83,12 +89,16 @@
       <Project>{02754b38-7b82-496f-a5a5-626d1ef37305}</Project>
       <Name>SudokuSolver.GUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
+      <Project>{FDA5864E-8ECE-408B-98A5-68389D6C84F5}</Project>
+      <Name>MiscUtil</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SudokuSolver\SudokuSolver.csproj">
       <Project>{32762862-2541-4f88-ae7a-659ce7df331f}</Project>
       <Name>SudokuSolver</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tool\SudokuSolver.Tool.csproj">
-      <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
+      <Project>{59512996-B43B-47F1-B16D-6EE866588706}</Project>
       <Name>SudokuSolver.Tool</Name>
     </ProjectReference>
   </ItemGroup>

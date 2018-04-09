@@ -69,7 +69,7 @@ namespace SudokuSolver
 			Task.Factory.StartNew(() =>
 			{
 				DateTime start = DateTime.Now;
-				using (var recorder = CompletedSudokuBuilderSeedRecorder.Instance)
+				using (var recorder = new CompletedSudokuBuilderSeedRecorder())
 				{
 					int lastRecord =
 						//-1666453861;
@@ -87,7 +87,7 @@ namespace SudokuSolver
 						//Console.Write("\r{0}", i);
 						if (new Core.CompletedSudokuBuilder(i).Build(sudoku))
 						{
-							recorder.Add(i);
+							recorder.Add(i.ToString());
 						}
 					}
 				}

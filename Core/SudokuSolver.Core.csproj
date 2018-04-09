@@ -42,6 +42,9 @@
     <Compile Include="Build\CompletedSudokuBuilder.cs" />
     <Compile Include="Build\DifficultLevel.cs" />
     <Compile Include="Build\SudokuBuilder.cs" />
+    <Compile Include="Resolve\Branch\ElementSnapshot.cs" />
+    <Compile Include="Resolve\Branch\SolverBranchDescriptor.cs" />
+    <Compile Include="Resolve\Branch\SudokuSnapshot.cs" />
     <Compile Include="Resolve\Observers\CompletionStateObserver.cs" />
     <Compile Include="Resolve\Observers\ElementValueObserver.cs" />
     <Compile Include="Resolve\Observers\GridLineObserver.cs" />
@@ -61,7 +64,7 @@
     <Compile Include="Resolve\Pattern\TwoSeatsInLine.cs" />
     <Compile Include="Resolve\SudokuSolver.cs" />
     <Compile Include="Resolve\SudokuValidator.cs" />
-    <Compile Include="Resolve\SudokuSolveBranch.cs" />
+    <Compile Include="Resolve\Branch\SudokuSolveBranch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">

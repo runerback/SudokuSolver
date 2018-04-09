@@ -76,10 +76,6 @@
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>SudokuSolver.Definition</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tool\SudokuSolver.Tool.csproj">
-      <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
-      <Name>SudokuSolver.Tool</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Resource\ControlTemplates.xaml">

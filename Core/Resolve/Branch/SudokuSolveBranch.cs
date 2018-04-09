@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Core
+namespace SudokuSolver.Core.Branch
 {
 	internal sealed class SudokuSolveBranch : IEnumerable<SudokuSolver>
 	{
@@ -25,7 +25,7 @@ namespace SudokuSolver.Core
 		4 means 24
 		3 means 6
 		*/
-		private const int SEAT_UPPER_BOUND = 3;
+		private const int SEAT_UPPER_BOUND = 9;
 
 		private bool tryFindBranchBasedElements(Definition.Sudoku sudoku, int seatCount, out IEnumerable<Definition.Element> branchBasedElements)
 		{

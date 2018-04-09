@@ -7,7 +7,7 @@ namespace SudokuSolver.UnitTest
 	public class SudokuSeedRecorderTest
 	{
 		private readonly CompletedSudokuBuilderSeedRecorder recorder =
-			CompletedSudokuBuilderSeedRecorder.Instance;
+			new CompletedSudokuBuilderSeedRecorder();
 
 		[TestInitialize]
 		public void Initialize()
@@ -26,7 +26,7 @@ namespace SudokuSolver.UnitTest
 		{
 			for (int i = 0, j = int.MinValue; i < 1000; i++, j++)
 			{
-				recorder.Add(j);
+				recorder.Add(j.ToString());
 			}
 		}
 
@@ -35,6 +35,7 @@ namespace SudokuSolver.UnitTest
 		{
 			AddRecords();
 			int lastRecord = recorder.GetLastRecord();
+			Console.WriteLine(lastRecord);
 		}
 	}
 }
