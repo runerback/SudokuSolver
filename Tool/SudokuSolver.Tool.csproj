@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enumerator\ElementClusterEnumerable.cs" />
     <Compile Include="Log\CompletedSudokuBuilderSeedRecorder.cs" />
+    <Compile Include="Enumerator\ElementClusterEnumerable.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Others\CodeTimeChecker.cs" />
     <Compile Include="Comparer\ElementValueComparer.cs" />
