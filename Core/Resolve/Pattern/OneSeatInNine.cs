@@ -6,7 +6,7 @@ using System.Text;
 namespace SudokuSolver.Core.Pattern
 {
 	/// <summary>
-	/// only one element not filled, in Grid or Line
+	/// 0. only one element not filled, in Grid or sudoku Line
 	/// </summary>
 	internal sealed class OneSeatInNine : SudokuSolverPartternBase
 	{
@@ -67,9 +67,7 @@ namespace SudokuSolver.Core.Pattern
 		{
 			foreach (var elements in new SudokuBlockEnumerable(sudoku))
 			{
-				fillOnlyOneElement(elements);
-
-				if (HasFailed)
+				if (fillOnlyOneElement(elements) && HasFailed)
 					break;
 			}
 		}
@@ -99,6 +97,7 @@ namespace SudokuSolver.Core.Pattern
 					break;
 				value++;
 			}
+			filling(emptyElement, value);
 			emptyElement.SetValue(value);
 
 			return true;

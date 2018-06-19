@@ -42,9 +42,7 @@
     <Compile Include="Build\CompletedSudokuBuilder.cs" />
     <Compile Include="Build\DifficultLevel.cs" />
     <Compile Include="Build\SudokuBuilder.cs" />
-    <Compile Include="Resolve\Branch\ElementSnapshot.cs" />
-    <Compile Include="Resolve\Branch\SolverBranchDescriptor.cs" />
-    <Compile Include="Resolve\Branch\SudokuSnapshot.cs" />
+    <Compile Include="Build\SudokuLoader.cs" />
     <Compile Include="Resolve\Observers\CompletionStateObserver.cs" />
     <Compile Include="Resolve\Observers\ElementValueObserver.cs" />
     <Compile Include="Resolve\Observers\GridLineObserver.cs" />
@@ -57,8 +55,9 @@
     <Compile Include="Resolve\Observers\SeatMode.cs" />
     <Compile Include="Resolve\Observers\ElementClusterUpdatedEventArgs.cs" />
     <Compile Include="Resolve\Pattern\AnySeatInGridLine.cs" />
-    <Compile Include="Resolve\Pattern\ExceptedSeatInGridByOther3.cs" />
+    <Compile Include="Resolve\Pattern\AnySeatInGridLineType2.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInGridLine.cs" />
+    <Compile Include="Resolve\Pattern\OneSeatInGridLineType2.cs" />
     <Compile Include="Resolve\Pattern\OneSeatInNine.cs" />
     <Compile Include="Resolve\Pattern\SudokuSolverPartternBase.cs" />
     <Compile Include="Resolve\Pattern\TwoSeatsInLine.cs" />
@@ -67,17 +66,17 @@
     <Compile Include="Resolve\Branch\SudokuSolveBranch.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
+    <ProjectReference Include="..\Definition\Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
-      <Name>SudokuSolver.Definition</Name>
+      <Name>Definition</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
       <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
       <Name>MiscUtil</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tool\SudokuSolver.Tool.csproj">
+    <ProjectReference Include="..\Tool\Tool.csproj">
       <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
-      <Name>SudokuSolver.Tool</Name>
+      <Name>Tool</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

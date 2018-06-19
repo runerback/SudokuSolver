@@ -21,12 +21,15 @@ namespace SudokuSolver
 
 		public IEnumerator<Definition.GridLine> GetEnumerator()
 		{
+			var sudoku = this.sudoku;
 			switch (this.lineType)
 			{
 				case Definition.LineType.Row:
-					return TravelRow(this.sudoku).GetEnumerator();
+					return TravelRow(sudoku).GetEnumerator();
 				case Definition.LineType.Column:
-					return TravelColumn(this.sudoku).GetEnumerator();
+					return TravelColumn(sudoku).GetEnumerator();
+				case Definition.LineType.Both:
+					return TravelRow(sudoku).Concat(TravelColumn(sudoku)).GetEnumerator();
 				default: throw new NotImplementedException();
 			}
 		}

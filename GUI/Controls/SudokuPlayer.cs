@@ -13,14 +13,20 @@ namespace SudokuSolver.GUI
 	{
 		private SudokuPlayer(Definition.Sudoku originSudoku, Definition.Sudoku playingSudoku)
 		{
-			if (originSudoku == null)
-				throw new ArgumentNullException("originSudoku");
 			if (playingSudoku == null)
 				throw new ArgumentNullException("playingSudoku");
 
-			var originSudokuModel = new Model.Sudoku();
-			originSudokuModel.Sync(originSudoku);
-			this.originSudokuAutoSync = new Business.SudokuAutoSync(originSudoku, originSudokuModel);
+			if (originSudoku != null)
+			{
+				var originSudokuModel = new Model.Sudoku();
+				originSudokuModel.Sync(originSudoku);
+				this.originSudokuAutoSync = new Business.SudokuAutoSync(originSudoku, originSudokuModel);
+				this.OriginSudoku = originSudokuModel;
+			}
+			else
+			{
+				this.SetOriginSudokuVisibility(System.Windows.Visibility.Collapsed);
+			}
 
 			this.steps = new Business.SudokuSolveStepCollection();
 
@@ -30,9 +36,32 @@ namespace SudokuSolver.GUI
 			playingSudokuStepSync.NewStep += onNewStep;
 			this.playingSudokuStepSync = playingSudokuStepSync;
 
-			this.OriginSudoku = originSudokuModel;
 			this.PlayingSudoku = playingSudokuModel;
 		}
+
+		#region OriginSudokuVisibility
+
+		public Visibility OriginSudokuVisibility
+		{
+			get { return (Visibility)GetValue(OriginSudokuVisibilityProperty); }
+		}
+
+		static readonly DependencyPropertyKey OriginSudokuVisibilityPropertyKey =
+			DependencyProperty.RegisterReadOnly(
+				"OriginSudokuVisibility",
+				typeof(Visibility),
+				typeof(SudokuPlayer),
+				new PropertyMetadata(Visibility.Visible));
+
+		public static readonly DependencyProperty OriginSudokuVisibilityProperty =
+			OriginSudokuVisibilityPropertyKey.DependencyProperty;
+
+		private void SetOriginSudokuVisibility(Visibility value)
+		{
+			SetValue(OriginSudokuVisibilityPropertyKey, value);
+		}
+		
+		#endregion OriginSudokuVisibility
 
 		#region OriginSudoku
 
@@ -66,40 +95,44 @@ namespace SudokuSolver.GUI
 
 		#endregion PlayingSudoku
 
-		public static SudokuPlayer Create(Definition.Sudoku originSudoku, Definition.Sudoku playingSudoku)
+		static SudokuPlayer()
 		{
-			if (originSudoku == null)
-				throw new ArgumentNullException("originSudoku");
-			if (playingSudoku == null)
-				throw new ArgumentNullException("playingSudoku");
-
-			SudokuPlayer player = null;
+			App app = null;
 			using (ManualResetEvent blocker = new ManualResetEvent(false))
 			{
-				Thread thread = new Thread(() =>
-				{
-					try
+				var thread = new Thread(() =>
 					{
-						var app = new App();
-
-						player = new SudokuPlayer(originSudoku, playingSudoku);
-						blocker.Set();
-
-						app.Run();
-					}
-					catch (Exception exp)
-					{
-						Console.WriteLine(exp);
-					}
-				});
+						try
+						{
+							app = new App { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+							blocker.Set();
+							SudokuPlayer.app.Run();
+						}
+						catch (Exception exp)
+						{
+							Console.WriteLine(exp);
+						}
+					});
 				thread.SetApartmentState(ApartmentState.STA);
 				thread.Name = "sudoku player thread";
 				thread.Start();
 
 				blocker.WaitOne();
 			}
+			SudokuPlayer.app = app;
+		}
 
-			return player;
+		private readonly static App app;
+
+		public static SudokuPlayer Create(Definition.Sudoku originSudoku, Definition.Sudoku playingSudoku)
+		{
+			if (playingSudoku == null)
+				throw new ArgumentNullException("playingSudoku");
+
+			return (SudokuPlayer)app.Dispatcher.Invoke((Func<SudokuPlayer>)delegate
+			{
+				return new SudokuPlayer(originSudoku, playingSudoku);
+			});
 		}
 
 		private Business.SudokuAutoSync originSudokuAutoSync;
@@ -116,7 +149,8 @@ namespace SudokuSolver.GUI
 		{
 			base.OnClosing(e);
 
-			this.originSudokuAutoSync.Dispose();
+			if(this.originSudokuAutoSync!=null)
+				this.originSudokuAutoSync.Dispose();
 			this.playingSudokuStepSync.Dispose();
 		}
 

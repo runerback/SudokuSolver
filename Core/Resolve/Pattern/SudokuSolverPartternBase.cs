@@ -15,13 +15,28 @@ namespace SudokuSolver.Core.Pattern
 
 			this.observers = registerObservers(sudoku).ToArray();
 			this.validator = new SudokuValidator(sudoku);
+
+			this.name = this.GetType().Name;
 		}
 
 		protected readonly Definition.Sudoku sudoku;
 		private IEnumerable<Observers.ObserverBase> observers;
 		private SudokuValidator validator;
+		private readonly string name;
 
 		protected abstract IEnumerable<Observers.ObserverBase> registerObservers(Definition.Sudoku sudoku);
+
+		/// <summary>
+		/// log
+		/// </summary>
+		protected void filling(Definition.Element element, int value)
+		{
+			//Console.WriteLine("{0, -30}: ({1}, {2}) - {3}",
+			//	this.name,
+			//	element.GridIndex + 1,
+			//	element.Index + 1,
+			//	value);
+		}
 
 		public bool HasFailed
 		{

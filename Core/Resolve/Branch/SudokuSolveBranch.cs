@@ -72,9 +72,21 @@ namespace SudokuSolver.Core.Branch
 					{
 						while (valueIterator.MoveNext() && elementIterator.MoveNext())
 						{
-							elementIterator.Current.SetValue(valueIterator.Current);
+							var currentElement = elementIterator.Current;
+							var currentValue = valueIterator.Current;
 
-							if (validator.HasFailed) break;
+							//var fillingLog = string.Format("{0, -30}: ({1}, {2}) - {3}",
+							//	"new branch",
+							//	currentElement.GridIndex + 1,
+							//	currentElement.Index + 1,
+							//	currentValue);
+							
+							currentElement.SetValue(currentValue);
+
+							if (validator.HasFailed)
+								break;
+							//else
+							//	Console.WriteLine(fillingLog);
 						}
 					}
 

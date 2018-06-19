@@ -5,9 +5,12 @@ using System.Text;
 
 namespace SudokuSolver.Core.Pattern
 {
-	internal sealed class ExceptedSeatInGridByOther3 : SudokuSolverPartternBase
+	/// <summary>
+	/// 5. excepted seat in grid by other 3
+	/// </summary>
+	internal sealed class AnySeatInGridLineType2 : SudokuSolverPartternBase
 	{
-		public ExceptedSeatInGridByOther3(Definition.Sudoku sudoku)
+		public AnySeatInGridLineType2(Definition.Sudoku sudoku)
 			: base(sudoku)
 		{
 		}
@@ -51,7 +54,10 @@ namespace SudokuSolver.Core.Pattern
 				{
 					//means only one seat left
 					int exceptedSeatIndex = exceptedSeatIndexes.First();
-					grid.Elements[exceptedSeatIndex].SetValue(group.Key);
+					var emptyElement = grid.Elements[exceptedSeatIndex];
+					var value = group.Key;
+					filling(emptyElement, value);
+					emptyElement.SetValue(value);
 				}
 			}
 		}
@@ -79,7 +85,7 @@ namespace SudokuSolver.Core.Pattern
 			}
 		}
 
-		private const int index = 4;
+		private const int index = 5;
 		public override int Index
 		{
 			get { return index; }

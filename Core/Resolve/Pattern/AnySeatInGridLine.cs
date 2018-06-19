@@ -5,6 +5,10 @@ using System.Text;
 
 namespace SudokuSolver.Core.Pattern
 {
+	[Obsolete("contains in AnySeatInGridLineType2")]
+	/// <summary>
+	/// 3. try to fill any seat in grid by compare other 8 grid lines in 4 grids with same grid row or grid column but different grid line index
+	/// </summary>
 	internal sealed class AnySeatInGridLine : SudokuSolverPartternBase
 	{
 		public AnySeatInGridLine(Definition.Sudoku sudoku)
@@ -103,6 +107,7 @@ namespace SudokuSolver.Core.Pattern
 			int value = exactIntersectElementValues.SingleOrDefault(-1);
 			if (value > 0)
 			{
+				filling(emptyElement, value);
 				emptyElement.SetValue(value);
 				return true;
 			}
@@ -120,7 +125,7 @@ namespace SudokuSolver.Core.Pattern
 			}
 		}
 
-		private const int index = 2;
+		private const int index = 3;
 		public override int Index
 		{
 			get { return index; }

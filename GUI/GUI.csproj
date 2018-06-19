@@ -72,13 +72,13 @@
     <Compile Include="Controls\SudokuPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
+    <ProjectReference Include="..\Definition\Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
-      <Name>SudokuSolver.Definition</Name>
+      <Name>Definition</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Resource\ControlTemplates.xaml">
+    <Page Include="Resource\Theme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

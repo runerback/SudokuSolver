@@ -69,25 +69,10 @@ namespace SudokuSolver.Core
 			}
 
 			if (seatsCount != level)
-			{
 				throw new Exception(
 					string.Format("Expected:\t{0} seats\r\nActually:\t{1} seats", level, seatsCount));
-			}
 
 			return targetSudoku;
-		}
-
-		private bool showStep;
-		public bool ShowStep
-		{
-			get { return this.showStep; }
-			set
-			{
-				if (this.showStep != value)
-				{
-					this.showStep = value;
-				}
-			}
 		}
 	}
 }

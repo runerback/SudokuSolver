@@ -26,17 +26,19 @@ namespace SudokuSolver
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return this.GetEnumerator();
+			return GetEnumerator();
 		}
 
 		private IEnumerable<Definition.Line> Iterator(Definition.Sudoku sudoku, Definition.LineType lineType)
 		{
-			switch (this.lineType)
+			switch (lineType)
 			{
 				case Definition.LineType.Row:
-					return this.sudoku.Rows;
+					return sudoku.Rows;
 				case Definition.LineType.Column:
-					return this.sudoku.Columns;
+					return sudoku.Columns;
+				case Definition.LineType.Both:
+					return sudoku.Rows.Concat(sudoku.Columns);
 				default: throw new NotImplementedException();
 			}
 		}

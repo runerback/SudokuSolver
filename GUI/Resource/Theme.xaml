@@ -305,7 +305,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
@@ -316,13 +316,29 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Text="Origin" Style="{StaticResource TitleTextBlockStyle}" />
-                                    <TextBlock Text="Playing" Grid.Column="1" Style="{StaticResource TitleTextBlockStyle}" />
+                                    <TextBlock 
+										Text="Origin" 
+										Style="{StaticResource TitleTextBlockStyle}" 
+										Visibility="{TemplateBinding OriginSudokuVisibility}"
+										/>
+                                    <TextBlock 
+										Text="Playing" 
+										Grid.Column="1" 
+										Style="{StaticResource TitleTextBlockStyle}" 
+										/>
                                 </Grid>
                             </controls:WindowDragGizmo>
                             
-                            <controls:SudokuPresenter Grid.Row="1" Sudoku="{TemplateBinding OriginSudoku}" />
-                            <controls:SudokuPresenter Grid.Row="1" Grid.Column="1" Sudoku="{TemplateBinding PlayingSudoku}" />
+                            <controls:SudokuPresenter 
+								Grid.Row="1" 
+								Sudoku="{TemplateBinding OriginSudoku}" 
+								Visibility="{TemplateBinding OriginSudokuVisibility}"
+								/>
+                            <controls:SudokuPresenter 
+								Grid.Row="1" 
+								Grid.Column="1" 
+								Sudoku="{TemplateBinding PlayingSudoku}" 
+								/>
                             
                             <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="6 0">
                                 <Grid.ColumnDefinitions>

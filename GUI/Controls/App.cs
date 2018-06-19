@@ -23,11 +23,18 @@ namespace SudokuSolver.GUI
 				return;
 			contentLoaded = true;
 
-			var controlTemplatesLocater = new Uri("/SudokuSolver.GUI;component/Resource/ControlTemplates.xaml", UriKind.Relative);
+			var controlTemplatesLocater = new Uri("/SudokuSolver.GUI;component/Resource/Theme.xaml", UriKind.Relative);
 			this.Resources.MergedDictionaries.Add((ResourceDictionary)Application.LoadComponent(controlTemplatesLocater));
 		}
 
 		#endregion InitializeComponent
 
+		public void InvokeRun(SudokuPlayer player)
+		{
+			if (player == null)
+				throw new ArgumentNullException("player");
+
+			Dispatcher.BeginInvoke((Func<Window, int>)Run, player);
+		}
 	}
 }

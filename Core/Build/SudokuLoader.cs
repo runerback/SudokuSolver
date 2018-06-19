@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Core.Resolve.Branch
+namespace SudokuSolver.Core.Build
 {
-	class ElementSnapshot
+	class SudokuLoader
 	{
 	}
 }

@@ -8,6 +8,7 @@ namespace SudokuSolver.Definition
 	public enum LineType
 	{
 		Row,
-		Column
+		Column,
+		Both
 	}
 }

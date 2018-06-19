@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SudokuSolver.Core.Pattern
+namespace  SudokuSolver.Core.Pattern
 {
 	/// <summary>
-	/// 1. only one seat in grid line
+	/// 2. only one seat in grid line, focus on current line
 	/// </summary>
-	internal sealed class OneSeatInGridLine : SudokuSolverPartternBase
+	internal sealed class OneSeatInGridLineType2 : SudokuSolverPartternBase
 	{
-		public OneSeatInGridLine(Definition.Sudoku sudoku)
+		public OneSeatInGridLineType2(Definition.Sudoku sudoku)
 			: base(sudoku)
 		{ }
 
@@ -63,27 +63,29 @@ namespace SudokuSolver.Core.Pattern
 
 			int currentLineIndex = gridLine.Index;
 
-			var otherElementValues1 = otherGrid1.GetElementsInOtherGridLine(currentLineIndex, lineType)
-				.Values();
+			var grid1Completed = otherGrid1
+				.GetElementsInCurrentGridLine(currentLineIndex, lineType)
+				.AllHasValue();
+			var grid2Completed = otherGrid2
+				.GetElementsInCurrentGridLine(currentLineIndex, lineType)
+				.AllHasValue();
+			//only when one other grid line is completed
+			if (grid1Completed == grid2Completed)
+				return false;
 
-			var otherElementValues2 = otherGrid2.GetElementsInOtherGridLine(currentLineIndex, lineType)
-				.Values();
+			var targetGrid = grid1Completed ? otherGrid2 : otherGrid1;
 
-			var currentElementValues = currentGrid.Elements
-				.Values();
+			//if one of seats value appeared in target grid, fill to complete
+			var seatValues = new LineEnumerable(this.sudoku, lineType)
+				.ElementAt(currentLineIndex)
+				.Elements
+				.Values()
+				.SudokuExcept();
+			var intersectResults = targetGrid.Elements.Values()
+				.Except(currentGrid.Elements.Values())
+				.Intersect(seatValues);
 
-			var exceptResult = otherElementValues1
-				.Concat(otherElementValues2)
-				.Except(currentElementValues);
-
-			if (!exceptResult.Any())
-				return false; //no result
-
-			//get value which appeared both
-			var bothOtherElementValues = otherElementValues1.Intersect(otherElementValues2);
-			var exactIntersectElementValues = bothOtherElementValues.Intersect(exceptResult);
-
-			int value = exactIntersectElementValues.SingleOrDefault(-1);
+			int value = intersectResults.SingleOrDefault(-1);
 			if (value > 0)
 			{
 				filling(emptyElement, value);
@@ -92,7 +94,7 @@ namespace SudokuSolver.Core.Pattern
 			}
 			return false;
 		}
-
+		
 		public override void Fill()
 		{
 			foreach (var gridLine in new GridLineEnumerable(sudoku, Definition.LineType.Both))
@@ -104,7 +106,7 @@ namespace SudokuSolver.Core.Pattern
 			}
 		}
 
-		private const int index = 1;
+		private const int index = 2;
 		public override int Index
 		{
 			get { return index; }

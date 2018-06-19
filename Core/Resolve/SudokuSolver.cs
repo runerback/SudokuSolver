@@ -26,22 +26,24 @@ namespace SudokuSolver.Core
 			var sudoku = this.sudoku;
 			var completionState = this.completionState;
 
-			int lastSeatsRemainder = 81;
+			int lastSeatsRemainder = completionState.SeatsRemainder();
 			while (true)
 			{
 				using (var oneSeatInNineParttern = new Pattern.OneSeatInNine(sudoku))
 				using (var oneSeatInGridLinePattern = new Pattern.OneSeatInGridLine(sudoku))
-				using (var anySeatInGridLinePattern = new Pattern.AnySeatInGridLine(sudoku))
+				using (var oneSearInGridLinePattern2 = new Pattern.OneSeatInGridLineType2(sudoku))
+				//using (var anySeatInGridLinePattern = new Pattern.AnySeatInGridLine(sudoku))
 				using (var twoSeatsInLinePattern = new Pattern.TwoSeatsInLine(sudoku))
-				using (var exceptedSeatInGridByOther3Pattern = new Pattern.ExceptedSeatInGridByOther3(sudoku))
+				using (var anySeatInGridLinePattern2 = new Pattern.AnySeatInGridLineType2(sudoku))
 				{
 					var patterns = new Pattern.SudokuSolverPartternBase[]
 					{
 						oneSeatInNineParttern, 
 						oneSeatInGridLinePattern, 
-						anySeatInGridLinePattern,
+						oneSearInGridLinePattern2, 
+						//anySeatInGridLinePattern, 
 						twoSeatsInLinePattern,
-						exceptedSeatInGridByOther3Pattern
+						anySeatInGridLinePattern2
 					};
 					foreach (var pattern in patterns.OrderBy(item => item.Index))
 					{

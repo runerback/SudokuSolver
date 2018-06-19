@@ -46,27 +46,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="SudokuBuildAndResolve.cs" />
+    <Compile Include="SudokuSeedsCollector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\SudokuSolver.Core.csproj">
+    <ProjectReference Include="..\Core\Core.csproj">
       <Project>{78c36b2b-5d1f-488f-af1f-c26552cdb857}</Project>
-      <Name>SudokuSolver.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Definition\SudokuSolver.Definition.csproj">
+    <ProjectReference Include="..\Definition\Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
-      <Name>SudokuSolver.Definition</Name>
+      <Name>Definition</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GUI\SudokuSolver.GUI.csproj">
+    <ProjectReference Include="..\GUI\GUI.csproj">
       <Project>{02754b38-7b82-496f-a5a5-626d1ef37305}</Project>
-      <Name>SudokuSolver.GUI</Name>
+      <Name>GUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
       <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
       <Name>MiscUtil</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tool\SudokuSolver.Tool.csproj">
+    <ProjectReference Include="..\Tool\Tool.csproj">
       <Project>{59512996-B43B-47F1-B16D-6EE866588706}</Project>
-      <Name>SudokuSolver.Tool</Name>
+      <Name>Tool</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

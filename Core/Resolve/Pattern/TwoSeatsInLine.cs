@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SudokuSolver.Core.Pattern
 {
+	/// <summary>
+	/// 4. only two seats in sudoku row or column
+	/// </summary>
 	internal sealed class TwoSeatsInLine : SudokuSolverPartternBase
 	{
 		public TwoSeatsInLine(Definition.Sudoku sudoku)
@@ -107,8 +110,16 @@ namespace SudokuSolver.Core.Pattern
 			int value1 = except1.SingleOrDefault(-1);
 			if (value1 > 0)
 			{
+				var exceptedValue = valuesRemainder.Except(value1).First();
+
+				filling(emptyElement1, value1);
 				emptyElement1.SetValue(value1);
-				emptyElement2.SetValue(valuesRemainder.Except(value1).First());
+
+				if (!emptyElement2.HasValue)
+				{
+					filling(emptyElement2, exceptedValue);
+					emptyElement2.SetValue(exceptedValue);
+				}
 
 				return true;
 			}
@@ -122,8 +133,16 @@ namespace SudokuSolver.Core.Pattern
 			int value2 = except2.SingleOrDefault(-1);
 			if (value2 > 0)
 			{
+				var exceptedValue = valuesRemainder.Except(value2).First();
+
+				filling(emptyElement2, value2);
 				emptyElement2.SetValue(value2);
-				emptyElement1.SetValue(valuesRemainder.Except(value2).First());
+
+				if (!emptyElement1.HasValue)
+				{
+					filling(emptyElement1, exceptedValue);
+					emptyElement1.SetValue(exceptedValue);
+				}
 
 				return true;
 			}
@@ -145,8 +164,7 @@ namespace SudokuSolver.Core.Pattern
 
 		public override void Fill()
 		{
-			foreach (var line in new LineEnumerable(this.sudoku, Definition.LineType.Row)
-				.Concat(new LineEnumerable(this.sudoku, Definition.LineType.Column)))
+			foreach (var line in new LineEnumerable(this.sudoku, Definition.LineType.Both))
 			{
 				fillOnlyTwoElement(line);
 
@@ -155,7 +173,7 @@ namespace SudokuSolver.Core.Pattern
 			}
 		}
 
-		private const int index = 3;
+		private const int index = 4;
 		public override int Index
 		{
 			get { return index; }
