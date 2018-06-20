@@ -13,8 +13,8 @@ namespace SudokuSolver
 		{
 			try
 			{
-				//SudokuBuildAndResolve.BuildAndResolve(1666468307, true);
-				SudokuParseAndResolve.Resolve();
+				SudokuBuildAndResolve.BuildAndResolve(1666468307, true);
+				//SudokuParseAndResolve.Resolve();
 				//SudokuSeedsCollector.Collect();
 			}
 			catch (Exception exp)
@@ -23,10 +23,11 @@ namespace SudokuSolver
 			}
 			finally
 			{
-				Console.WriteLine("press any key to continue . . .");
-				Console.ReadKey(true);
+				Console.WriteLine("press Enter to continue . . .");
+				Console.ReadLine();
 
-				SudokuParseAndResolve.Dispose();
+				SudokuBuildAndResolve.Dispose();
+				//SudokuParseAndResolve.Dispose();
 			}
 		}
 	}

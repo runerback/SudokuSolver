@@ -50,12 +50,6 @@ namespace SudokuSolver
 			}
 
 			BuildSudokuAndTrySolve(builder, lastLevel, showGUI);
-
-			Console.WriteLine("press Enter to exit");
-			SudokuConsole.WaitLine();
-
-			if (showGUI)
-				playerGUIController.Shutdown();
 		}
 
 		private static GUI.SudokuPlayerController playerGUIController;
@@ -125,6 +119,12 @@ namespace SudokuSolver
 			{
 				playerGUIController.Show();
 			}
+		}
+
+		public static void Dispose()
+		{
+			if (playerGUIController != null && !playerGUIController.IsClosed)
+				playerGUIController.Shutdown();
 		}
 	}
 }

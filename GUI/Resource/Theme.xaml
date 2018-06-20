@@ -339,12 +339,12 @@
 								Grid.Column="1" 
 								Sudoku="{TemplateBinding PlayingSudoku}" 
 								/>
-                            
+
                             <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="6 0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -352,18 +352,31 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <controls:ControllerTip Symbol="/SudokuSolver.GUI;component/Resource/Icons/right.ico" Tip="Next" />
                                     <controls:ControllerTip Grid.Column="1" Symbol="/SudokuSolver.GUI;component/Resource/Icons/left.ico" Tip="Previous" />
                                     <controls:ControllerTip Grid.Column="2" Symbol="/SudokuSolver.GUI;component/Resource/Icons/escape.ico" Tip="Exit" />
                                 </Grid>
-                                
-                                <Grid Grid.Column="1">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3" Text="{TemplateBinding Status}" Foreground="SkyBlue" FontStyle="Italic" FontSize="12" />
+
+                                <Grid Grid.Row="1">
+                                    <TextBlock 
+                                        Name="PART_Status"
+                                        HorizontalAlignment="Left" 
+                                        VerticalAlignment="Center" 
+                                        Margin="3" 
+                                        Text="{TemplateBinding Status}" 
+                                        Foreground="SkyBlue" 
+                                        FontStyle="Italic" 
+                                        FontSize="12" />
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="PART_Status" Property="Text" Value="">
+                            <Setter TargetName="PART_Status" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
