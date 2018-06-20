@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="SudokuBuildAndResolve.cs" />
+    <Compile Include="SudokuParseAndResolve.cs" />
     <Compile Include="SudokuSeedsCollector.cs" />
   </ItemGroup>
   <ItemGroup>

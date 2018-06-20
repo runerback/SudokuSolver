@@ -11,7 +11,7 @@ namespace SudokuSolver.Core
 		{
 			if (sudoku == null)
 				throw new ArgumentNullException("sudoku");
-			if (!sudoku.Valdiate())
+			if (!sudoku.Validate())
 				throw new ArgumentException("Invalid Sudoku. Duplicated element found");
 
 			this.sudoku = sudoku;

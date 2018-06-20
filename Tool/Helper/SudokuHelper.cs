@@ -53,8 +53,8 @@ namespace SudokuSolver
 			}
 		}
 
-		private const int SUDOKU_SPLIT_LEN = 9;
-		private static readonly string SUDOKU_EMPTY_ELEMENT_VALUE = "_";
+		public const int SUDOKU_SPLIT_LEN = 9;
+		public static readonly string SUDOKU_EMPTY_ELEMENT_VALUE = "_";
 
 		public static bool TryParse(string source, out Definition.Sudoku sudoku)
 		{
@@ -62,30 +62,22 @@ namespace SudokuSolver
 
 			if (string.IsNullOrEmpty(source))
 				return false;
+
+			int size = SUDOKU_SPLIT_LEN;
+
 			string[] lines = source.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-			if (lines.Length != SUDOKU_SPLIT_LEN)
+			if (lines.Length != size)
 				return false;
 
-			int[] elementValues = new int[SUDOKU_SPLIT_LEN * SUDOKU_SPLIT_LEN];
+			int[] elementValues = new int[size * size];
 			int valueIndex = 0;
 
 			foreach (var line in lines)
 			{
-				string[] elements = line.Split(' ');
-				if (elements.Length != SUDOKU_SPLIT_LEN)
+				int[] values;
+				if (!TryParse(line, out values))
 					return false;
-				foreach (var elementValue in elements
-					.Select(item => item.Trim()))
-				{
-					if (elementValue != SUDOKU_EMPTY_ELEMENT_VALUE)
-					{
-						int value;
-						if (!int.TryParse(elementValue, out value))
-							return false;
-						elementValues[valueIndex] = value;
-					}
-					valueIndex++;
-				}
+				Array.Copy(values, 0, elementValues, valueIndex++ * size, size);
 			}
 
 			sudoku = new Definition.Sudoku();
@@ -94,18 +86,45 @@ namespace SudokuSolver
 			{
 				while (sudokuElementIterator.MoveNext() && valueIterator.MoveNext())
 				{
+					var element = sudokuElementIterator.Current;
 					int value = valueIterator.Current;
 					if (value > 0)
-					{
-						sudokuElementIterator.Current.SetValue(value);
-					}
+						element.SetValue(value);
 				}
 			}
 
 			return true;
 		}
 
-		public static bool Valdiate(this Definition.Sudoku sudoku)
+		public static bool TryParse(string rowData, out int[] values)
+		{
+			values = null;
+
+			if (string.IsNullOrEmpty(rowData))
+				return false;
+
+			string[] elements = rowData.Split(' ');
+			if (elements.Length != SUDOKU_SPLIT_LEN)
+				return false;
+
+			int index = 0;
+			values = new int[9];
+			foreach (var elementValue in elements
+				.Select(item => item.Trim()))
+			{
+				if (elementValue != SUDOKU_EMPTY_ELEMENT_VALUE)
+				{
+					int value;
+					if (!int.TryParse(elementValue, out value))
+						return false;
+					values[index] = value;
+				}
+				index++;
+			}
+			return true;
+		}
+
+		public static bool Validate(this Definition.Sudoku sudoku)
 		{
 			if (sudoku == null)
 				throw new ArgumentNullException("sudoku");

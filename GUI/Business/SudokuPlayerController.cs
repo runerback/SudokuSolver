@@ -35,6 +35,13 @@ namespace SudokuSolver.GUI
 			var window = this.window;
 			Action invoke = window.Close;
 			window.Dispatcher.Invoke(invoke);
+			this.closed = true;
+		}
+
+		private bool closed = false;
+		public bool IsClosed
+		{
+			get { return this.closed; }
 		}
 
 		public void Shutdown()

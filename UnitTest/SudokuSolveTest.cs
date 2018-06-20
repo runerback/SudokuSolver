@@ -21,6 +21,7 @@ _ 7 _ _ _ _ _ 5 _
 
 			Definition.Sudoku sudoku;
 			Assert.IsTrue(SudokuHelper.TryParse(source, out sudoku));
+			Assert.AreEqual(source, sudoku.ToString());
 		}
 
 		[TestMethod]
@@ -38,7 +39,7 @@ _ 8 _ _ _ _ 9 2 3
 
 			Definition.Sudoku sudoku;
 			Assert.IsTrue(SudokuHelper.TryParse(source, out sudoku));
-			Assert.IsTrue(sudoku.Valdiate(), "Invalid sudoku");
+			Assert.IsTrue(sudoku.Validate(), "Invalid sudoku");
 
 			var sourceSudoku = sudoku.Copy();
 			var guiController = new GUI.SudokuPlayerController(sourceSudoku, sudoku);

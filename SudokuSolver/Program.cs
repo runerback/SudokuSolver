@@ -11,8 +11,23 @@ namespace SudokuSolver
 	{
 		static void Main(string[] args)
 		{
-			SudokuBuildAndResolve.BuildAndResolve(1666468307, true);
-			//SudokuSeedsCollector.Collect();
+			try
+			{
+				//SudokuBuildAndResolve.BuildAndResolve(1666468307, true);
+				SudokuParseAndResolve.Resolve();
+				//SudokuSeedsCollector.Collect();
+			}
+			catch (Exception exp)
+			{
+				Console.WriteLine(exp.ToString());
+			}
+			finally
+			{
+				Console.WriteLine("press any key to continue . . .");
+				Console.ReadKey(true);
+
+				SudokuParseAndResolve.Dispose();
+			}
 		}
 	}
 }

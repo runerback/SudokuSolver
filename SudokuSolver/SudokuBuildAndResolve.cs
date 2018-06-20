@@ -101,7 +101,7 @@ namespace SudokuSolver
 					new SudokuElementEnumerable(playingSudoku).SeatCount());
 			}
 
-			bool reallySolved = solved && playingSudoku.Valdiate();
+			bool reallySolved = solved && playingSudoku.Validate();
 
 			if (!reallySolved)
 			{

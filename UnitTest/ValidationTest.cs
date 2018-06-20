@@ -24,7 +24,7 @@ namespace SudokuSolver.UnitTest
 				}
 			}
 
-			Assert.IsFalse(sudoku.Valdiate());
+			Assert.IsFalse(sudoku.Validate());
 		}
 
 		[TestMethod]
