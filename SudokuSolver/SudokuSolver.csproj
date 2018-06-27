@@ -63,10 +63,6 @@
       <Project>{02754b38-7b82-496f-a5a5-626d1ef37305}</Project>
       <Name>GUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
-      <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
-      <Name>MiscUtil</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tool\Tool.csproj">
       <Project>{59512996-B43B-47F1-B16D-6EE866588706}</Project>
       <Name>Tool</Name>

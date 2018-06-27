@@ -70,10 +70,6 @@
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>Definition</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
-      <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
-      <Name>MiscUtil</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tool\Tool.csproj">
       <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
       <Name>Tool</Name>

@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace SudokuSolver.GUI.Model
+namespace SudokuFiller
 {
-	internal sealed class Element : ViewModelBase
+	public sealed class ElementData : ViewModelBase
 	{
-		public Element(int index)
+		internal ElementData(int elementIndex)
 		{
-			this.index = index;
+			this.index = elementIndex;
 		}
 
 		private int index;
@@ -19,11 +20,11 @@ namespace SudokuSolver.GUI.Model
 			get { return this.index; }
 		}
 
-		private int? value;
+		private int? value = null;
 		public int? Value
 		{
 			get { return this.value; }
-			internal set
+			set
 			{
 				if (value != this.value)
 				{

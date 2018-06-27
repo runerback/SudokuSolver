@@ -38,6 +38,9 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Runerback.Utils.Wpf">
+      <HintPath>..\lib\Runerback.Utils.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,17 +49,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\ICommands\Command.cs" />
-    <Compile Include="Business\ICommands\DelegateCommand.cs" />
     <Compile Include="Business\SudokuPlayerController.cs" />
     <Compile Include="Business\Step\SudokuSolveStep.cs" />
     <Compile Include="Business\Step\SudokuSolveStepCollection.cs" />
     <Compile Include="Business\Sync\SudokuStepSync.cs" />
     <Compile Include="Business\Sync\SudokuAutoSync.cs" />
     <Compile Include="Business\Sync\SudokuValueSyncBase.cs" />
-    <Compile Include="Business\ViewModelBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Controls\App.cs" />
     <Compile Include="Controls\ControllerTip.cs" />
     <Compile Include="Controls\ElementPresenter.cs" />

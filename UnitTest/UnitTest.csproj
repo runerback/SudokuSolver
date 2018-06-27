@@ -72,6 +72,7 @@
     <Compile Include="SwapTest.cs" />
     <Compile Include="HeapFullPermutationTest.cs" />
     <Compile Include="SudokuSolveTest.cs" />
+    <Compile Include="CommonTest.cs" />
     <Compile Include="ValidationTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -88,10 +89,6 @@
     <ProjectReference Include="..\GUI\GUI.csproj">
       <Project>{02754b38-7b82-496f-a5a5-626d1ef37305}</Project>
       <Name>GUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
-      <Project>{FDA5864E-8ECE-408B-98A5-68389D6C84F5}</Project>
-      <Name>MiscUtil</Name>
     </ProjectReference>
     <ProjectReference Include="..\SudokuSolver\SudokuSolver.csproj">
       <Project>{32762862-2541-4f88-ae7a-659ce7df331f}</Project>

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MiscUtil, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\MiscUtil.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,10 +71,6 @@
     <ProjectReference Include="..\Definition\Definition.csproj">
       <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
       <Name>Definition</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MiscUtil\MiscUtil.csproj">
-      <Project>{fda5864e-8ece-408b-98a5-68389d6c84f5}</Project>
-      <Name>MiscUtil</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
