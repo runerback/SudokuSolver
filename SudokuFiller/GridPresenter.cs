@@ -175,11 +175,28 @@ namespace SudokuFiller
 				typeof(double),
 				typeof(GridPresenter));
 
-		#endregion ElementBorderWidth
+        #endregion ElementBorderWidth
 
-		#endregion Element Properties
-		
-		class BorderThicknessUpdator : IDisposable
+        #endregion Element Properties
+
+        #region IsInputMode
+
+        public bool IsInputMode
+        {
+            get { return (bool)this.GetValue(IsInputModeProperty); }
+            set { this.SetValue(IsInputModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsInputModeProperty =
+            DependencyProperty.Register(
+                "IsInputMode",
+                typeof(bool),
+                typeof(GridPresenter),
+                new PropertyMetadata(true));
+
+        #endregion IsInputMode
+
+        class BorderThicknessUpdator : IDisposable
 		{
 			public BorderThicknessUpdator(GridPresenter host)
 			{

@@ -142,17 +142,16 @@ namespace SudokuSolver
 			if (elements == null)
 				throw new ArgumentNullException("elements");
 
-			int value = 0;
-			foreach (int element in elements
-				.Where(element => element.HasValue)
-				.OrderBy(element => element))
+			int index = 0;
+			foreach (var value in elements.Values()
+				.OrderBy(item => item))
 			{
 				bool matched = false;
-				while (value++ < 9)
+				while (index++ < 9)
 				{
-					if (element == value)
+					if (value == index)
 					{
-						value = element;
+						index = value;
 						matched = true;
 						break;
 					}

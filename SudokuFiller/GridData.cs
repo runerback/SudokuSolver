@@ -12,7 +12,7 @@ namespace SudokuFiller
 		{
 			this.index = gridIndex;
 			this.elements = Enumerable.Range(0, 9)
-				.Select(item => new ElementData(item))
+				.Select(item => new ElementData(item, gridIndex))
 				.ToArray();
 		}
 		

@@ -37,15 +37,15 @@ namespace SudokuFiller
 
 		#region SudokuBorderBrush
 
-		public Brush SodukuBorderBrush
+		public Brush SudokuBorderBrush
 		{
-			get { return (Brush)this.GetValue(SodukuBorderBrushProperty); }
-			set { this.SetValue(SodukuBorderBrushProperty, value); }
+			get { return (Brush)this.GetValue(SudokuBorderBrushProperty); }
+			set { this.SetValue(SudokuBorderBrushProperty, value); }
 		}
 
-		public static readonly DependencyProperty SodukuBorderBrushProperty =
+		public static readonly DependencyProperty SudokuBorderBrushProperty =
 			DependencyProperty.Register(
-				"SodukuBorderBrush",
+                "SudokuBorderBrush",
 				typeof(Brush),
 				typeof(SudokuPresenter));
 		
@@ -226,11 +226,28 @@ namespace SudokuFiller
 				typeof(double),
 				typeof(SudokuPresenter));
 
-		#endregion ElementBorderWidth
+        #endregion ElementBorderWidth
 
-		#endregion Element Properties
+        #endregion Element Properties
 
-		class BorderThicknessUpdator : IDisposable
+        #region IsInputMode
+
+        public bool IsInputMode
+        {
+            get { return (bool)this.GetValue(IsInputModeProperty); }
+            set { this.SetValue(IsInputModeProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsInputModeProperty =
+            DependencyProperty.Register(
+                "IsInputMode",
+                typeof(bool),
+                typeof(SudokuPresenter),
+                new PropertyMetadata(true));
+
+        #endregion IsInputMode
+
+        class BorderThicknessUpdator : IDisposable
 		{
 			public BorderThicknessUpdator(SudokuPresenter host)
 			{

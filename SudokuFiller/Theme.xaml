@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SudokuFiller">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SudokuFiller">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/Runerback.Utils.Wpf;Component/ResourceDictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -18,49 +19,172 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ElementInputer">
-                    <TextBox 
-                        Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ElementInputValueConverter}}"
+                    <TextBox
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        />
+                        FontWeight="{TemplateBinding FontWeight}"
+                        Foreground="{TemplateBinding Foreground}"
+                        Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ElementInputValueConverter}}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-
     <Style TargetType="local:ElementPresenter">
         <Setter Property="Foreground" Value="WhiteSmoke" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="ElementBorderWidth" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ElementPresenter">
-                    <Border 
-                        BorderBrush="{TemplateBinding ElementBorderBrush}"
-                        BorderThickness="{TemplateBinding ElementBorderThickness}"
-                        Margin="{TemplateBinding ElementBorderMargin}"
+                    <Border
                         Width="{TemplateBinding ElementSize}"
                         Height="{TemplateBinding ElementSize}"
+                        Margin="{TemplateBinding ElementBorderMargin}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                        VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        BorderBrush="{TemplateBinding ElementBorderBrush}"
+                        BorderThickness="{TemplateBinding ElementBorderThickness}">
                         <Grid>
-                            <TextBlock 
-                                Text="{Binding Element.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            <TextBlock
+                                Name="PART_ElementValue"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Background="{TemplateBinding Background}"
                                 Foreground="{TemplateBinding Foreground}"
-                                Visibility="{Binding IsInputMode, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource AntiVisibleConverter}}"
-                                />
+                                Text="{Binding Element.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                             <local:ElementInputer
-                                Value="{Binding ElementName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"
-                                Visibility="{Binding IsInputMode, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource VisibleConverter}}"
-                                />
+                                x:Name="PART_ElementInput"
+                                Background="{TemplateBinding Background}"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                Foreground="{TemplateBinding Foreground}"
+                                Value="{Binding ElementName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsInputMode" Value="False">
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Setter TargetName="PART_ElementInput" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsInputMode" Value="True">
+                            <Setter TargetName="PART_ElementValue" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:GridPresenter">
+        <Setter Property="ElementBorderWidth" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:GridPresenter">
+                    <Border
+                        Margin="{TemplateBinding GridBorderMargin}"
+                        BorderBrush="{TemplateBinding GridBorderBrush}"
+                        BorderThickness="{TemplateBinding GridBorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{TemplateBinding ElementSize}" />
+                                <RowDefinition Height="{TemplateBinding ElementSize}" />
+                                <RowDefinition Height="{TemplateBinding ElementSize}" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{TemplateBinding ElementSize}" />
+                                <ColumnDefinition Width="{TemplateBinding ElementSize}" />
+                                <ColumnDefinition Width="{TemplateBinding ElementSize}" />
+                            </Grid.ColumnDefinitions>
+
+                            <local:ElementPresenter
+                                Element="{Binding Grid.Elements[0], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Column="1"
+                                Element="{Binding Grid.Elements[1], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Column="2"
+                                Element="{Binding Grid.Elements[2], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Row="1"
+                                Element="{Binding Grid.Elements[3], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Element="{Binding Grid.Elements[4], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Element="{Binding Grid.Elements[5], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Row="2"
+                                Element="{Binding Grid.Elements[6], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Element="{Binding Grid.Elements[7], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:ElementPresenter
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Element="{Binding Grid.Elements[8], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -68,5 +192,139 @@
         </Setter>
     </Style>
 
+    <Style TargetType="local:SudokuPresenter">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SudokuPresenter">
+                    <Border
+                        Margin="{TemplateBinding SudokuBorderMargin}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding SudokuBorderBrush}"
+                        BorderThickness="{TemplateBinding SudokuBorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <local:GridPresenter
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[0], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[1], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[2], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[3], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[4], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[5], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[6], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[7], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+
+                            <local:GridPresenter
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
+                                ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementSize="{TemplateBinding ElementSize}"
+                                Grid="{Binding Sudoku.Grids[8], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                GridBorderBrush="{TemplateBinding GridBorderBrush}"
+                                GridBorderMargin="{TemplateBinding GridBorderMargin}"
+                                GridBorderWidth="{TemplateBinding GridBorderWidth}"
+                                IsInputMode="{TemplateBinding IsInputMode}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

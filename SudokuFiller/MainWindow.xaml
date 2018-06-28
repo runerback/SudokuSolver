@@ -1,19 +1,23 @@
-﻿<Window x:Class="SudokuFiller.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:SudokuFiller"
-        Title="MainWindow" Height="350" Width="525">
+﻿<Window
+    x:Class="SudokuFiller.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SudokuFiller"
+    Title="MainWindow"
+    WindowStartupLocation="CenterScreen"
+    SizeToContent="WidthAndHeight">
     <Grid>
-        <local:SudokuPresenter 
-            Sudoku="{Binding SudokuData, Mode=OneWay}"
+        <local:SudokuPresenter
             Background="Black"
             ElementBorderBrush="LightGray"
-            GridBorderBrush="LightSkyBlue"
-            SudokuBorderBrush="Gray"
-            ElementSize="16"
             ElementBorderWidth="1"
+            ElementSize="26"
+            GridBorderBrush="LightSkyBlue"
             GridBorderWidth="2"
-            SudokuBorderWidth="5"
+            SudokuBorderBrush="Gray"
+            SudokuBorderWidth="5" 
+            Sudoku="{Binding SudokuData, Mode=OneWay}"
+            IsInputMode="{Binding SudokuData.IsInputMode, Mode=OneWay}"
             />
     </Grid>
 </Window>
