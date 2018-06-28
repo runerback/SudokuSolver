@@ -29,13 +29,17 @@ namespace SudokuFiller
 			get { return this.isInputMode; }
 		}
 
-		public Task Solve()
+		public SudokuSolveResult Solve()
 		{
-			return Task.Factory.StartNew(() =>
-			{
-				exitInputMode();
-				throw new NotImplementedException();
-			});
+			bool validationFailed = this.inputValidator.HasError;
+
+			exitInputMode();
+
+			if (validationFailed)
+				return SudokuSolveResult.Invalid;
+			if (!this.Values().Any(item => !item.HasValue))
+				return SudokuSolveResult.Completed;
+			return new SudokuSolverWithSteps(this).Solve();
 		}
 
 		private SudokuInputValidator inputValidator;
@@ -54,6 +58,24 @@ namespace SudokuFiller
 			foreach (var grid in grids)
 				foreach (var element in grid.Elements)
 					yield return element.Value;
+		}
+
+		public SudokuData Copy()
+		{
+			var copy = new SudokuData();
+
+			using (var elementIterator = this.grids.SelectMany(item => item.Elements).GetEnumerator())
+			using (var valueIterator = this.Values().GetEnumerator())
+			{
+				while (elementIterator.MoveNext() && valueIterator.MoveNext())
+				{
+					var value = valueIterator.Current;
+					if (value.HasValue)
+						elementIterator.Current.Value = value.Value;
+				}
+			}
+
+			return copy;
 		}
 	}
 }

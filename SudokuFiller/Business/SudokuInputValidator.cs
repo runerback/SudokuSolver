@@ -17,10 +17,22 @@ namespace SudokuFiller
 
 			foreach (var grid in sudoku.Grids)
 				foreach (INotifyPropertyChanged target in grid.Elements)
-					target.PropertyChanged += onElementValueChanged;
+					target.PropertyChanged += onElementPropertyChanged;
 		}
 
 		private readonly SudokuData sudoku;
+
+		private bool hasError = false;
+		public bool HasError
+		{
+			get { return hasError; }
+		}
+
+		private void onElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Value")
+				onElementValueChanged(sender, e);
+		}
 
 		private void onElementValueChanged(object sender, EventArgs e)
 		{
@@ -39,6 +51,7 @@ namespace SudokuFiller
 				errorBuilder.AppendLine(rowValidateResult);
 
 			element.SetError(errorBuilder.ToString());
+			this.hasError = errorBuilder.Length > 0;
 		}
 
 		private bool validateRow(ElementData element, out string errorInfo)
@@ -185,11 +198,25 @@ namespace SudokuFiller
 
 		#endregion SudokuInputValidatorTestInterface
 
+		private bool disposed = false;
+		private void Dispose(bool disposing)
+		{
+			if (disposed)
+				return;
+
+			if (disposing)
+			{
+				foreach (var grid in this.sudoku.Grids)
+					foreach (INotifyPropertyChanged target in grid.Elements)
+						target.PropertyChanged -= onElementPropertyChanged;
+			}
+			this.disposed = true;
+		}
+		
 		public void Dispose()
 		{
-			foreach (var grid in this.sudoku.Grids)
-				foreach (INotifyPropertyChanged target in grid.Elements)
-					target.PropertyChanged -= onElementValueChanged;
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 	}
 }

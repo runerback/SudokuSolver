@@ -29,6 +29,7 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         FontWeight="{TemplateBinding FontWeight}"
                         Foreground="{TemplateBinding Foreground}"
+                        CaretBrush="{TemplateBinding Foreground}"
                         Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ElementInputValueConverter}}" />
                 </ControlTemplate>
             </Setter.Value>
@@ -64,7 +65,7 @@
                                 Background="{TemplateBinding Background}"
                                 FontWeight="{TemplateBinding FontWeight}"
                                 Foreground="{TemplateBinding Foreground}"
-                                Value="{Binding ElementName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
+                                Value="{Binding Element.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -321,6 +322,7 @@
                                 GridBorderWidth="{TemplateBinding GridBorderWidth}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
                         </Grid>
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

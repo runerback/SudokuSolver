@@ -62,5 +62,155 @@ namespace SudokuSolver.UnitTest
 				},
 				validator.GetElementsInColumn(5, 7)), "Column");
 		}
+
+		[TestMethod]
+		public void StepsTest()
+		{
+			var basicSteps = new Steps(Enumerable.Range(1, 3));
+
+			Assert.IsTrue(basicSteps.NextStep());
+			Assert.AreEqual(1, basicSteps.CurrentStepValue);
+
+			Assert.IsTrue(basicSteps.NextStep());
+			Assert.AreEqual(2, basicSteps.CurrentStepValue);
+
+			Assert.IsTrue(basicSteps.NextStep());
+			Assert.AreEqual(3, basicSteps.CurrentStepValue);
+
+			Assert.IsFalse(basicSteps.NextStep());
+			Assert.AreEqual(3, basicSteps.CurrentStepValue);
+
+			Assert.IsTrue(basicSteps.PreviousStep());
+			Assert.AreEqual(2, basicSteps.CurrentStepValue);
+
+			Assert.IsTrue(basicSteps.PreviousStep());
+			Assert.AreEqual(1, basicSteps.CurrentStepValue);
+
+			Assert.IsTrue(basicSteps.PreviousStep());
+
+			var advancedSteps = new Steps(Enumerable.Range(1, 3));
+
+			Assert.IsFalse(advancedSteps.PreviousStep());
+
+			Assert.IsTrue(advancedSteps.NextStep());
+			Assert.AreEqual(1, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.PreviousStep());
+
+			Assert.IsTrue(advancedSteps.NextStep());
+			Assert.AreEqual(1, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.NextStep());
+			Assert.AreEqual(2, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.PreviousStep());
+			Assert.AreEqual(1, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.NextStep());
+			Assert.AreEqual(2, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.NextStep());
+			Assert.AreEqual(3, advancedSteps.CurrentStepValue);
+
+			Assert.IsFalse(advancedSteps.NextStep());
+			Assert.AreEqual(3, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.PreviousStep());
+			Assert.AreEqual(2, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.PreviousStep());
+			Assert.AreEqual(1, advancedSteps.CurrentStepValue);
+
+			Assert.IsTrue(advancedSteps.PreviousStep());
+			Assert.IsFalse(advancedSteps.PreviousStep());
+		}
+
+		class Step : ISolveStep
+		{
+			public Step(int value)
+			{
+				this.value = value;
+			}
+
+			private readonly int value;
+			private const int DEFAULT_VALUE = 0;
+
+			private int currentValue = DEFAULT_VALUE;
+			public int Value
+			{
+				get { return this.currentValue; }
+			}
+
+			public void Apply()
+			{
+				this.currentValue = value;
+			}
+
+			public void Revert()
+			{
+				this.currentValue = DEFAULT_VALUE;
+			}
+		}
+
+		class Steps
+		{
+			public Steps(IEnumerable<int> values)
+			{
+				if (values == null || !values.Any())
+					throw new ArgumentNullException("values");
+				this.steps = values.Select(item => new Step(item)).ToArray();
+			}
+
+			private readonly Step[] steps;
+			private int currentStepIndex = -1;
+
+			private int currentStepValue = -1;
+			public int CurrentStepValue
+			{
+				get { return currentStepValue; }
+			}
+
+			public bool NextStep()
+			{
+				var stepIndex = this.currentStepIndex;
+				var steps = this.steps;
+
+				if (stepIndex == steps.Length - 1)
+					return false;
+
+				stepIndex++;
+				var step = steps[stepIndex];
+				step.Apply();
+				this.currentStepValue = step.Value;
+				this.currentStepIndex = stepIndex;
+				return true;
+			}
+
+			public bool PreviousStep()
+			{
+				var stepIndex = this.currentStepIndex;
+				var steps = this.steps;
+
+				if (stepIndex < 0)
+					return false;
+
+				if (stepIndex == 0)
+				{
+					this.currentStepIndex = -1;
+					this.currentStepValue = -1;
+				}
+				else
+				{
+					var step = steps[stepIndex];
+					step.Revert();
+					stepIndex--;
+					var previousStep = steps[stepIndex];
+					//previousStep.Apply();
+					this.currentStepValue = previousStep.Value;
+					this.currentStepIndex = stepIndex;
+				}
+				return true;
+			}
+		}
 	}
 }

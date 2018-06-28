@@ -14,5 +14,21 @@ namespace SudokuFiller
 		{
 			get { return this.sudokuData; }
 		}
+
+		public ViewModel()
+		{
+			this.rightCommand = new SimpleCommand(Right);
+		}
+
+		private SimpleCommand rightCommand;
+		public SimpleCommand RightCommand
+		{
+			get { return this.rightCommand; }
+		}
+
+		private void Right(object obj)
+		{
+			System.Windows.MessageBox.Show("oh, hi there");
+		}
     }
 }

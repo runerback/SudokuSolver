@@ -247,6 +247,12 @@ namespace SudokuFiller
 
         #endregion IsInputMode
 
+		#region KeyNavigation
+
+
+
+		#endregion KeyNavigation
+
         class BorderThicknessUpdator : IDisposable
 		{
 			public BorderThicknessUpdator(SudokuPresenter host)

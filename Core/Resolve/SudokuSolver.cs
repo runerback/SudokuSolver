@@ -26,6 +26,9 @@ namespace SudokuSolver.Core
 			var sudoku = this.sudoku;
 			var completionState = this.completionState;
 
+			if (completionState.IsCompleted) //the sudoku might be already completed
+				return true;
+
 			int lastSeatsRemainder = completionState.SeatsRemainder();
 			while (true)
 			{

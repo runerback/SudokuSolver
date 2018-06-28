@@ -2,12 +2,19 @@
     x:Class="SudokuFiller.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:SudokuFiller"
-    Title="MainWindow"
+    Title="Sudoku Solver"
     WindowStartupLocation="CenterScreen"
-    SizeToContent="WidthAndHeight">
+    SizeToContent="WidthAndHeight"
+    WindowStyle="ToolWindow"
+    ResizeMode="CanMinimize"
+    Icon="SudokuSolverIcon.ico">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Right" Command="{Binding RightCommand, Mode=OneWay}" />
+    </Window.InputBindings>
     <Grid>
-        <local:SudokuPresenter
+        <!--<local:SudokuPresenter
             Background="Black"
             ElementBorderBrush="LightGray"
             ElementBorderWidth="1"
@@ -18,6 +25,11 @@
             SudokuBorderWidth="5" 
             Sudoku="{Binding SudokuData, Mode=OneWay}"
             IsInputMode="{Binding SudokuData.IsInputMode, Mode=OneWay}"
-            />
+            >
+            <i:Interaction.Behaviors>
+                <local:SudokuInputKeyNavigation />
+            </i:Interaction.Behaviors>
+        </local:SudokuPresenter>-->
+        <TextBox Width="300" />
     </Grid>
 </Window>

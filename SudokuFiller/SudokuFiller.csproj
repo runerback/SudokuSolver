@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>SudokuSolverIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Runerback.Utils.Wpf">
       <HintPath>..\lib\Runerback.Utils.Wpf.dll</HintPath>
@@ -76,12 +79,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ElementBorderThicknessConverter.cs" />
-    <Compile Include="GridPresenter.cs" />
-    <Compile Include="SudokuData.cs" />
-    <Compile Include="SudokuInputValidator.cs" />
-    <Compile Include="SudokuPresenter.cs" />
-    <Compile Include="TestInstances.cs" />
+    <Compile Include="Behaviors\InputNavigation\ElementInputNavigation.cs" />
+    <Compile Include="Behaviors\InputNavigation\GridInputKeyNavigation.cs" />
+    <Compile Include="Converters\ElementBorderThicknessConverter.cs" />
+    <Compile Include="Controls\GridPresenter.cs" />
+    <Compile Include="Extensions\VisualTreeHelperExtension.cs" />
+    <Compile Include="Model\SudokuData.cs" />
+    <Compile Include="Behaviors\InputNavigation\SudokuInputKeyNavigation.cs" />
+    <Compile Include="Business\SudokuInputValidator.cs" />
+    <Compile Include="Controls\SudokuPresenter.cs" />
+    <Compile Include="Business\SudokuSolverWithSteps.cs" />
+    <Compile Include="Business\SudokuSolveResult.cs" />
+    <Compile Include="Business\SudokuSolveState.cs" />
+    <Compile Include="Behaviors\InputNavigation\NavigateDirection.cs" />
+    <Compile Include="Test\SudokuInputValidatorTestInterface.cs" />
+    <Compile Include="Test\TestInstances.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -91,11 +103,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ElementData.cs" />
-    <Compile Include="ElementInputer.cs" />
-    <Compile Include="ElementInputValueConverter.cs" />
-    <Compile Include="ElementPresenter.cs" />
-    <Compile Include="GridData.cs" />
+    <Compile Include="Model\ElementData.cs" />
+    <Compile Include="Controls\ElementInputer.cs" />
+    <Compile Include="Converters\ElementInputValueConverter.cs" />
+    <Compile Include="Controls\ElementPresenter.cs" />
+    <Compile Include="Model\GridData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -130,6 +142,23 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{78c36b2b-5d1f-488f-af1f-c26552cdb857}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Definition\Definition.csproj">
+      <Project>{e8b76dde-648b-4acf-99a8-30e6e00e6858}</Project>
+      <Name>Definition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool\Tool.csproj">
+      <Project>{59512996-b43b-47f1-b16d-6ee866588706}</Project>
+      <Name>Tool</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SudokuSolverIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
