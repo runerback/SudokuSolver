@@ -30,13 +30,25 @@ namespace SudokuSolver.UnitTest
 			{
 				1, 2, 3, 3, 3, 6, 7, 8, 9
 			};
-			Assert.AreEqual(3, validator.GetDuplicatedElementIndex(values3));
+			Assert.AreEqual(2, validator.GetDuplicatedElementIndex(values3));
 
 			int?[] values4 = new int?[]
 			{
 				null, 2, 3, null, 3, 6, 7, 8, 9
 			};
-			Assert.AreEqual(4, validator.GetDuplicatedElementIndex(values4));
+			Assert.AreEqual(2, validator.GetDuplicatedElementIndex(values4));
+
+			int?[] values5 = new int?[]
+			{
+				null, 9, 8, null, 3, 3, 5, 7, 6
+			};
+			Assert.AreEqual(4, validator.GetDuplicatedElementIndex(values5));
+
+			int?[] values6 = new int?[]
+			{
+				1, 1, null, null, null, null, null, null, null
+			};
+			Assert.AreEqual(0, validator.GetDuplicatedElementIndex(values6));
 		}
 
 		[TestMethod]

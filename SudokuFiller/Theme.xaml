@@ -9,6 +9,71 @@
     <local:ElementInputValueConverter x:Key="ElementInputValueConverter" />
     <local:ElementBorderThicknessConverter x:Key="ElementBorderThicknessConverter" />
 
+    <Color x:Key="MainDeepColor">LightSkyBlue</Color>
+    <SolidColorBrush x:Key="MainDeepBrush" Color="{StaticResource MainDeepColor}" />
+
+    <LinearGradientBrush x:Key="ButtonNormalBackgroundBrush" StartPoint="0 0" EndPoint="0 1">
+        <GradientStop Color="White" Offset="0" />
+        <GradientStop Color="WhiteSmoke" Offset="0.618" />
+        <GradientStop Color="LightGray" Offset="1" />
+    </LinearGradientBrush>
+
+    <Style TargetType="Button">
+        <Setter Property="Margin" Value="3" />
+        <Setter Property="Padding" Value="3 2" />
+        <Setter Property="Background" Value="{StaticResource ButtonNormalBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="LightGray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <ControlTemplate.Resources>
+                        <SolidColorBrush Color="WhiteSmoke" x:Key="DisabledBackgroundBrush" />
+
+                        <SolidColorBrush Color="Gray" x:Key="DisabledForegroundBrush" />
+
+                        <LinearGradientBrush x:Key="MouseOverBackgroundBrush" StartPoint="0 0" EndPoint="0 1">
+                            <GradientStop Color="LightCyan" Offset="0" />
+                            <GradientStop Color="LightSkyBlue" Offset="0.618" />
+                            <GradientStop Color="{StaticResource MainDeepColor}" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="PressBackground" StartPoint="0 0" EndPoint="0 1">
+                            <GradientStop Color="LightSkyBlue" Offset="0" />
+                            <GradientStop Color="{StaticResource MainDeepColor}" Offset="0.618" />
+                            <GradientStop Color="CadetBlue" Offset="1" />
+                        </LinearGradientBrush>
+                    </ControlTemplate.Resources>
+
+                    <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"  Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource MouseOverBackgroundBrush}" />
+                            <Setter Property="BorderBrush" Value="DeepSkyBlue" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource PressBackground}" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Setter Property="BorderBrush" Value="{StaticResource MainDeepBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="local:ElementInputer">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -29,7 +94,8 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         FontWeight="{TemplateBinding FontWeight}"
                         Foreground="{TemplateBinding Foreground}"
-                        CaretBrush="{TemplateBinding Foreground}"
+                        CaretBrush="{TemplateBinding CaretBrush}"
+                        Cursor="Arrow"
                         Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ElementInputValueConverter}}" />
                 </ControlTemplate>
             </Setter.Value>
@@ -52,12 +118,13 @@
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         BorderBrush="{TemplateBinding ElementBorderBrush}"
                         BorderThickness="{TemplateBinding ElementBorderThickness}">
-                        <Grid>
+                        <Grid ToolTip="{Binding Element.Error, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <TextBlock
                                 Name="PART_ElementValue"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Background="{TemplateBinding Background}"
+                                FontWeight="{TemplateBinding FontWeight}"
                                 Foreground="{TemplateBinding Foreground}"
                                 Text="{Binding Element.Value, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                             <local:ElementInputer
@@ -65,6 +132,7 @@
                                 Background="{TemplateBinding Background}"
                                 FontWeight="{TemplateBinding FontWeight}"
                                 Foreground="{TemplateBinding Foreground}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 Value="{Binding Element.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
                     </Border>
@@ -76,6 +144,9 @@
                         <Trigger Property="IsInputMode" Value="True">
                             <Setter TargetName="PART_ElementValue" Property="Visibility" Value="Collapsed" />
                         </Trigger>
+                        <DataTrigger Binding="{Binding Element.HasError, Mode=OneWay, RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter TargetName="PART_ElementInput" Property="Foreground" Value="Red" />
+                        </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -108,6 +179,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -117,6 +189,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -126,6 +199,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -135,6 +209,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -145,6 +220,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -155,6 +231,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -164,6 +241,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -174,6 +252,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
 
@@ -184,6 +263,7 @@
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
                         </Grid>
@@ -219,6 +299,7 @@
                                 Grid.Column="0"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[0], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -231,6 +312,7 @@
                                 Grid.Column="1"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[1], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -243,6 +325,7 @@
                                 Grid.Column="2"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[2], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -255,6 +338,7 @@
                                 Grid.Column="0"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[3], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -267,6 +351,7 @@
                                 Grid.Column="1"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[4], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -279,6 +364,7 @@
                                 Grid.Column="2"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[5], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -291,6 +377,7 @@
                                 Grid.Column="0"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[6], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -303,6 +390,7 @@
                                 Grid.Column="1"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[7], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"
@@ -315,6 +403,7 @@
                                 Grid.Column="2"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[8], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 GridBorderBrush="{TemplateBinding GridBorderBrush}"

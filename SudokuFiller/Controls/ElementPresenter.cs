@@ -110,6 +110,22 @@ namespace SudokuFiller
 
 		#endregion ElementBorderThickness
 
+		#region CaretBrush
+
+		public Brush CaretBrush
+		{
+			get { return (Brush)this.GetValue(CaretBrushProperty); }
+			set { this.SetValue(CaretBrushProperty, value); }
+		}
+
+		public static readonly DependencyProperty CaretBrushProperty =
+			DependencyProperty.Register(
+				"CaretBrush",
+				typeof(Brush),
+				typeof(ElementPresenter));
+
+		#endregion CaretBrush
+
 		#endregion Layout Properties
 
         #region Element

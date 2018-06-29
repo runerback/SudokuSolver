@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SudokuFiller
 {
@@ -14,6 +15,8 @@ namespace SudokuFiller
 		{
 
 		}
+
+		#region Value
 
 		public int? Value
 		{
@@ -26,5 +29,24 @@ namespace SudokuFiller
 				"Value",
 				typeof(int?),
 				typeof(ElementInputer));
+
+		#endregion Value
+
+		#region CaretBrush
+
+		public Brush CaretBrush
+		{
+			get { return (Brush)this.GetValue(CaretBrushProperty); }
+			set { this.SetValue(CaretBrushProperty, value); }
+		}
+
+		public static readonly DependencyProperty CaretBrushProperty =
+			DependencyProperty.Register(
+				"CaretBrush",
+				typeof(Brush),
+				typeof(ElementInputer));
+
+		#endregion CaretBrush
+
 	}
 }

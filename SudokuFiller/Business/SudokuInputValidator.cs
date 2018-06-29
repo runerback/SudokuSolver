@@ -45,13 +45,21 @@ namespace SudokuFiller
 				errorBuilder.AppendLine(rowValidateResult);
 
 			if (!validateColumn(element, out columnValidateResult))
-				errorBuilder.AppendLine(rowValidateResult);
+				errorBuilder.AppendLine(columnValidateResult);
 
 			if (!validateGrid(element, out gridValidateResult))
-				errorBuilder.AppendLine(rowValidateResult);
+				errorBuilder.AppendLine(gridValidateResult);
 
-			element.SetError(errorBuilder.ToString());
-			this.hasError = errorBuilder.Length > 0;
+			if (errorBuilder.Length > 0)
+			{
+				element.SetError(errorBuilder.ToString());
+				this.hasError = true;
+			}
+			else
+			{
+				element.ClearError();
+				this.hasError = false;
+			}
 		}
 
 		private bool validateRow(ElementData element, out string errorInfo)
@@ -59,17 +67,21 @@ namespace SudokuFiller
 			int gridIndex = element.GridIndex;
 			int elementIndex = element.Index;
 			var elements = getElementsInRow(gridIndex, elementIndex);
-			var duplicatedElementIndex = getDuplicatedElementIndex(elements.Select(item => item.Value));
-			if (duplicatedElementIndex > 0)
-			{
-				errorInfo = string.Format("value {0} already exists in current row at {1}",
-					element.Value,
-					duplicatedElementIndex + 1);
-				return false;
-			}
 
-			errorInfo = null;
-			return true;
+			var duplicatedElementIndex = getDuplicatedElementIndex(elements.Select(item => item.Value));
+
+			//if (duplicatedElementIndex < 0)
+			//{
+			//	errorInfo = null;
+			//	return true;
+			//}
+
+			//errorInfo = string.Format("value {0} already exists in current row at {1}",
+			//	element.Value,
+			//	duplicatedElementIndex + 1);
+			//return false;
+
+			return validate(duplicatedElementIndex, element.Value.Value, "row", out errorInfo);
 		}
 
 		private bool validateColumn(ElementData element, out string errorInfo)
@@ -77,34 +89,57 @@ namespace SudokuFiller
 			int gridIndex = element.GridIndex;
 			int elementIndex = element.Index;
 			var elements = getElementsInColumn(gridIndex, elementIndex);
-			var duplicatedElementIndex = getDuplicatedElementIndex(elements.Select(item => item.Value));
-			if (duplicatedElementIndex > 0)
-			{
-				errorInfo = string.Format("value {0} already exists in current column at {1}",
-					element.Value,
-					duplicatedElementIndex + 1);
-				return false;
-			}
 
-			errorInfo = null;
-			return true;
+			var duplicatedElementIndex = getDuplicatedElementIndex(elements.Select(item => item.Value));
+
+			//if (duplicatedElementIndex > 0)
+			//{
+			//	errorInfo = string.Format("value {0} already exists in current column at {1}",
+			//		element.Value,
+			//		duplicatedElementIndex + 1);
+			//	return false;
+			//}
+
+			//errorInfo = null;
+			//return true;
+
+			return validate(duplicatedElementIndex, element.Value.Value, "column", out errorInfo);
 		}
 
 		private bool validateGrid(ElementData element, out string errorInfo)
 		{
 			int gridIndex = element.GridIndex;
 			var elements = getElementsInGrid(gridIndex);
+
 			var duplicatedElementIndex = getDuplicatedElementIndex(elements.Select(item => item.Value));
-			if (duplicatedElementIndex > 0)
+
+			//if (duplicatedElementIndex > 0)
+			//{
+			//	errorInfo = string.Format("value {0} already exists in current grid at {1}",
+			//		element.Value,
+			//		duplicatedElementIndex + 1);
+			//	return false;
+			//}
+
+			//errorInfo = null;
+			//return true;
+
+			return validate(duplicatedElementIndex, element.Value.Value, "grid", out errorInfo);
+		}
+
+		private bool validate(int duplicatedIndex, int value, string type, out string errorInfo)
+		{
+			if (duplicatedIndex < 0)
 			{
-				errorInfo = string.Format("value {0} already exists in current grid at {1}",
-					element.Value,
-					duplicatedElementIndex + 1);
-				return false;
+				errorInfo = null;
+				return true;
 			}
 
-			errorInfo = null;
-			return true;
+			errorInfo = string.Format("value {0} already exists in current {1} at {2}",
+				value,
+				type,
+				duplicatedIndex + 1);
+			return false;
 		}
 
 		private const int GRID_SIZE = 3;
@@ -141,40 +176,10 @@ namespace SudokuFiller
 				yield return element;
 		}
 
-		/// <returns>if find any duplicated element then return the index, otherwise return 0 (first element must not be duplicated)</returns>
+		/// <returns>if find any duplicated element then return the index, otherwise return -1</returns>
 		private int getDuplicatedElementIndex(IEnumerable<int?> values)
 		{
-			int index = 0;
-			int expectedValue = 0;
-
-			foreach (var current in values
-				.OrderBy(item => item))
-			{
-				if (!current.HasValue)
-				{
-					index++;
-					continue;
-				}
-
-				int value = current.Value;
-
-				bool matched = false;
-				while (expectedValue++ < 9)
-				{
-					if (current == expectedValue)
-					{
-						expectedValue = value;
-						matched = true;
-						break;
-					}
-				}
-
-				if (!matched)
-					return index;
-
-				index++;
-			}
-			return 0;
+			return SudokuDuplicatedValueHelper.GetDuplicatedValueIndex(values);
 		}
 
 		#region SudokuInputValidatorTestInterface
@@ -212,7 +217,7 @@ namespace SudokuFiller
 			}
 			this.disposed = true;
 		}
-		
+
 		public void Dispose()
 		{
 			Dispose(true);

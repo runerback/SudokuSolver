@@ -82,6 +82,9 @@
     <Compile Include="Behaviors\InputNavigation\ElementInputNavigation.cs" />
     <Compile Include="Behaviors\InputNavigation\GridInputKeyNavigation.cs" />
     <Compile Include="Behaviors\InputNavigation\KeyBindingsBehavior.cs" />
+    <Compile Include="Business\SudokuDuplicatedValueHelper.cs" />
+    <Compile Include="Controls\ControlPanel.cs" />
+    <Compile Include="Controls\StepsControlPanel.cs" />
     <Compile Include="Converters\ElementBorderThicknessConverter.cs" />
     <Compile Include="Controls\GridPresenter.cs" />
     <Compile Include="Extensions\VisualTreeHelperExtension.cs" />

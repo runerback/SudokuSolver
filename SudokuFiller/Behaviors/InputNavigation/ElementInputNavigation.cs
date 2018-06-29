@@ -37,6 +37,9 @@ namespace SudokuFiller
 
 		private void OnFocused(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
 		{
+			if (!this.AssociatedObject.Element.IsEmpty)
+				((TextBox)sender).CaretIndex = 1;
+
 			if (this.isNavigating)
 			{
 				this.isNavigating = false;

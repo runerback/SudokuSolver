@@ -42,6 +42,11 @@ namespace SudokuFiller
 			}
 		}
 
+		public bool IsEmpty
+		{
+			get { return !this.value.HasValue; }
+		}
+
 		#region Error
 
 		private string error;
@@ -50,15 +55,31 @@ namespace SudokuFiller
 			get { return error; }
 		}
 
+		private bool hasError;
 		public bool HasError
 		{
 			get { return !string.IsNullOrEmpty(error); }
 		}
 
-		internal void SetError(string info)
+		internal void SetError(string value)
 		{
-			this.error = info;
-			NotifyPropertyChanged("HasError");
+			if (this.error != value)
+			{
+				if (string.IsNullOrEmpty(value))
+				{
+					this.error = null;
+					this.hasError = false;
+				}
+				else
+				{
+					this.error = value;
+					this.hasError = true;
+
+					Console.Write(value);
+				}
+				NotifyPropertyChanged("Error");
+				NotifyPropertyChanged("HasError");
+			}
 		}
 
 		internal void ClearError()

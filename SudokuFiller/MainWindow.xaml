@@ -16,6 +16,7 @@
             Background="Black"
             ElementBorderBrush="LightGray"
             ElementBorderWidth="1"
+            CaretBrush="White"
             ElementSize="26"
             GridBorderBrush="LightSkyBlue"
             GridBorderWidth="2"
