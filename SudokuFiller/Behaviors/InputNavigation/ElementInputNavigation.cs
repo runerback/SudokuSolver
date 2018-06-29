@@ -58,6 +58,9 @@ namespace SudokuFiller
 			{
 				this.isNavigating = true;
 				this.inputer.Focus();
+				//Console.WriteLine("Navigated to grid {0} and element {1}",
+				//	this.AssociatedObject.Element.GridIndex,
+				//	this.AssociatedObject.Element.Index);
 			}
 		}
 

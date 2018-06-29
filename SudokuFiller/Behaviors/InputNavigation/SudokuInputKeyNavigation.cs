@@ -21,18 +21,17 @@ namespace SudokuFiller
 
 		private void initialize(SudokuPresenter target)
 		{
-			var window = target.ContainerWindow();
-			///TODO: textbox swallowed key event
-			window.InputBindings.AddRange(
-				new InputBinding[]
+			var keyBindingBehavior = new KeyBindingsBehavior();
+			keyBindingBehavior.KeyBindings.AddRange(
+				new KeyBinding[]
 				{
-					new InputBinding(this.NavLeftCommand, new KeyGesture(Key.Left)),
-					new InputBinding(this.NavRightCommand, new KeyGesture(Key.Right)),
-					new InputBinding(this.NavRightCommand, new KeyGesture(Key.Tab)),
-					new InputBinding(this.NavUpCommand, new KeyGesture(Key.Up)),
-					new InputBinding(this.NavDownCommand, new KeyGesture(Key.Down))
+					new KeyBinding(this.NavLeftCommand, new KeyGesture(Key.Left)),
+					new KeyBinding(this.NavRightCommand, new KeyGesture(Key.Right)),
+					new KeyBinding(this.NavRightCommand, new KeyGesture(Key.Tab)),
+					new KeyBinding(this.NavUpCommand, new KeyGesture(Key.Up)),
+					new KeyBinding(this.NavDownCommand, new KeyGesture(Key.Down))
 				});
-			this.inputBindingTarget = window;
+			Interaction.GetBehaviors(target).Add(keyBindingBehavior);
 
 			//append behaviors
 			var gridBehaviors = new List<GridInputKeyNavigation>();
@@ -46,11 +45,8 @@ namespace SudokuFiller
 			this.gridNavigations = gridBehaviors.ToArray();
 		}
 
-		private System.Windows.Window inputBindingTarget;
-
 		protected override void OnDetaching()
 		{
-			this.inputBindingTarget.InputBindings.Clear();
 			foreach (var behavior in this.gridNavigations)
 				behavior.Selected -= onGridSelected;
 		}
@@ -69,27 +65,42 @@ namespace SudokuFiller
 		private const int MAX_GridIndex = 8;
 		private const int MIN_GridIndex = 0;
 
+		private const int MAX_LineIndex = 2;
+		private const int MIN_LineIndex = 0;
+
 		public void Navigate(NavigateDirection direction)
 		{
+			var currentGridIndex = this.currentGridIndex;
+			//Console.WriteLine("Current Grid Index: {0}", currentGridIndex);
 			var currentGridNavigation = gridNavigations[currentGridIndex];
+			//Console.WriteLine("Navigating to {0} test", direction, currentGridIndex);
 			if (currentGridNavigation.CanNavigate(direction))
 			{
+				//Console.WriteLine("Passed");
 				currentGridNavigation.Navigate(direction);
 			}
 			else
 			{
+				var currentElementIndex = currentGridNavigation.CurrentElementIndex;
+
+				//Console.WriteLine("Failed");
 				currentGridNavigation.Leave();
 
-				var nextGridIndex = getNextGridIndex(currentGridIndex, direction);
-				var nextGridNavigation = gridNavigations[currentGridIndex];
+				var gridIndex = currentGridIndex;
+				var elementLineIndex = getElementLineIndex(currentElementIndex, direction);
 
-				var elementLineIndex = getElementLineIndex(currentGridNavigation.CurrentElementIndex, direction);
+				//gridIndex -> nextGirdIndex, elementLineIndex -> nextElementLineIndex
+				getNextPosition81(ref gridIndex, ref elementLineIndex, direction);
+
+				var nextGridNavigation = gridNavigations[gridIndex];
+				//Console.WriteLine("Navigating to grid {0}", gridIndex);
 				nextGridNavigation.Navigate(direction, elementLineIndex);
 
-				this.currentGridIndex = nextGridIndex;
+				this.currentGridIndex = gridIndex;
 			}
 		}
 
+		[Obsolete("use getNextPosition81 instead")]
 		private int getNextGridIndex(int currentGridIndex, NavigateDirection direction)
 		{
 			switch (direction)
@@ -99,9 +110,72 @@ namespace SudokuFiller
 				case NavigateDirection.Right:
 					return currentGridIndex == MAX_GridIndex ? MIN_GridIndex : currentGridIndex + 1;
 				case NavigateDirection.Up:
-					return currentGridIndex / 3 == 0 ? currentGridIndex + 6 : currentGridIndex - 3;
+					return currentGridIndex / 3 == MIN_LineIndex ? currentGridIndex + 6 : currentGridIndex - 3;
 				case NavigateDirection.Down:
-					return currentGridIndex / 3 == 2 ? currentGridIndex - 6 : currentGridIndex + 3;
+					return currentGridIndex / 3 == MAX_LineIndex ? currentGridIndex - 6 : currentGridIndex + 3;
+				default: throw new NotImplementedException();
+			}
+		}
+
+		private void getNextPosition81(ref int gridIndex, ref int elementLineIndex, NavigateDirection direction)
+		{
+			var currentGridIndex = gridIndex;
+			var currentElementLineIndex = elementLineIndex;
+
+			switch (direction)
+			{
+				case NavigateDirection.Left:
+					{
+						if (currentGridIndex % 3 == MIN_LineIndex)
+						{
+							if (currentElementLineIndex == MIN_LineIndex)
+							{
+								gridIndex = currentGridIndex == MIN_GridIndex ? MAX_GridIndex : currentGridIndex - 1;
+								elementLineIndex = MAX_LineIndex;
+							}
+							else
+							{
+								gridIndex = currentGridIndex + MAX_LineIndex;
+								elementLineIndex = currentElementLineIndex - 1;
+							}
+						}
+						else
+						{
+							gridIndex = currentGridIndex - 1;
+						}
+					}
+					break;
+				case NavigateDirection.Right:
+					{
+						if (currentGridIndex % 3 == MAX_LineIndex)
+						{
+							if (currentElementLineIndex == MAX_LineIndex)
+							{
+								gridIndex = currentGridIndex == MAX_GridIndex ? MIN_GridIndex : currentGridIndex + 1;
+								elementLineIndex = MIN_LineIndex;
+							}
+							else
+							{
+								gridIndex = currentGridIndex - MAX_LineIndex;
+								elementLineIndex = currentElementLineIndex + 1;
+							}
+						}
+						else
+						{
+							gridIndex = currentGridIndex + 1;
+						}
+					}
+					break;
+				case NavigateDirection.Up:
+					{
+						gridIndex = currentGridIndex / 3 == MIN_LineIndex ? currentGridIndex + 6 : currentGridIndex - 3;
+					}
+					break;
+				case NavigateDirection.Down:
+					{
+						gridIndex = currentGridIndex / 3 == MAX_LineIndex ? currentGridIndex - 6 : currentGridIndex + 3;
+					}
+					break;
 				default: throw new NotImplementedException();
 			}
 		}

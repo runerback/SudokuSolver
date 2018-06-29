@@ -87,31 +87,41 @@ namespace SudokuFiller
 			if (!CanNavigate(direction))
 				throw new InvalidOperationException("edge reached");
 
+			//Console.WriteLine("Navigating to {0}", direction);
+			//Console.WriteLine("Current element index: {0}", elementIndex);
 			var nextElementIndex = getNextElementIndex(this.elementIndex, direction);
+			//Console.WriteLine("Next element index: {0}", nextElementIndex);
 			var elementNavigation = this.elementNavigations[nextElementIndex];
 			elementNavigation.Navigate();
+			this.elementIndex = nextElementIndex;
 		}
 
 		/// <remarks>from another grid</remarks>
 		public void Navigate(NavigateDirection direction, int elementLineIndex)
 		{
+			//Console.WriteLine("Navigating to {0} with line index {1}", direction, elementLineIndex);
+			int nextElementIndex;
 			switch (direction)
 			{
 				case NavigateDirection.Left:
-					this.elementIndex = elementLineIndex * 3 + 2;
+					nextElementIndex = elementLineIndex * 3 + 2;
 					break;
 				case NavigateDirection.Right:
-					this.elementIndex = elementLineIndex * 3;
+					nextElementIndex = elementLineIndex * 3;
 					break;
 				case NavigateDirection.Up:
-					this.elementIndex = 6 + elementLineIndex;
+					nextElementIndex = 6 + elementLineIndex;
 					break;
 				case NavigateDirection.Down:
-					this.elementIndex = elementLineIndex;
+					nextElementIndex = elementLineIndex;
 					break;
 				default: throw new NotImplementedException();
 			}
-			Navigate(direction);
+
+			//Console.WriteLine("Next element index: {0}", nextElementIndex);
+			var elementNavigation = this.elementNavigations[nextElementIndex];
+			elementNavigation.Navigate();
+			this.elementIndex = nextElementIndex;
 		}
 
 		private const int MAX_ElementIndex = 8;
@@ -139,6 +149,7 @@ namespace SudokuFiller
 		public void Leave()
 		{
 			this.elementIndex = 0;
+			//Console.WriteLine("Edge reached");
 		}
 	}
 }

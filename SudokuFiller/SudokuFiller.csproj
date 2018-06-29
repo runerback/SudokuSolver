@@ -81,6 +81,7 @@
     </ApplicationDefinition>
     <Compile Include="Behaviors\InputNavigation\ElementInputNavigation.cs" />
     <Compile Include="Behaviors\InputNavigation\GridInputKeyNavigation.cs" />
+    <Compile Include="Behaviors\InputNavigation\KeyBindingsBehavior.cs" />
     <Compile Include="Converters\ElementBorderThicknessConverter.cs" />
     <Compile Include="Controls\GridPresenter.cs" />
     <Compile Include="Extensions\VisualTreeHelperExtension.cs" />

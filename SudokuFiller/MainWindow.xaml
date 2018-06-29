@@ -4,17 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:SudokuFiller"
-    Title="Sudoku Solver"
+    Title="Sudoku Filler"
     WindowStartupLocation="CenterScreen"
     SizeToContent="WidthAndHeight"
     WindowStyle="ToolWindow"
     ResizeMode="CanMinimize"
-    Icon="SudokuSolverIcon.ico">
-    <Window.InputBindings>
-        <KeyBinding Gesture="Right" Command="{Binding RightCommand, Mode=OneWay}" />
-    </Window.InputBindings>
+    Icon="SudokuSolverIcon.ico"
+    KeyboardNavigation.TabNavigation="None">
     <Grid>
-        <!--<local:SudokuPresenter
+        <local:SudokuPresenter
             Background="Black"
             ElementBorderBrush="LightGray"
             ElementBorderWidth="1"
@@ -29,7 +27,6 @@
             <i:Interaction.Behaviors>
                 <local:SudokuInputKeyNavigation />
             </i:Interaction.Behaviors>
-        </local:SudokuPresenter>-->
-        <TextBox Width="300" />
+        </local:SudokuPresenter>
     </Grid>
 </Window>
