@@ -33,7 +33,6 @@ namespace SudokuFiller
 				"ElementBorderMargin",
 				typeof(Thickness),
 				typeof(ElementPresenter));
-
 		#endregion ElementBorderMargin
 
 		#region ElementSize

@@ -299,6 +299,7 @@
                                 Grid.Column="0"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[0], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -312,6 +313,7 @@
                                 Grid.Column="1"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[1], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -325,6 +327,7 @@
                                 Grid.Column="2"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[2], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -338,6 +341,7 @@
                                 Grid.Column="0"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[3], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -351,6 +355,7 @@
                                 Grid.Column="1"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[4], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -364,6 +369,7 @@
                                 Grid.Column="2"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[5], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -377,6 +383,7 @@
                                 Grid.Column="0"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[6], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -390,6 +397,7 @@
                                 Grid.Column="1"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[7], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -403,6 +411,7 @@
                                 Grid.Column="2"
                                 ElementBorderBrush="{TemplateBinding ElementBorderBrush}"
                                 ElementBorderWidth="{TemplateBinding ElementBorderWidth}"
+                                ElementBorderMargin="{TemplateBinding ElementBorderMargin}"
                                 CaretBrush="{TemplateBinding CaretBrush}"
                                 ElementSize="{TemplateBinding ElementSize}"
                                 Grid="{Binding Sudoku.Grids[8], Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -411,7 +420,6 @@
                                 GridBorderWidth="{TemplateBinding GridBorderWidth}"
                                 IsInputMode="{TemplateBinding IsInputMode}" />
                         </Grid>
-                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
