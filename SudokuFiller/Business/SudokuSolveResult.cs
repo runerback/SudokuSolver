@@ -9,35 +9,26 @@ namespace SudokuFiller
 	{
 		private SudokuSolveResult(IEnumerable<ISolveStep> steps)
 		{
-			if (steps != null && steps.Any())
-			{
-				this.steps = steps.ToArray();
-				this.hasSteps = true;
-			}
+			if (steps == null || !steps.Any())
+				throw new ArgumentNullException("steps");
+
+			this.steps = steps.ToArray();
+			this.hasSteps = true;
+			this.state = SudokuSolveState.Solved;
+		}
+
+		private SudokuSolveResult(SudokuSolveState state)
+		{
+			this.state = state;
 		}
 
 		private readonly ISolveStep[] steps = null;
 		private readonly bool hasSteps = false;
 
-		private readonly SudokuSolveState state = SudokuSolveState.UNKNOWN;
+		private readonly SudokuSolveState state;
 		public SudokuSolveState State
 		{
-			get
-			{
-				var state = this.state;
-				if (state == SudokuSolveState.UNKNOWN)
-				{
-					if (this == Invalid)
-						state = SudokuSolveState.Invalid;
-					else if (this == Completed)
-						state = SudokuSolveState.Completed;
-					else if (this == Unsolved)
-						state = SudokuSolveState.Unsolved;
-					else
-						state = SudokuSolveState.Solved;
-				}
-				return state;
-			}
+			get { return this.state; }
 		}
 
 		#region Instance
@@ -46,19 +37,19 @@ namespace SudokuFiller
 		/// the sudoku is invalid before solve
 		/// </summary>
 		internal static readonly SudokuSolveResult Invalid =
-			new SudokuSolveResult(null);
+			new SudokuSolveResult(SudokuSolveState.Invalid);
 
 		/// <summary>
 		/// the sodoku already be solved before solve
 		/// </summary>
 		internal static readonly SudokuSolveResult Completed =
-			new SudokuSolveResult(null);
+			new SudokuSolveResult(SudokuSolveState.Completed);
 
 		/// <summary>
 		/// cannot solve this sudoku
 		/// </summary>
 		internal static readonly SudokuSolveResult Unsolved =
-			new SudokuSolveResult(null);
+			new SudokuSolveResult(SudokuSolveState.Unsolved);
 
 		/// <summary>
 		/// solved with steps
@@ -76,16 +67,28 @@ namespace SudokuFiller
 
 		private int currentStepIndex = -1;
 
-		public bool NextStep()
+		public bool HasNextStep()
 		{
 			if (!this.hasSteps)
-				throw new InvalidOperationException("no step");
+				return false;
+			if (this.currentStepIndex == this.steps.Length - 1)
+				return false;
+			return true;
+		}
+
+		public bool NextStep()
+		{
+			//if (!this.hasSteps)
+			//	throw new InvalidOperationException("no step");
+
+			if (!HasNextStep())
+				return false;
 
 			var stepIndex = this.currentStepIndex;
 			var steps = this.steps;
 
-			if (stepIndex == steps.Length - 1)
-				return false;
+			//if (stepIndex == steps.Length - 1)
+			//	return false;
 
 			stepIndex++;
 			var step = steps[stepIndex];
@@ -94,27 +97,65 @@ namespace SudokuFiller
 			return true;
 		}
 
-		public bool PreviousStep()
+		public void LastStep()
+		{
+			if (!HasNextStep())
+				return;
+
+			var steps = this.steps;
+			int total = steps.Length - 1;
+			for (int stepIndex = this.currentStepIndex + 1; stepIndex <= total; stepIndex++)
+				steps[stepIndex].Apply();
+			this.currentStepIndex = total;
+		}
+
+		public bool HasPreviousStep()
 		{
 			if (!this.hasSteps)
-				throw new InvalidOperationException("no step");
+				return false;
+			if (this.currentStepIndex < 0)
+				return false;
+			return true;
+		}
+
+		public bool PreviousStep()
+		{
+			//if (!this.hasSteps)
+			//	throw new InvalidOperationException("no step");
+
+			if (!HasPreviousStep())
+				return false;
 
 			var stepIndex = this.currentStepIndex;
 			var steps = this.steps;
 
-			if (stepIndex < 0)
-				return false;
+			//if (stepIndex < 0)
+			//	return false;
 
-			if (stepIndex == 0)
-			{
-				this.currentStepIndex = -1;
-			}
-			else
-			{
+			//if (stepIndex == 0)
+			//{
+			//	this.currentStepIndex = -1;
+			//}
+			//else
+			//{
+			//	steps[stepIndex].Revert();
+			//	this.currentStepIndex--;
+			//}
+			if (stepIndex > 0)
 				steps[stepIndex].Revert();
-				this.currentStepIndex--;
-			}
+			this.currentStepIndex--;
 			return true;
+		}
+
+		public void FirstStep()
+		{
+			if (!HasPreviousStep())
+				return;
+
+			var steps = this.steps;
+			for (int stepIndex = this.currentStepIndex; stepIndex > 0; stepIndex--)
+				steps[stepIndex].Revert();
+			this.currentStepIndex = -1;
 		}
 
 		#endregion Operations

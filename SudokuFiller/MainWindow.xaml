@@ -12,6 +12,11 @@
     Icon="SudokuSolverIcon.ico"
     KeyboardNavigation.TabNavigation="None">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
         <local:SudokuPresenter
             Background="Black"
             ElementBorderBrush="LightGray"
@@ -32,5 +37,13 @@
                 <local:SudokuInputKeyNavigation />
             </i:Interaction.Behaviors>
         </local:SudokuPresenter>
+        
+        <local:ControlPanel 
+            Grid.Row="1"
+            ShowSteps="{Binding ShowSteps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            FillCommand="{Binding SolveCommand, Mode=OneWay}"
+            ResetCommand="{Binding ResetCommand, Mode=OneWay}"
+            Steps="{Binding Steps, Mode=OneWay}"
+            />
     </Grid>
 </Window>

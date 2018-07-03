@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\FocusBehavior.cs" />
     <Compile Include="Behaviors\InputNavigation\ElementInputNavigation.cs" />
     <Compile Include="Behaviors\InputNavigation\GridInputKeyNavigation.cs" />
     <Compile Include="Behaviors\InputNavigation\KeyBindingsBehavior.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Controls\StepsControlPanel.cs" />
     <Compile Include="Converters\ElementBorderThicknessConverter.cs" />
     <Compile Include="Controls\GridPresenter.cs" />
+    <Compile Include="Extensions\BindingExtension.cs" />
     <Compile Include="Extensions\VisualTreeHelperExtension.cs" />
     <Compile Include="Model\SudokuData.cs" />
     <Compile Include="Behaviors\InputNavigation\SudokuInputKeyNavigation.cs" />

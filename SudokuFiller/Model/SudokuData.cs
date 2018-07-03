@@ -64,7 +64,7 @@ namespace SudokuFiller
 		{
 			var copy = new SudokuData();
 
-			using (var elementIterator = this.grids.SelectMany(item => item.Elements).GetEnumerator())
+			using (var elementIterator = copy.grids.SelectMany(item => item.Elements).GetEnumerator())
 			using (var valueIterator = this.Values().GetEnumerator())
 			{
 				while (elementIterator.MoveNext() && valueIterator.MoveNext())

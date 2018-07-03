@@ -224,5 +224,94 @@ namespace SudokuSolver.UnitTest
 				return true;
 			}
 		}
+
+		[TestMethod]
+		public void DecreTest()
+		{
+			int total = 6;
+			List<int> list1 = new List<int>(total);
+			
+			int current = total;
+			while (current >= 0)
+			{
+				list1.Add(--current);
+			}
+
+			List<int> list2 = new List<int>(total);
+			current = total;
+			for (int i = current; i >= 0; )
+			{
+				current = --i;
+				list2.Add(current);
+			}
+
+			Assert.IsTrue(list1.SequenceEqual(list2), "First step not match previous step");
+		}
+
+		[TestMethod]
+		public void IncreTest()
+		{
+			int total = 6;
+			int[] source = Enumerable.Range(10, total).ToArray();
+			int current = 1;
+
+			int current1 = current;
+			List<int> list1 = new List<int>(total);
+			Func<bool> method1 = () =>
+			{
+				int index = current1;
+				if (index == source.Length - 1)
+					return false;
+				index++;
+				list1.Add(source[index]);
+				current1 = index;
+				return true;
+			};
+			while (method1()) ;
+
+			int current2 = current;
+			List<int> list2 = new List<int>();
+			Action method2 = () =>
+			{
+				for (int index = current2 + 1; index <= source.Length - 1; index++)
+				{
+					list2.Add(source[index]);
+				}
+				current2 = source.Length - 1;
+			};
+			method2();
+
+			Assert.IsTrue(list1.SequenceEqual(list2), "Last step not match next step");
+			Assert.AreEqual(current1, current2, "Current index mismatch");
+		}
+
+		[TestMethod]
+		public void EnumValueTest()
+		{
+			var value = ThreeDay.Day1;
+
+			Action day2 = () =>
+			{
+				var current = value;
+				current = ThreeDay.Day2;
+			};
+			day2();
+			Assert.AreEqual(value, ThreeDay.Day2);
+
+			Action day3 = () =>
+			{
+				var current = value;
+				current = ThreeDay.Day3;
+			};
+			day3();
+			Assert.AreEqual(value, ThreeDay.Day3);
+		}
+
+		enum ThreeDay
+		{
+			Day1,
+			Day2,
+			Day3
+		}
 	}
 }

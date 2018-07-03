@@ -19,11 +19,11 @@ namespace SudokuFiller
 
 		public SudokuSolveResult Solve()
 		{
-			using (var solver = new Solver(this.source.Copy()))
+			using (var solver = new Solver(this.source))
 			{
 				IEnumerable<ISolveStep> steps;
 				if (solver.Solve(out steps))
-					return SudokuSolveResult.Completed;
+					return SudokuSolveResult.Solved(steps);
 				return SudokuSolveResult.Unsolved;
 			}
 		}

@@ -63,5 +63,21 @@ namespace SudokuFiller
 
 		#endregion ShowSteps
 
+		#region Steps
+
+		public SudokuSolveResult Steps
+		{
+			get { return (SudokuSolveResult)this.GetValue(StepsProperty); }
+			set { this.SetValue(StepsProperty, value); }
+		}
+
+		public static readonly DependencyProperty StepsProperty =
+			DependencyProperty.Register(
+				"Steps",
+				typeof(SudokuSolveResult),
+				typeof(ControlPanel));
+
+		#endregion Steps
+
 	}
 }
