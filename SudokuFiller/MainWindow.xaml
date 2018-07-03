@@ -35,6 +35,7 @@
             >
             <i:Interaction.Behaviors>
                 <local:SudokuInputKeyNavigation />
+                <local:FocusBehavior IsFocused="{Binding IsInputBoardFocused, Mode=OneWay}" />
             </i:Interaction.Behaviors>
         </local:SudokuPresenter>
         
