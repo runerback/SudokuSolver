@@ -77,7 +77,8 @@ namespace  SudokuSolver.Core.Pattern
 
 			//if one of seats value appeared in target grid, fill to complete
 			var seatValues = new LineEnumerable(this.sudoku, lineType)
-				.ElementAt(currentLineIndex)
+				//.ElementAt(currentLineIndex) //should get sudoku line index here
+				.ElementAt(getSudokuLineIndex(currentLineIndex, currentGrid.Index, lineType))
 				.Elements
 				.Values()
 				.SudokuExcept();
@@ -93,6 +94,18 @@ namespace  SudokuSolver.Core.Pattern
 				return true;
 			}
 			return false;
+		}
+
+		private int getSudokuLineIndex(int gridLineIndex, int gridIndex, Definition.LineType lineType)
+		{
+			switch (lineType)
+			{
+				case Definition.LineType.Row:
+					return (gridIndex / 3) * 3 + gridLineIndex;
+				case Definition.LineType.Column:
+					return (gridIndex % 3) * 3 + gridLineIndex;
+				default: throw new InvalidOperationException(lineType.ToString());
+			}
 		}
 		
 		public override void Fill()

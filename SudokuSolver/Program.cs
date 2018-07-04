@@ -13,8 +13,8 @@ namespace SudokuSolver
 		{
 			try
 			{
-				SudokuBuildAndResolve.BuildAndResolve(1666468307, true);
-				//SudokuParseAndResolve.Resolve();
+				//SudokuBuildAndResolve.BuildAndResolve(1666468307, true);
+				SudokuParseAndResolve.Resolve();
 				//SudokuSeedsCollector.Collect();
 			}
 			catch (Exception exp)

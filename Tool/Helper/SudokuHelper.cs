@@ -173,5 +173,6 @@ namespace SudokuSolver
 				new SudokuElementEnumerable(second),
 				new ElementValueComparer());
 		}
+
 	}
 }
