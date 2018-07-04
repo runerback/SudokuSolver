@@ -91,7 +91,7 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                             <ColumnDefinition />
-                            <ColumnDefinition />
+                            <!--<ColumnDefinition />-->
                         </Grid.ColumnDefinitions>
 
                         <Button 
@@ -130,7 +130,7 @@
                                 StrokeThickness="2" 
                                 Data="M 0 1 L 3 5 0 9 M 5 1 L 8 5 5 9" />
                         </Button>
-                        <Button 
+                        <!--<Button 
                             Grid.Column="4"
                             ToolTip="hide steps"
                             Command="{TemplateBinding HideCommand}">
@@ -138,7 +138,7 @@
                                 Stroke="{TemplateBinding Foreground}"
                                 StrokeThickness="2" 
                                 Data="M 1 2 L 1 8 7 8 7 2 1 2 M 2 2 L 3 0 8 0 8 8" />
-                        </Button>
+                        </Button>-->
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -173,7 +173,7 @@
                                 Command="{TemplateBinding FillCommand}" />
                             <Button
                                 Grid.Column="1"
-                                ToolTip="reset sudoku"
+                                ToolTip="reset"
                                 Command="{TemplateBinding ResetCommand}">
                                 <Path
                                     Stroke="{TemplateBinding Foreground}" 

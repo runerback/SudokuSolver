@@ -25,8 +25,8 @@ namespace SudokuFiller
 			this.showLastCommand = new DelegateCommand(showLastStep, canShowLastStep);
 			SetShowLastCommand(this.showLastCommand);
 
-			this.hideCommand = new DelegateCommand(hide, canHide);
-			SetHideCommand(this.hideCommand);
+			//this.hideCommand = new DelegateCommand(hide, canHide);
+			//SetHideCommand(this.hideCommand);
 		}
 		
 		#region showPreviousCommand
@@ -220,42 +220,42 @@ namespace SudokuFiller
 
 		#region hideCommand
 
-		private readonly DelegateCommand hideCommand;
+		//private readonly DelegateCommand hideCommand;
 
 
-		private bool canHide(object obj)
-		{
-			return this.ShowSteps;
-		}
+		//private bool canHide(object obj)
+		//{
+		//	return this.ShowSteps;
+		//}
 
-		private void hide(object obj)
-		{
-			this.ShowSteps = false;
-		}
+		//private void hide(object obj)
+		//{
+		//	this.ShowSteps = false;
+		//}
 
 		#endregion hideCommand
 
 		#region HideCommand
 
-		public ICommand HideCommand
-		{
-			get { return (ICommand)GetValue(HideCommandProperty); }
-		}
+		//public ICommand HideCommand
+		//{
+		//	get { return (ICommand)GetValue(HideCommandProperty); }
+		//}
 
-		static readonly DependencyPropertyKey HideCommandPropertyKey =
-			DependencyProperty.RegisterReadOnly(
-				"HideCommand",
-				typeof(ICommand),
-				typeof(StepsControlPanel),
-				new PropertyMetadata());
+		//static readonly DependencyPropertyKey HideCommandPropertyKey =
+		//	DependencyProperty.RegisterReadOnly(
+		//		"HideCommand",
+		//		typeof(ICommand),
+		//		typeof(StepsControlPanel),
+		//		new PropertyMetadata());
 
-		public static readonly DependencyProperty HideCommandProperty =
-			HideCommandPropertyKey.DependencyProperty;
+		//public static readonly DependencyProperty HideCommandProperty =
+		//	HideCommandPropertyKey.DependencyProperty;
 
-		private void SetHideCommand(ICommand value)
-		{
-			SetValue(HideCommandPropertyKey, value);
-		}
+		//private void SetHideCommand(ICommand value)
+		//{
+		//	SetValue(HideCommandPropertyKey, value);
+		//}
 
 		#endregion HideCommand
 
@@ -278,7 +278,7 @@ namespace SudokuFiller
 		{
 			var self = (StepsControlPanel)d;
 
-			self.hideCommand.NotifyCanExecuteChanged();
+			//self.hideCommand.NotifyCanExecuteChanged();
 			if ((bool)e.NewValue)
 				self.updateStepCommandsState();
 		}
@@ -310,7 +310,7 @@ namespace SudokuFiller
 			}
 
 			var self = (StepsControlPanel)d;
-			self.hideCommand.NotifyCanExecuteChanged();
+			//self.hideCommand.NotifyCanExecuteChanged();
 			self.updateStepCommandsState();
 		}
 
